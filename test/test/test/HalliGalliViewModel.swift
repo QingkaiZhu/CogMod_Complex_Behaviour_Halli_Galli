@@ -7,21 +7,24 @@
 
 import Foundation
 
-func createCard(cardIndex: Int) -> CardDeck<String>.Card{
+// function that creates a card
+func createCard(cardIndex: Int) -> Card{
     let cardsPerClass: Int = HGViewModel.cardReplicas.reduce(0,+)
     var cardFigure: String
     var cardName: String
     var cardNumber: Int
+    
+    // dictating the correct class and figure (image on card) that the cards should have
     if cardIndex < cardsPerClass{
         cardFigure = HGViewModel.cardFigures[0]
         cardName = HGViewModel.cardNames[0]
     }
     else{
-        //TODO: ask teacher if int() in swift drops everything after decimal point
         cardFigure = HGViewModel.cardFigures[Int(cardIndex/cardsPerClass)]
         cardName = HGViewModel.cardNames[Int(cardIndex/cardsPerClass)]
     }
     
+    // dictating the correct number of figures that should be on the card
     if (cardIndex % cardsPerClass) < HGViewModel.cardReplicas[0]{
         cardNumber = 1
     }
@@ -38,18 +41,49 @@ func createCard(cardIndex: Int) -> CardDeck<String>.Card{
         cardNumber = 5
     }
     
-    return CardDeck.Card(figuresNo: cardNumber, figureClass: cardName, content: cardFigure)
+    // returning a card with the correct info
+    return Card(figuresNo: cardNumber, figureClass: cardName, content: cardFigure)
+}
+
+// function that splits deck of cards into player and model decks
+func splitDeck(deck: CardDeck, numberOfPlayers: Int) -> (Array<Card>, Array<Card>){
+    var playerDeck: Array<Card>
+    var modelDeck: Array<Card>
+    
+    // shuffling the deck of cards
+    var shuffledCards: Array<Card> = deck.cards
+    shuffledCards.shuffle()
+    
+    // dividing total number of cards to no. players and adding that many cards to the player deck
+    playerDeck = Array(shuffledCards[..<Int(shuffledCards.count/numberOfPlayers)])
+    
+    // storing the rest of the cards into the modelDeck
+    modelDeck = Array(shuffledCards[Int(shuffledCards.count / numberOfPlayers)..<(shuffledCards.count - (shuffledCards.count % numberOfPlayers))])
+    
+    return (playerDeck, modelDeck)
 }
 
 class HGViewModel: ObservableObject{
-    static let cardsNo: Int = 56
+    
+    //static variables to be used to build the game
+    static let playersNo: Int = 4 // dictates number of players
+    static let cardsNo: Int = 56 // dictates number of cards
+    // dictates how many replicas of a card there should be, the index of the array
+    // dictates how many figures should the replica have
     static let cardReplicas: [Int] = [5, 3, 3, 2, 1]
-    static let cardFigures: [String] = ["🍑", "🍉", "🍌", "🍍"]
-    static let cardNames: [String] = ["a", "b", "c", "d"]
+    static let cardFigures: [String] = ["🍑", "🍉", "🍌", "🍍"] // dictates figures that will be on the cards
+    static let cardNames: [String] = ["a", "b", "c", "d"] // dictates the class of the card, each element relates to one figure
     
-    private var deckOfCards: CardDeck<String> = CardDeck(maxNoCards: cardsNo, createCard: createCard)
-    
-    @Published private var model = HGModel()
+    // Declaring the model itself
+    @Published private var model = HGModel(
+        playableDecks: PlayableDecks( // genrating the playable decks
+            deckOfCards: CardDeck( // generating the general deck
+                maxNoCards: cardsNo,
+                createCard: createCard),// creating each card
+            numberOfPlayers: playersNo,
+            getCards: splitDeck // spliting general deck into playable decks
+        )
+    )
     
     
     var modelState: String{

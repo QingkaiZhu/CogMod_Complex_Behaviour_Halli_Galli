@@ -7,7 +7,8 @@
 
 import Foundation
 // struct that dictates a card format
-struct Card{
+struct Card: Identifiable{
+    var id: String
     var figuresNo: Int
     var figureClass: String
     var content: String

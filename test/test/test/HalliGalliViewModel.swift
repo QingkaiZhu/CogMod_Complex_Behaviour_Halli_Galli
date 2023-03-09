@@ -13,6 +13,7 @@ func createCard(cardIndex: Int) -> Card{
     var cardFigure: String
     var cardName: String
     var cardNumber: Int
+    var cardId: String
     
     // dictating the correct class and figure (image on card) that the cards should have
     if cardIndex < cardsPerClass{
@@ -41,8 +42,10 @@ func createCard(cardIndex: Int) -> Card{
         cardNumber = 5
     }
     
+    cardId = "\(cardName)_\(cardNumber)"
+    
     // returning a card with the correct info
-    return Card(figuresNo: cardNumber, figureClass: cardName, content: cardFigure)
+    return Card(id: cardId,figuresNo: cardNumber, figureClass: cardName, content: cardFigure)
 }
 
 // function that splits deck of cards into player and model decks

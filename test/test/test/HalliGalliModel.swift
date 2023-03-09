@@ -69,6 +69,14 @@ struct HGModel{
 //        model.run()
 //    }
     
+    var decks: PlayableDecks
+    
+    init(playableDecks: PlayableDecks){
+        decks = playableDecks // saving the playable decks into the model
+        model.loadModel(fileName: "rps")// TODO: Change model afterwards
+        model.run()
+    }
+    
     // Run the model
     mutating func run() {
         

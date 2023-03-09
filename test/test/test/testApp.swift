@@ -9,9 +9,10 @@ import SwiftUI
 
 @main
 struct testApp: App {
+    var game = HGViewModel()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(game: game)
         }
     }
 }

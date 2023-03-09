@@ -48,6 +48,7 @@ struct CardBack: View {
 }
 
 struct ContentView: View {
+    @ObservedObject var game: HGViewModel
     @State var backDegree = [0.0,0.0,0.0,0.0]
     @State var frontDegree = [-90.0,-90.0,-90.0,-90.0]
     @State var isFlipped = [false, false, false, false]
@@ -146,7 +147,8 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        let game = HGViewModel()
+        ContentView(game: game)
     }
 }
 

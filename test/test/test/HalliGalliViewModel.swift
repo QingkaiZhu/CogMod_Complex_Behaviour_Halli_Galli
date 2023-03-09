@@ -79,7 +79,7 @@ class HGViewModel: ObservableObject{
     // dictates how many replicas of a card there should be, the index of the array
     // dictates how many figures should the replica have
     static let cardReplicas: [Int] = [5, 3, 3, 2, 1]
-    static let cardFigures: [String] = ["🍑", "🍉", "🍌", "🍍"] // dictates figures that will be on the cards
+    static let cardFigures: [String] = ["apple", "avocado", "orange", "blueberry"] // dictates figures that will be on the cards
     static let cardNames: [String] = ["a", "b", "c", "d"] // dictates the class of the card, each element relates to one figure
     
     // Declaring the model itself
@@ -92,6 +92,12 @@ class HGViewModel: ObservableObject{
             getCards: splitDeck // spliting general deck into playable decks
         )
     )
+    
+    
+    
+    // TODO: use objectWillChange.send() in functions to show the view that the model changes
+    
+    
     
     
     var modelState: String{

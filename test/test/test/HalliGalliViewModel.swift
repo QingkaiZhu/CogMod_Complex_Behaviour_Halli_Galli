@@ -63,6 +63,7 @@ func splitDeck(deck: CardDeck, numberOfPlayers: Int) -> (Array<Card>, Array<Card
     playerDeck = Array(shuffledCards[..<Int(shuffledCards.count/numberOfPlayers)])
     
     // storing the rest of the cards into the modelDeck
+    //TODO: change deck cuz rn it is not done correctly, it is still done as if there were only two decks one for player and one for model
     modelDeck1 = Array(shuffledCards[Int(shuffledCards.count / numberOfPlayers)..<(shuffledCards.count - (shuffledCards.count % numberOfPlayers))])
     modelDeck2 = Array(shuffledCards[Int(shuffledCards.count / numberOfPlayers)..<(shuffledCards.count - (shuffledCards.count % numberOfPlayers))])
     modelDeck3 = Array(shuffledCards[Int(shuffledCards.count / numberOfPlayers)..<(shuffledCards.count - (shuffledCards.count % numberOfPlayers))])

@@ -97,7 +97,9 @@ class HGViewModel: ObservableObject{
     
     // TODO: use objectWillChange.send() in functions to show the view that the model changes
     
-    
+    var decks: PlayableDecks{
+        model.decks
+    }
     
     
     var modelState: String{

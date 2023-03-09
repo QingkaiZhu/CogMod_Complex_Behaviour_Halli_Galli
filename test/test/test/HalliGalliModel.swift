@@ -7,11 +7,11 @@
 
 import Foundation
 
-/// Player state:
+/// Player action state:
 /// idle: if it is my turn idle -> flip, if not my turn stay idle or idle -> press
 /// flip: I am gonna to flip my card, notify the viewModel to update the view
 /// press: I am gonna to press the bell
-enum State: CustomStringConvertible{
+enum actionState: CustomStringConvertible{
     case press
     case flip
     case idle
@@ -22,7 +22,7 @@ enum State: CustomStringConvertible{
         case .idle: return "idle"
         }
     }
-    static func findAction(_ actionString: String) -> State{
+    static func findAction(_ actionString: String) -> actionState {
         switch actionString{
         case "press": return(.press)
         case "flip": return(.flip)
@@ -59,8 +59,8 @@ struct HGModel{
     var modelMood = Emotion.neutral
     // TODO: should we place the player and AI in the same model, since
     // we will have three AI models in the game while only 1 real player
-    var modelState: State = .idle
-    var playerState: State = .idle
+    var modelState: actionState = .idle
+    var playerState: actionState = .idle
     
     // TODO: refer to the PDModel3 init is not necessary for Swift implementation
 //    init() {

@@ -46,9 +46,11 @@ func createCard(cardIndex: Int) -> Card{
 }
 
 // function that splits deck of cards into player and model decks
-func splitDeck(deck: CardDeck, numberOfPlayers: Int) -> (Array<Card>, Array<Card>){
+func splitDeck(deck: CardDeck, numberOfPlayers: Int) -> (Array<Card>, Array<Card>, Array<Card>, Array<Card>){
     var playerDeck: Array<Card>
-    var modelDeck: Array<Card>
+    var modelDeck1: Array<Card>
+    var modelDeck2: Array<Card>
+    var modelDeck3: Array<Card>
     
     // shuffling the deck of cards
     var shuffledCards: Array<Card> = deck.cards
@@ -58,9 +60,12 @@ func splitDeck(deck: CardDeck, numberOfPlayers: Int) -> (Array<Card>, Array<Card
     playerDeck = Array(shuffledCards[..<Int(shuffledCards.count/numberOfPlayers)])
     
     // storing the rest of the cards into the modelDeck
-    modelDeck = Array(shuffledCards[Int(shuffledCards.count / numberOfPlayers)..<(shuffledCards.count - (shuffledCards.count % numberOfPlayers))])
+    modelDeck1 = Array(shuffledCards[Int(shuffledCards.count / numberOfPlayers)..<(shuffledCards.count - (shuffledCards.count % numberOfPlayers))])
+    modelDeck2 = Array(shuffledCards[Int(shuffledCards.count / numberOfPlayers)..<(shuffledCards.count - (shuffledCards.count % numberOfPlayers))])
+    modelDeck3 = Array(shuffledCards[Int(shuffledCards.count / numberOfPlayers)..<(shuffledCards.count - (shuffledCards.count % numberOfPlayers))])
     
-    return (playerDeck, modelDeck)
+    
+    return (playerDeck, modelDeck1, modelDeck2, modelDeck3)
 }
 
 class HGViewModel: ObservableObject{

@@ -37,10 +37,12 @@ struct CardDeck{
 struct PlayableDecks{
     
     var playerCards: Array<Card>
-    var modelCards: Array<Card>
+    var modelCards1: Array<Card>
+    var modelCards2: Array<Card>
+    var modelCards3: Array<Card>
     
-    init(deckOfCards: CardDeck, numberOfPlayers: Int, getCards: (CardDeck, Int) -> (Array<Card>, Array<Card>)){
-        (playerCards, modelCards) = getCards(deckOfCards, numberOfPlayers)
+    init(deckOfCards: CardDeck, numberOfPlayers: Int, getCards: (CardDeck, Int) -> (Array<Card>, Array<Card>, Array<Card>, Array<Card>)){
+        (playerCards, modelCards1, modelCards2, modelCards3) = getCards(deckOfCards, numberOfPlayers)
     }
         
 }

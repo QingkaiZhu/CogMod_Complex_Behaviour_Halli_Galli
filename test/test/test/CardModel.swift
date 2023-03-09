@@ -18,7 +18,7 @@ struct Card: Identifiable{
 // struct that dictates the general deck
 struct CardDeck{
     
-    private(set) var cards: Array<Card> // declaring the type of the cards variable
+    private var cards: Array<Card> // declaring the type of the cards variable
     
     init(maxNoCards: Int, createCard: (Int) -> Card){
         cards = Array<Card>()

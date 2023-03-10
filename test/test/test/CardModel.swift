@@ -42,6 +42,12 @@ struct PlayableDecks{
     var modelCards2: Array<Card>
     var modelCards3: Array<Card>
     
+    var playerHasFlippedCard: Bool = false
+    var modelHasFlippedCard1: Bool = false
+    var modelHasFlippedCard2: Bool = false
+    var modelHasFlippedCard3: Bool = false
+    
+    
     init(deckOfCards: CardDeck, numberOfPlayers: Int, getCards: (CardDeck, Int) -> (Array<Card>, Array<Card>, Array<Card>, Array<Card>)){
         (playerCards, modelCards1, modelCards2, modelCards3) = getCards(deckOfCards, numberOfPlayers)
     }

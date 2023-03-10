@@ -100,6 +100,10 @@ class HGViewModel: ObservableObject{
         model.decks
     }
     
+    func flip(from deck: Array<Card>, of player: String){
+        model.flipFirstCard(from: deck, ofPlayer: player)
+    }
+    
     
     var modelState: String{
         model.modelState.description

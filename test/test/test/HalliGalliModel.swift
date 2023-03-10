@@ -93,4 +93,20 @@ struct HGModel{
         playerMood = Emotion.neutral
         run()
     }
+    
+    // TODO: ensure that this function is done properly
+    mutating func flipFirstCard(from deck: Array<Card>, ofPlayer deckName: String){
+        if (deckName == "player"){
+            print("Flipped card from player's Deck")
+        }
+        else if (deckName == "model1"){
+            print("Flipped card from model1's Deck")
+        }
+        else if (deckName == "model2"){
+            print("Flipped card from model2's Deck")
+        }
+        else if (deckName == "model3"){
+            print("Flipped card from model3's Deck")
+        }
+    }
 }

@@ -7,6 +7,53 @@
 
 import SwiftUI
 
+// TODO: needs changing needs to accept a card directly
+struct CardView: View{
+    let card: Card?
+    let isFlipped: Bool
+    let width:CGFloat = 120
+    let height:CGFloat = 150
+    //let fruitNumber:Int
+    //let fruitName:String
+    //let fruitImage:String
+    //@Binding var degree: Double
+    
+    init(player: String, getInfo: (String) -> (Card?, Bool)){
+        (card, isFlipped) = getInfo(player)
+    }
+    
+    
+    var body: some View{
+        ZStack{
+            switch card{
+            case .some(let card):
+                if isFlipped{
+                    RoundedRectangle(cornerRadius: 15)
+                        .fill(.white)
+                        .frame(width:width,height:height)
+                        .shadow(color:.gray,radius:2,x:0,y:0)
+                    Image(String(card.id))
+                }
+                else{
+                    RoundedRectangle(cornerRadius: 15)
+                        .stroke(Color("blue3").opacity(0.7),lineWidth: 3)
+                        .frame(width:width,height:height)
+                    RoundedRectangle(cornerRadius: 15)
+                        .fill(Color("blue2").opacity(0.2))
+                        .frame(width:width,height:height)
+                        .shadow(color:.gray,radius:2,x:0,y:0)
+                }
+            case .none:
+                    RoundedRectangle(cornerRadius: 15)
+                        .stroke(Color("blue3")  .opacity(0),lineWidth: 3)
+                        .frame(width:width,height:height)
+                
+            }
+            
+        }//.rotation3DEffect(Angle(degrees: degree), axis: (x: 0, y:1, z: 0))
+    }
+}
+
 struct CardFront: View {
     let width:CGFloat
     let height:CGFloat
@@ -53,6 +100,7 @@ struct ContentView: View {
     @State var frontDegree = [-90.0,-90.0,-90.0,-90.0]
     @State var isFlipped = [false, false, false, false]
     
+    // TODO: added width and height to card view so it might be redundant
     let width:CGFloat = 120
     let height:CGFloat = 150
     let durationAndDelay : CGFloat = 0.3
@@ -127,9 +175,10 @@ struct ContentView: View {
                 }
                 
                 ZStack{
-                    CardBack(width: width, height: height, degree: $backDegree[0])
-                    CardFront(width: width, height: height, fruitImage:"avocado_5",degree: $frontDegree[0])
-                }.onTapGesture {flipCard(card:0)}
+                    CardView(player: "player", getInfo: game.getCardInfo)
+                    //CardBack(width: width, height: height, degree: $backDegree[0])
+                    //CardFront(width: width, height: height, fruitImage:"avocado_5",degree: $frontDegree[0])
+                }.onTapGesture {game.flip(cardOf: "player")}//flipCard(card:0)}
                 
                
                 Button {

@@ -78,7 +78,8 @@ class HGViewModel: ObservableObject{
     // dictates how many replicas of a card there should be, the index of the array
     // dictates how many figures should the replica have
     static let cardReplicas: [Int] = [5, 3, 3, 2, 1]
-    static let cardFigures: [String] = ["apple", "avocado", "orange", "blueberry"] // dictates figures that will be on the cards
+    // TODO: when images are done change to new variables in array
+    static let cardFigures: [String] = ["apple", "avocado", "apple", "avocado"]//, "orange", "blueberry"] // dictates figures that will be on the cards
     static let cardNames: [String] = ["a", "b", "c", "d"] // dictates the class of the card, each element relates to one figure
     
     // Declaring the model itself
@@ -98,6 +99,33 @@ class HGViewModel: ObservableObject{
     
     var decks: PlayableDecks{
         model.decks
+    }
+    
+    func getCardInfo(for player: String) -> (Card?, Bool){
+        if ((player == "player") && !model.decks.playerCards.isEmpty){
+            print("Getting card from player deck")
+            return (model.decks.playerCards[0], model.decks.playerHasFlippedCard)
+        }
+        else if ((player == "model1") && !model.decks.modelCards1.isEmpty){
+            print("Getting card from model1's Deck")
+            return (model.decks.modelCards1[0], model.decks.modelHasFlippedCard1)
+        }
+        else if ((player == "model2") && !model.decks.modelCards2.isEmpty){
+            print("Getting card from model2's Deck")
+            return (model.decks.modelCards2[0], model.decks.modelHasFlippedCard2)
+        }
+        else if ((player == "model3") && !model.decks.modelCards3.isEmpty){
+            print("Getting card from model3's Deck")
+            return (model.decks.modelCards3[0], model.decks.modelHasFlippedCard3)
+        }
+        else {
+            return (nil, false)
+        }
+    }
+    
+    func flip(cardOf player: String){
+        model.flipFirstCard(ofPlayer: player)
+        objectWillChange.send()
     }
     
     

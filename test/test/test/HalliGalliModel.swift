@@ -70,6 +70,7 @@ struct HGModel{
 //    }
     
     var decks: PlayableDecks
+    var cardsToDeal: Array<Card> = []
     
     init(playableDecks: PlayableDecks){
         decks = playableDecks // saving the playable decks into the model
@@ -92,5 +93,50 @@ struct HGModel{
         modelMood = Emotion.neutral
         playerMood = Emotion.neutral
         run()
+    }
+    
+    // TODO: ensure that this function is done properly
+    mutating func flipFirstCard(ofPlayer deckName: String){
+        if (deckName == "player"){
+            print("Flipped card from player's Deck")
+            if !decks.playerHasFlippedCard{
+                decks.playerHasFlippedCard.toggle()
+            }
+            else if !decks.playerCards.isEmpty{
+                cardsToDeal.append(decks.playerCards.removeFirst())
+                print(decks.playerCards.count, cardsToDeal.count)
+            }
+        }
+        else if (deckName == "model1"){
+            print("Flipped card from model1's Deck")
+            if !decks.modelHasFlippedCard1{
+                decks.modelHasFlippedCard1.toggle()
+            }
+            else if !decks.modelCards1.isEmpty{
+                cardsToDeal.append(decks.modelCards1.removeFirst())
+            }
+        }
+        else if (deckName == "model2"){
+            print("Flipped card from model2's Deck")
+            if !decks.modelHasFlippedCard2{
+                decks.modelHasFlippedCard2.toggle()
+            }
+            else if !decks.modelCards2.isEmpty{
+                cardsToDeal.append(decks.modelCards2.removeFirst())
+            }
+        }
+        else if (deckName == "model3"){
+            print("Flipped card from model3's Deck")
+            if !decks.modelHasFlippedCard3{
+                decks.modelHasFlippedCard3.toggle()
+            }
+            else if !decks.modelCards3.isEmpty{
+                cardsToDeal.append(decks.modelCards3.removeFirst())
+            }
+        }
+    }
+    // TODO: Complete bell press
+    mutating func pressBell(by player: String){
+        
     }
 }

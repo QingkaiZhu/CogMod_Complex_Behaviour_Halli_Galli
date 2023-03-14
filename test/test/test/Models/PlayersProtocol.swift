@@ -13,12 +13,9 @@ protocol PlayersProtocol {
     // An array to store all the flipped cards for this player/model,
     // the first element of this array is the top face-up card
     var flipedCards: Array<Card> {get set}
-    var playerScore: Int {get set}
-    var modelScore: Int {get set}
-    var playerMood: Emotion {get set}
-    var modelMood: Emotion {get set}
-    var modelState: actionState {get set}
-    var playerState: actionState {get set}
+    var score: Int {get set}
+    var mood: Emotion {get set}
+    var actState: actionState {get set}
     
     mutating func run()
     mutating func reset()

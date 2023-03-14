@@ -47,7 +47,9 @@ enum Emotion: CustomStringConvertible {
 }
 
 struct HGModel{
-    let model = Model()
+    let m1 = Model()
+    let m2 = Model()
+    let m3 = Model()
     /// Model variables
     // TODO: we should decide how to calculate the score
     /// Initiall, every player get 14 cards in total, the simplest way is to convert 1 card to 1 point.
@@ -74,8 +76,8 @@ struct HGModel{
     
     init(playableDecks: PlayableDecks){
         decks = playableDecks // saving the playable decks into the model
-        model.loadModel(fileName: "rps")// TODO: Change model afterwards
-        model.run()
+        // model.loadModel(fileName: "rps")// TODO: Change model afterwards
+        // model.run()
     }
     
     // Run the model
@@ -84,7 +86,7 @@ struct HGModel{
     }
     
     // Reset the model
-    mutating func reset() {
+    mutating func reset(model: Model) {
         model.reset()
         modelState = .idle
         playerState = .idle
@@ -137,6 +139,11 @@ struct HGModel{
     }
     // TODO: Complete bell press
     mutating func pressBell(by player: String){
+        
+    }
+    
+    // Check if this player/model is game over with 0 point
+    mutating func isGameOver() {
         
     }
 }

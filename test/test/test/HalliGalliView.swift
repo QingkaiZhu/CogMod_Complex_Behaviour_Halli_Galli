@@ -187,7 +187,7 @@ struct ContentView: View {
                             Image("bell_1")
                                 .resizable()
                                 .frame(width: 200, height: 200)
-                        }
+                        }.onTapGesture {game.pressBell("player")}
                 Spacer()
             }
             

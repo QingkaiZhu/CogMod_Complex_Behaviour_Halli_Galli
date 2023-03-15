@@ -128,6 +128,12 @@ class HGViewModel: ObservableObject{
         objectWillChange.send()
     }
     
+    func pressBell(_ player: String){
+        print("Bell press")
+        model.pressBell(by: player)
+        objectWillChange.send()
+    }
+    
     
     var modelState: String{
         model.modelState.description

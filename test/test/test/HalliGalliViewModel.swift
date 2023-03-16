@@ -129,8 +129,23 @@ class HGViewModel: ObservableObject{
     }
     
     func pressBell(_ player: String){
-        print("Bell press")
+        print("Bell press \(player)")
         model.pressBell(by: player)
+        objectWillChange.send()
+    }
+    
+    
+    // If reset is called the model is intialized again from the start
+    func reset(){
+        model = HGModel(
+            playableDecks: PlayableDecks( // genrating the playable decks
+                deckOfCards: CardDeck( // generating the general deck
+                    maxNoCards: HGViewModel.cardsNo,
+                    createCard: createCard),// creating each card
+                numberOfPlayers: HGViewModel.playersNo,
+                getCards: splitDeck // spliting general deck into playable decks
+            )
+        )
         objectWillChange.send()
     }
     

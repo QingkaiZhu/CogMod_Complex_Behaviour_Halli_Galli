@@ -106,9 +106,8 @@ struct HGModel{
             }
             else if !decks.playerCards.isEmpty{
                 cardsToDeal.append(decks.playerCards.removeFirst())
-                print(decks.playerCards.count, cardsToDeal.count)
             }
-            else{isGameOver()}
+            isGameOver()
         }
         else if (deckName == "model1"){
             print("Flipped card from model1's Deck")
@@ -118,7 +117,7 @@ struct HGModel{
             else if !decks.modelCards1.isEmpty{
                 cardsToDeal.append(decks.modelCards1.removeFirst())
             }
-            else{isGameOver()}
+            isGameOver()
         }
         else if (deckName == "model2"){
             print("Flipped card from model2's Deck")
@@ -128,7 +127,7 @@ struct HGModel{
             else if !decks.modelCards2.isEmpty{
                 cardsToDeal.append(decks.modelCards2.removeFirst())
             }
-            else{isGameOver()}
+            isGameOver()
         }
         else if (deckName == "model3"){
             print("Flipped card from model3's Deck")
@@ -138,7 +137,7 @@ struct HGModel{
             else if !decks.modelCards3.isEmpty{
                 cardsToDeal.append(decks.modelCards3.removeFirst())
             }
-            else{isGameOver()}
+            isGameOver()
         }
     }
     
@@ -149,10 +148,22 @@ struct HGModel{
         var sumPerClass:Dictionary = ["a" : 0, "b" : 0, "c" : 0, "d" : 0]//Declaring dict for computing sums
         
         //Computing the sums for all the Classes/Figures present in on the table
-        sumPerClass[decks.playerCards[0].figureClass]! += decks.playerCards[0].figuresNo
-        sumPerClass[decks.modelCards1[0].figureClass]! += decks.modelCards1[0].figuresNo
-        sumPerClass[decks.modelCards2[0].figureClass]! += decks.modelCards2[0].figuresNo
-        sumPerClass[decks.modelCards3[0].figureClass]! += decks.modelCards3[0].figuresNo
+        if (!decks.playerCards.isEmpty && decks.playerHasFlippedCard){
+            sumPerClass[decks.playerCards[0].figureClass]! += decks.playerCards[0].figuresNo
+        }
+        
+        if (!decks.modelCards1.isEmpty && decks.modelHasFlippedCard1){
+            sumPerClass[decks.modelCards1[0].figureClass]! += decks.modelCards1[0].figuresNo
+        }
+        
+        if (!decks.modelCards2.isEmpty && decks.modelHasFlippedCard2){
+            sumPerClass[decks.modelCards2[0].figureClass]! += decks.modelCards2[0].figuresNo
+        }
+        
+        if (!decks.modelCards3.isEmpty && decks.modelHasFlippedCard3){
+            sumPerClass[decks.modelCards3[0].figureClass]! += decks.modelCards3[0].figuresNo
+        }
+        
         
         // If one of the classes has the sum 5 then it is a correct press
         for total in sumPerClass.values{
@@ -165,10 +176,19 @@ struct HGModel{
         // If it is a correct press all cards are turned (back of card showing)
         // and the cards that were present on the table are added to the array with the cards that need to be dealt to the winner
         if correctPress{
-            decks.playerHasFlippedCard.toggle()
-            decks.modelHasFlippedCard1.toggle()
-            decks.modelHasFlippedCard2.toggle()
-            decks.modelHasFlippedCard3.toggle()
+            if decks.playerHasFlippedCard{
+                decks.playerHasFlippedCard.toggle()
+            }
+            if decks.modelHasFlippedCard1{
+                decks.modelHasFlippedCard1.toggle()
+            }
+            if decks.modelHasFlippedCard2{
+                decks.modelHasFlippedCard2.toggle()
+            }
+            if decks.modelHasFlippedCard3{
+                decks.modelHasFlippedCard3.toggle()
+            }
+            
             
             if !decks.playerCards.isEmpty{
                 cardsToDeal.append(decks.playerCards.removeFirst())

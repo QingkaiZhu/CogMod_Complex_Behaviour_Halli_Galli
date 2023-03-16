@@ -146,6 +146,7 @@ struct ContentView: View {
                     Spacer(minLength: 150)
                     Button {
                                 print("Image tapped!")
+                                game.reset()
                             } label: {
                                 Image("replay")
                                     .resizable()
@@ -183,11 +184,12 @@ struct ContentView: View {
                
                 Button {
                             print("bell_1")
+                            game.pressBell("player")
                         } label: {
                             Image("bell_1")
                                 .resizable()
                                 .frame(width: 200, height: 200)
-                        }.onTapGesture {game.pressBell("player")}
+                        }
                 Spacer()
             }
             

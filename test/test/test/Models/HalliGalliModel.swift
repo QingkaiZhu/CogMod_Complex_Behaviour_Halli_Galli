@@ -216,7 +216,7 @@ struct HGModel{
         
         // Checking which player/model pressed the bell
         if (player == "player"){
-            // If the player/model is wrong it losses 3 cards from the back and deals them to the others
+            // If the player/model is wrong it losses between 1 and 3 cards from the back and deals them to the others
             if !correctPress{
                 print("Player lost 3 cards,dealt to others")
                 

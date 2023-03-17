@@ -7,49 +7,10 @@
 
 import Foundation
 
-/// Player action state:
-/// idle: if it is my turn idle -> flip, if not my turn stay idle or idle -> press
-/// flip: I am gonna to flip my card, notify the viewModel to update the view
-/// press: I am gonna to press the bell
-enum actionState: CustomStringConvertible{
-    case press
-    case flip
-    case idle
-    var description: String{
-        switch self{
-        case .press: return "press"
-        case.flip: return "flip"
-        case .idle: return "idle"
-        }
-    }
-    static func findAction(_ actionString: String) -> actionState {
-        switch actionString{
-        case "press": return(.press)
-        case "flip": return(.flip)
-        default: return(.idle)
-        }
-    }
-}
-
-/// Emotions for the cat face near every player's card
-// TODO: replace the emoji with cat face or other pics
-enum Emotion: CustomStringConvertible {
-    case happy
-    case sad
-    case neutral
-    var description: String {
-        switch self {
-        case.happy: return "🥳"
-        case.sad: return "😞"
-        case.neutral: return "😐"
-        }
-    }
-}
-
 struct HGModel{
-    let m1 = Model()
-    let m2 = Model()
-    let m3 = Model()
+    let m1 = modelPlayer("model1")
+    let m2 = modelPlayer("model2")
+    let m3 = modelPlayer("model3")
     /// Model variables
     // TODO: we should decide how to calculate the score
     /// Initiall, every player get 14 cards in total, the simplest way is to convert 1 card to 1 point.

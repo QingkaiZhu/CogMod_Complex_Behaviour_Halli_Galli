@@ -33,6 +33,7 @@
 		DEF8DF12299CE726003A7998 /* testTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF8DF11299CE726003A7998 /* testTests.swift */; };
 		DEF8DF1C299CE726003A7998 /* testUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF8DF1B299CE726003A7998 /* testUITests.swift */; };
 		DEF8DF1E299CE726003A7998 /* testUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF8DF1D299CE726003A7998 /* testUITestsLaunchTests.swift */; };
+		FE27DCAB29C48F93005475EE /* Players.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE27DCAA29C48F93005475EE /* Players.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +83,7 @@
 		DEF8DF17299CE726003A7998 /* testUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = testUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEF8DF1B299CE726003A7998 /* testUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testUITests.swift; sourceTree = "<group>"; };
 		DEF8DF1D299CE726003A7998 /* testUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		FE27DCAA29C48F93005475EE /* Players.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Players.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +117,7 @@
 				9BBA72B329C086140083EFB4 /* CardModel.swift */,
 				9BBA72B229C086140083EFB4 /* HalliGalliModel.swift */,
 				9BBA72B029C082470083EFB4 /* PlayersProtocol.swift */,
+				FE27DCAA29C48F93005475EE /* Players.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -350,6 +353,7 @@
 				DE6E8D89299D20E500A388DA /* Vision.swift in Sources */,
 				DE6E8D8F299D20E500A388DA /* Declarative.swift in Sources */,
 				DE6E8D8C299D20E500A388DA /* BufferAction.swift in Sources */,
+				FE27DCAB29C48F93005475EE /* Players.swift in Sources */,
 				DE6E8D90299D20E500A388DA /* Chunk.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

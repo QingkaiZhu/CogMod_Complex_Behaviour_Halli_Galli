@@ -5,6 +5,7 @@
 //  Created by Kai on 2023/3/14.
 //
 
+// Right now let's put the protocol aside 
 import Foundation
 
 // Protocol for the real player and model players

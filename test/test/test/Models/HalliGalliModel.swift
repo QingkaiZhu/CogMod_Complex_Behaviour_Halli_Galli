@@ -8,9 +8,9 @@
 import Foundation
 
 struct HGModel{
-    let m1 = modelPlayer("model1")
-    let m2 = modelPlayer("model2")
-    let m3 = modelPlayer("model3")
+    var m1 = modelPlayer("model1")
+    var m2 = modelPlayer("model2")
+    var m3 = modelPlayer("model3")
     /// Model variables
     // TODO: we should decide how to calculate the score
     /// Initiall, every player get 14 cards in total, the simplest way is to convert 1 card to 1 point.
@@ -43,6 +43,15 @@ struct HGModel{
     
     // Run the model
     mutating func run() {
+        if isNewRround(){
+            m1.runFromBegining()
+            m2.runFromBegining()
+            m3.runFromBegining()
+        } else {
+            m1.runFromInteruption()
+            m2.runFromInteruption()
+            m3.runFromInteruption()
+        }
         
     }
     
@@ -299,5 +308,10 @@ struct HGModel{
         else if decks.modelCards1.isEmpty && decks.modelCards2.isEmpty && decks.modelCards3.isEmpty{
             print("Player won")
         }
+    }
+    
+    // Check if it is the begining of a round(begining of the game or someone just won a round by a successfull pressing)
+    func isNewRround() -> Bool {
+        return !decks.modelHasFlippedCard1 && !decks.modelHasFlippedCard2 && !decks.modelHasFlippedCard3 && !decks.playerHasFlippedCard
     }
 }

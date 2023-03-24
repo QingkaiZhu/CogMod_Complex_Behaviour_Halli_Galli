@@ -62,9 +62,15 @@ struct modelPlayer {
     }
     
     /// run the model until someone press the bell
-    mutating func run() {
-        // check last round status, if it's the begining of the game or someone just won the last round
+    /// If it's the begining of the game or someone just won the last round
+    mutating func runFromBegining() {
+        // Basic strategy: set the fruit class of the newly flipped card as goal and check if there are five of this kind of fruit
+        // TODO: Need to know whose turn is it, then retrieve that player's top card as the goal
         
-        // check last round status, if some one just press the bell wrongly
+    }
+    /// If some one just press the bell wrongly, there are already four face-up cards on the deck,
+    /// but none of the four fruit class has five fruits,
+    mutating func runFromInteruption() {
+        
     }
 }

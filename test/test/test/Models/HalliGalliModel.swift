@@ -7,6 +7,19 @@
 
 import Foundation
 
+enum bellPressed: CustomStringConvertible {
+    case rightPress
+    case wrongPress
+    case nonPress
+    var description: String {
+        switch self {
+        case .rightPress: return "rightPress"
+        case .wrongPress: return "wrongPress"
+        case .nonPress: return "nonPress"
+        }
+    }
+}
+
 struct HGModel{
     var m1 = modelPlayer("model1")
     var m2 = modelPlayer("model2")
@@ -24,6 +37,12 @@ struct HGModel{
     // we will have three AI models in the game while only 1 real player
     var modelState: actionState = .idle
     var playerState: actionState = .idle
+    // The game will starts with the real player
+    var playerInTurn: String = "player"
+    // If someone just pressed the bell
+    var pressStatus = bellPressed.nonPress
+    // If the game is over
+    var gameOver: Bool = false
     
     // TODO: refer to the PDModel3 init is not necessary for Swift implementation
 //    init() {
@@ -44,15 +63,20 @@ struct HGModel{
     // Run the model
     mutating func run() {
         if isNewRround(){
-            m1.runFromBegining()
-            m2.runFromBegining()
-            m3.runFromBegining()
+            m1.runFromBegining(turnOf: playerInTurn)
+            m2.runFromBegining(turnOf: playerInTurn)
+            m3.runFromBegining(turnOf: playerInTurn)
         } else {
-            m1.runFromInteruption()
-            m2.runFromInteruption()
-            m3.runFromInteruption()
+            m1.runFromInteruption(turnOf: playerInTurn)
+            m2.runFromInteruption(turnOf: playerInTurn)
+            m3.runFromInteruption(turnOf: playerInTurn)
         }
-        
+    }
+    // Update the goal once someone just flipped a new card
+    mutating func updateGoal() {
+        m1.updateGoal()
+        m2.updateGoal()
+        m3.updateGoal()
     }
     
     // Reset the model
@@ -67,17 +91,28 @@ struct HGModel{
         run()
     }
     
+    // Start the game in clock wise from the playerInTurn
+    // TODO: if a player loses the game, remove the player from the schduleList, shall we keep this list out of this function, since it might be useful for other funcs as weel
+    mutating func turnSchedule() {
+        let scheduleList: Array<String> = ["player", "model1", "model2", "model3"]
+        let i = scheduleList.firstIndex(of: playerInTurn)
+        while pressStatus != bellPressed.rightPress && !gameOver {
+            <#code#>
+        }
+    }
+    
     // TODO: ensure that this function is done properly
     mutating func flipFirstCard(ofPlayer deckName: String){
         if (deckName == "player"){
             print("Flipped card from player's Deck")
+            // If all the cards on this player's deck is face-down, flip the top card
             if !decks.playerHasFlippedCard{
                 decks.playerHasFlippedCard.toggle()
             }
+            // Remove the current top face-up card and append it to cardsToDeal(prize deck), then flip the next card automatically
             else if !decks.playerCards.isEmpty{
                 cardsToDeal.append(decks.playerCards.removeFirst())
             }
-            isGameOver()
         }
         else if (deckName == "model1"){
             print("Flipped card from model1's Deck")
@@ -87,7 +122,6 @@ struct HGModel{
             else if !decks.modelCards1.isEmpty{
                 cardsToDeal.append(decks.modelCards1.removeFirst())
             }
-            isGameOver()
         }
         else if (deckName == "model2"){
             print("Flipped card from model2's Deck")
@@ -97,7 +131,6 @@ struct HGModel{
             else if !decks.modelCards2.isEmpty{
                 cardsToDeal.append(decks.modelCards2.removeFirst())
             }
-            isGameOver()
         }
         else if (deckName == "model3"){
             print("Flipped card from model3's Deck")
@@ -107,8 +140,9 @@ struct HGModel{
             else if !decks.modelCards3.isEmpty{
                 cardsToDeal.append(decks.modelCards3.removeFirst())
             }
-            isGameOver()
         }
+        updateGoal()
+        isGameOver()
     }
     
     
@@ -211,6 +245,7 @@ struct HGModel{
             else{
                 decks.playerCards.append(contentsOf: cardsToDeal)
                 cardsToDeal.removeAll()
+                playerInTurn = "player"
             }
         }
         else if (player == "model1"){
@@ -241,6 +276,7 @@ struct HGModel{
             else{
                 decks.modelCards1.append(contentsOf: cardsToDeal)
                 cardsToDeal.removeAll()
+                playerInTurn = "model1"
             }
         }
         else if (player == "model2"){
@@ -268,6 +304,7 @@ struct HGModel{
             else{
                 decks.modelCards2.append(contentsOf: cardsToDeal)
                 cardsToDeal.removeAll()
+                playerInTurn = "model2"
             }
         }
         else if (player == "model3"){
@@ -295,23 +332,48 @@ struct HGModel{
             else{
                 decks.modelCards3.append(contentsOf: cardsToDeal)
                 cardsToDeal.removeAll()
+                playerInTurn = "model3"
             }
         }
         
     }
+    // Check if this player loses the game
+    // TODO: finish this
+    mutating func isPlayerAlive(ofPlayer deckName: String) -> Bool {}
     
     // Check if this player/model is game over with 0 point
-    mutating func isGameOver() {
+    mutating func isGameOver() -> Bool {
         if decks.playerCards.isEmpty{
+            gameOver = true
             print("Player has lost")
         }
         else if decks.modelCards1.isEmpty && decks.modelCards2.isEmpty && decks.modelCards3.isEmpty{
             print("Player won")
+            gameOver = true
         }
+        return gameOver
     }
     
     // Check if it is the begining of a round(begining of the game or someone just won a round by a successfull pressing)
     func isNewRround() -> Bool {
         return !decks.modelHasFlippedCard1 && !decks.modelHasFlippedCard2 && !decks.modelHasFlippedCard3 && !decks.playerHasFlippedCard
+    }
+    
+    // Append all the top and face-up cards to this array
+    func getActiveCards() -> Array<Card> {
+        var activeCards: Array<Card>
+        if decks.playerHasFlippedCard{
+            activeCards.append(decks.playerCards[0])
+        }
+        if decks.modelHasFlippedCard1{
+            activeCards.append(decks.modelCards1[0])
+        }
+        if decks.modelHasFlippedCard2{
+            activeCards.append(decks.modelCards2[0])
+        }
+        if decks.modelHasFlippedCard3{
+            activeCards.append(decks.modelCards3[0])
+        }
+        return activeCards
     }
 }

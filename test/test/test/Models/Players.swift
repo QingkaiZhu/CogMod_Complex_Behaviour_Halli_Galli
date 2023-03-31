@@ -20,7 +20,7 @@ enum actionState: CustomStringConvertible{
     var description: String{
         switch self{
         case .press: return "press"
-        case.flip: return "flip"
+        case .flip: return "flip"
         case .idle: return "idle"
         }
     }
@@ -63,14 +63,18 @@ struct modelPlayer {
     
     /// run the model until someone press the bell
     /// If it's the begining of the game or someone just won the last round
-    mutating func runFromBegining() {
+    mutating func runFromBegining(turnOf playerInTurn: String) {
         // Basic strategy: set the fruit class of the newly flipped card as goal and check if there are five of this kind of fruit
-        // TODO: Need to know whose turn is it, then retrieve that player's top card as the goal
         
     }
     /// If some one just press the bell wrongly, there are already four face-up cards on the deck,
     /// but none of the four fruit class has five fruits,
-    mutating func runFromInteruption() {
+    mutating func runFromInteruption(turnOf playerInTurn: String) {
+        
+    }
+    
+    /// Update the goal every time when a new card is flipped
+    mutating func updateGoal(turnOf playerInTurn: String){
         
     }
 }

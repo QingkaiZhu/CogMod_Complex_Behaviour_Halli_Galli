@@ -9,8 +9,11 @@ import Foundation
 // struct that dictates a card format
 struct Card: Identifiable{
     var id: String
+    // The number of the fruit on each card
     var figuresNo: Int
+    // a, b, c, d which represents the fruit class
     var figureClass: String
+    // The fruit name of the class
     var content: String
     
 }

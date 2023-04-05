@@ -8,6 +8,7 @@
 import SwiftUI
 
 // TODO: needs changing needs to accept a card directly
+/// This view displays a card with the provided information (a card object and a flipped state). It can display both the front and back of the card based on the isFlipped property.
 struct CardView: View{
     let card: Card?
     let isFlipped: Bool
@@ -54,6 +55,7 @@ struct CardView: View{
     }
 }
 
+/// These views represent the front and back of the cards, respectively. They use 3D rotation effects for the flip animation.
 struct CardFront: View {
     let width:CGFloat
     let height:CGFloat
@@ -96,6 +98,7 @@ struct CardBack: View {
 
 struct ContentView: View {
     @ObservedObject var game: HGViewModel
+    @Binding var showGameView: Bool
     @State var backDegree = [0.0,0.0,0.0,0.0]
     @State var frontDegree = [-90.0,-90.0,-90.0,-90.0]
     @State var isFlipped = [false, false, false, false]
@@ -137,8 +140,9 @@ struct ContentView: View {
                 HStack{
                     Spacer()
                     Button {
-                                print("Image tapped!")
-                            } label: {
+                        print("Image tapped!")
+                        showGameView = false
+                    } label: {
                                 Image("back")
                                     .resizable()
                                     .frame(width: 80, height: 80)
@@ -199,7 +203,8 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let game = HGViewModel()
-        ContentView(game: game)
+        // Use a dummy binding
+        ContentView(game: game, showGameView: .constant(true))
     }
 }
 

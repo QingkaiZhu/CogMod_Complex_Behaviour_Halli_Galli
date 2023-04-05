@@ -12,7 +12,8 @@ struct testApp: App {
     var game = HGViewModel()
     var body: some Scene {
         WindowGroup {
-            ContentView(game: game)
+            //ContentView(game: game)
+            StartView()
         }
     }
 }

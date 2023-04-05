@@ -73,10 +73,10 @@ struct HGModel{
         }
     }
     // Update the goal once someone just flipped a new card
-    mutating func updateGoal() {
-        m1.updateGoal()
-        m2.updateGoal()
-        m3.updateGoal()
+    mutating func updateGoal(turnOf playerInTurn: String) {
+        m1.updateGoal(turnOf: playerInTurn)
+        m2.updateGoal(turnOf: playerInTurn)
+        m3.updateGoal(turnOf: playerInTurn)
     }
     
     // Reset the model
@@ -97,7 +97,7 @@ struct HGModel{
         let scheduleList: Array<String> = ["player", "model1", "model2", "model3"]
         let i = scheduleList.firstIndex(of: playerInTurn)
         while pressStatus != bellPressed.rightPress && !gameOver {
-            <#code#>
+            
         }
     }
     
@@ -141,8 +141,8 @@ struct HGModel{
                 cardsToDeal.append(decks.modelCards3.removeFirst())
             }
         }
-        updateGoal()
-        isGameOver()
+        updateGoal(turnOf: deckName)
+        let _ = isGameOver()
     }
     
     
@@ -197,22 +197,22 @@ struct HGModel{
             if !decks.playerCards.isEmpty{
                 cardsToDeal.append(decks.playerCards.removeFirst())
             }
-            else{isGameOver()}
+            else{let _ = isGameOver()}
             
             if !decks.modelCards1.isEmpty{
                 cardsToDeal.append(decks.modelCards1.removeFirst())
             }
-            else{isGameOver()}
+            else{let _ = isGameOver()}
             
             if !decks.modelCards2.isEmpty{
                 cardsToDeal.append(decks.modelCards2.removeFirst())
             }
-            else{isGameOver()}
+            else{let _ = isGameOver()}
             
             if !decks.modelCards3.isEmpty{
                 cardsToDeal.append(decks.modelCards3.removeFirst())
             }
-            else{isGameOver()}
+            else{let _ = isGameOver()}
         }
         else{
             print("Wrong Press")
@@ -228,17 +228,17 @@ struct HGModel{
                 if !decks.playerCards.isEmpty{
                     decks.modelCards1.append(decks.playerCards.removeLast())
                 }
-                else{isGameOver()}
+                else{let _ = isGameOver()}
                 
                 if !decks.playerCards.isEmpty{
                     decks.modelCards2.append(decks.playerCards.removeLast())
                 }
-                else{isGameOver()}
+                else{let _ = isGameOver()}
                 
                 if !decks.playerCards.isEmpty{
                     decks.modelCards3.append(decks.playerCards.removeLast())
                 }
-                else{isGameOver()}
+                else{let _ = isGameOver()}
             }
             // Otherwise the player is correct and it gains all cards from the array with cards that need to dealt
             // and resetting the cards to be dealt array back to nil
@@ -256,17 +256,17 @@ struct HGModel{
                 if !decks.modelCards1.isEmpty{
                     decks.modelCards2.append(decks.modelCards1.removeLast())
                 }
-                else{isGameOver()}
+                else{let _ = isGameOver()}
                 
                 if !decks.modelCards1.isEmpty{
                     decks.modelCards3.append(decks.modelCards1.removeLast())
                 }
-                else{isGameOver()}
+                else{let _ = isGameOver()}
                 
                 if !decks.modelCards1.isEmpty{
                     decks.playerCards.append(decks.modelCards1.removeLast())
                 }
-                else{isGameOver()}
+                else{let _ = isGameOver()}
                 
                 
                 
@@ -287,17 +287,17 @@ struct HGModel{
                 if !decks.modelCards2.isEmpty{
                     decks.modelCards3.append(decks.modelCards2.removeLast())
                 }
-                else{isGameOver()}
+                else{let _ = isGameOver()}
                 
                 if !decks.modelCards2.isEmpty{
                     decks.playerCards.append(decks.modelCards2.removeLast())
                 }
-                else{isGameOver()}
+                else{let _ = isGameOver()}
                 
                 if !decks.modelCards2.isEmpty{
                     decks.modelCards1.append(decks.modelCards2.removeLast())
                 }
-                else{isGameOver()}
+                else{let _ = isGameOver()}
             }
             // Otherwise the player is correct and it gains all cards from the array with cards that need to dealt
             // and resetting the cards to be dealt array back to nil
@@ -315,17 +315,17 @@ struct HGModel{
                 if !decks.modelCards3.isEmpty{
                     decks.playerCards.append(decks.modelCards3.removeLast())
                 }
-                else{isGameOver()}
+                else{let _ = isGameOver()}
                 
                 if !decks.modelCards3.isEmpty{
                     decks.modelCards1.append(decks.modelCards3.removeLast())
                 }
-                else{isGameOver()}
+                else{let _ = isGameOver()}
                 
                 if !decks.modelCards3.isEmpty{
                     decks.modelCards2.append(decks.modelCards3.removeLast())
                 }
-                else{isGameOver()}
+                else{let _ = isGameOver()}
             }
             // Otherwise the player is correct and it gains all cards from the array with cards that need to dealt
             // and resetting the cards to be dealt array back to nil
@@ -339,7 +339,7 @@ struct HGModel{
     }
     // Check if this player loses the game
     // TODO: finish this
-    mutating func isPlayerAlive(ofPlayer deckName: String) -> Bool {}
+    mutating func isPlayerAlive(ofPlayer deckName: String) -> Bool {return false}
     
     // Check if this player/model is game over with 0 point
     mutating func isGameOver() -> Bool {
@@ -361,7 +361,7 @@ struct HGModel{
     
     // Append all the top and face-up cards to this array
     func getActiveCards() -> Array<Card> {
-        var activeCards: Array<Card>
+        var activeCards: Array<Card> = []
         if decks.playerHasFlippedCard{
             activeCards.append(decks.playerCards[0])
         }

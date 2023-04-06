@@ -165,7 +165,7 @@ class HGViewModel: ObservableObject{
     }
     
     
-    var modelState: String{
-        model.modelState.description
-    }
+//    var modelState: String{
+//        model.modelState.description
+//    }
 }

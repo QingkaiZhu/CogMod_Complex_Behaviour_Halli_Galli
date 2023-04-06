@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		9BB1F4C529DDF0810051BE2C /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB1F4C429DDF0810051BE2C /* StartView.swift */; };
-		9BBA72B129C082470083EFB4 /* PlayersProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBA72B029C082470083EFB4 /* PlayersProtocol.swift */; };
 		9BBA72B429C086140083EFB4 /* HalliGalliModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBA72B229C086140083EFB4 /* HalliGalliModel.swift */; };
 		9BBA72B529C086140083EFB4 /* CardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBA72B329C086140083EFB4 /* CardModel.swift */; };
 		DE6E8D6A299D1DB900A388DA /* HalliGalliViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6E8D69299D1DB900A388DA /* HalliGalliViewModel.swift */; };
@@ -56,7 +55,6 @@
 
 /* Begin PBXFileReference section */
 		9BB1F4C429DDF0810051BE2C /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
-		9BBA72B029C082470083EFB4 /* PlayersProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayersProtocol.swift; sourceTree = "<group>"; };
 		9BBA72B229C086140083EFB4 /* HalliGalliModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HalliGalliModel.swift; sourceTree = "<group>"; };
 		9BBA72B329C086140083EFB4 /* CardModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardModel.swift; sourceTree = "<group>"; };
 		DE6E8D69299D1DB900A388DA /* HalliGalliViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalliGalliViewModel.swift; sourceTree = "<group>"; };
@@ -113,12 +111,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9BB1F4C629DF83A40051BE2C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9BB1F4C429DDF0810051BE2C /* StartView.swift */,
+				DEF8DF02299CE723003A7998 /* HalliGalliView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		DE6E8D68299D1CEC00A388DA /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				9BBA72B329C086140083EFB4 /* CardModel.swift */,
 				9BBA72B229C086140083EFB4 /* HalliGalliModel.swift */,
-				9BBA72B029C082470083EFB4 /* PlayersProtocol.swift */,
 				FE27DCAA29C48F93005475EE /* Players.swift */,
 			);
 			path = Models;
@@ -170,11 +176,10 @@
 			isa = PBXGroup;
 			children = (
 				DE6E8D73299D20E500A388DA /* ACT-R */,
+				9BB1F4C629DF83A40051BE2C /* Views */,
 				DE6E8D68299D1CEC00A388DA /* Models */,
 				DEF8DF00299CE723003A7998 /* testApp.swift */,
 				DE6E8D69299D1DB900A388DA /* HalliGalliViewModel.swift */,
-				DEF8DF02299CE723003A7998 /* HalliGalliView.swift */,
-				9BB1F4C429DDF0810051BE2C /* StartView.swift */,
 				DEF8DF04299CE726003A7998 /* Assets.xcassets */,
 				DEF8DF06299CE726003A7998 /* Preview Content */,
 			);
@@ -349,7 +354,6 @@
 				DE6E8D83299D20E500A388DA /* SlotAction.swift in Sources */,
 				9BBA72B529C086140083EFB4 /* CardModel.swift in Sources */,
 				DE6E8D8B299D20E500A388DA /* SlotCondition.swift in Sources */,
-				9BBA72B129C082470083EFB4 /* PlayersProtocol.swift in Sources */,
 				DE6E8D84299D20E500A388DA /* BufferCondition.swift in Sources */,
 				DE6E8D8D299D20E500A388DA /* Support.swift in Sources */,
 				9BBA72B429C086140083EFB4 /* HalliGalliModel.swift in Sources */,

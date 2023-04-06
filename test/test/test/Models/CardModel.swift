@@ -8,6 +8,7 @@
 import Foundation
 // struct that dictates a card format
 struct Card: Identifiable{
+    // TODO: What's this id, could it be an integer from 1 to 56
     var id: String
     // The number of the fruit on each card
     var figuresNo: Int
@@ -15,12 +16,10 @@ struct Card: Identifiable{
     var figureClass: String
     // The fruit name of the class
     var content: String
-    
 }
 
 // struct that dictates the general deck
 struct CardDeck{
-    
     private(set) var cards: Array<Card> // declaring the type of the cards variable
     
     init(maxNoCards: Int, createCard: (Int) -> Card){
@@ -31,9 +30,7 @@ struct CardDeck{
             let card = createCard(numberIndex) // generating card
             cards.append(card) // appending the card
         }
-        
     }
-        
 }
 
 
@@ -49,7 +46,6 @@ struct PlayableDecks{
     var modelHasFlippedCard1: Bool = false
     var modelHasFlippedCard2: Bool = false
     var modelHasFlippedCard3: Bool = false
-    
     
     init(deckOfCards: CardDeck, numberOfPlayers: Int, getCards: (CardDeck, Int) -> (Array<Card>, Array<Card>, Array<Card>, Array<Card>)){
         (playerCards, modelCards1, modelCards2, modelCards3) = getCards(deckOfCards, numberOfPlayers)
@@ -67,6 +63,5 @@ struct PlayableDecks{
     mutating func cardPenalty() {
         
     }
-        
 }
 

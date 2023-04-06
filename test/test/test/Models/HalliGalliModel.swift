@@ -24,32 +24,13 @@ struct HGModel{
     var m1 = modelPlayer("model1")
     var m2 = modelPlayer("model2")
     var m3 = modelPlayer("model3")
-    /// Model variables
-    // TODO: we should decide how to calculate the score
-    /// Initiall, every player get 14 cards in total, the simplest way is to convert 1 card to 1 point.
-    /// A player loses the game when the player has no card on the deck, that is to say the player's
-    /// point decreases to 0
-    var playerScore = 14
-    var modelScore = 14
-    var playerMood = Emotion.neutral
-    var modelMood = Emotion.neutral
-    // TODO: should we place the player and AI in the same model, since
-    // we will have three AI models in the game while only 1 real player
-    var modelState: actionState = .idle
-    var playerState: actionState = .idle
+    
     // The game will starts with the real player
     var playerInTurn: String = "player"
-    // If someone just pressed the bell
+    // Indicator of whether someone just pressed the bell
     var pressStatus = bellPressed.nonPress
     // If the game is over
     var gameOver: Bool = false
-    
-    // TODO: refer to the PDModel3 init is not necessary for Swift implementation
-//    init() {
-//        // TODO: Change model afterwards
-//        model.loadModel(fileName: "rps")
-//        model.run()
-//    }
     
     var decks: PlayableDecks
     var cardsToDeal: Array<Card> = []
@@ -82,17 +63,11 @@ struct HGModel{
     // Reset the model
     mutating func reset(model: Model) {
         model.reset()
-        modelState = .idle
-        playerState = .idle
-        modelScore = 14
-        playerScore = 14
-        modelMood = Emotion.neutral
-        playerMood = Emotion.neutral
         run()
     }
     
     // Start the game in clock wise from the playerInTurn
-    // TODO: if a player loses the game, remove the player from the schduleList, shall we keep this list out of this function, since it might be useful for other funcs as weel
+    // TODO: if a player loses the game, remove the player from the schduleList, shall we keep this list out of this function, since it might be useful for other funcs as well
     mutating func turnSchedule() {
         let scheduleList: Array<String> = ["player", "model1", "model2", "model3"]
         let i = scheduleList.firstIndex(of: playerInTurn)

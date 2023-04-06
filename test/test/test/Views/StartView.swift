@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct StartView: View {
-    @State private var showGameView = false
+    @StateObject var viewModel = HGViewModel()
     
     var body: some View {
         ZStack {
             Color("blue0").ignoresSafeArea()
             
-            if showGameView {
-                ContentView(game: HGViewModel(), showGameView: $showGameView)
+            if viewModel.showGameView {
+                ContentView(game: viewModel)
             } else {
                 VStack {
                     Spacer()
@@ -25,7 +25,7 @@ struct StartView: View {
                         .foregroundColor(.white)
                     Spacer()
                     Button(action: {
-                        showGameView = true
+                        viewModel.showGameView = true
                     }) {
                         Text("Start Game")
                             .font(.title)

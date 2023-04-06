@@ -82,6 +82,8 @@ class HGViewModel: ObservableObject{
     static let cardFigures: [String] = ["apple", "avocado", "apple", "avocado"]//, "orange", "blueberry"] // dictates figures that will be on the cards
     static let cardNames: [String] = ["a", "b", "c", "d"] // dictates the class of the card, each element relates to one figure
     
+    @Published var showGameView: Bool = false
+    
     // Declaring the model itself
     @Published private var model = HGModel(
         playableDecks: PlayableDecks( // genrating the playable decks

@@ -98,7 +98,6 @@ struct CardBack: View {
 
 struct ContentView: View {
     @ObservedObject var game: HGViewModel
-    @Binding var showGameView: Bool
     @State var backDegree = [0.0,0.0,0.0,0.0]
     @State var frontDegree = [-90.0,-90.0,-90.0,-90.0]
     @State var isFlipped = [false, false, false, false]
@@ -141,7 +140,7 @@ struct ContentView: View {
                     Spacer()
                     Button {
                         print("Image tapped!")
-                        showGameView = false
+                        game.showGameView = false
                     } label: {
                                 Image("back")
                                     .resizable()
@@ -204,7 +203,7 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let game = HGViewModel()
         // Use a dummy binding
-        ContentView(game: game, showGameView: .constant(true))
+        ContentView(game: game)
     }
 }
 

@@ -14,7 +14,7 @@ struct StartView: View {
         ZStack {
             Color("blue0").ignoresSafeArea()
             
-            if viewModel.showGameView {
+            if viewModel.showHGView {
                 ContentView(game: viewModel)
             } else {
                 VStack {
@@ -25,7 +25,7 @@ struct StartView: View {
                         .foregroundColor(.white)
                     Spacer()
                     Button(action: {
-                        viewModel.showGameView = true
+                        viewModel.showHGView = true
                     }) {
                         Text("Start Game")
                             .font(.title)

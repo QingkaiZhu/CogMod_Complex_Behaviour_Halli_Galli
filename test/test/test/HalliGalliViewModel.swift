@@ -10,19 +10,19 @@ import Foundation
 // function that creates a card
 func createCard(cardIndex: Int) -> Card{
     let cardsPerClass: Int = HGViewModel.cardReplicas.reduce(0,+)
-    var cardFigure: String
-    var cardName: String
-    var cardNumber: Int
-    var cardId: String
+    var cardFigure: String // content/fruit name: apple
+    var cardClass: String // figureClass: a, b, b, c
+    var cardNumber: Int // figureNo: 1 to 5
+    var cardId: String // Id
     
     // dictating the correct class and figure (image on card) that the cards should have
     if cardIndex < cardsPerClass{
         cardFigure = HGViewModel.cardFigures[0]
-        cardName = HGViewModel.cardNames[0]
+        cardClass = HGViewModel.cardClasses[0]
     }
     else{
         cardFigure = HGViewModel.cardFigures[Int(cardIndex/cardsPerClass)]
-        cardName = HGViewModel.cardNames[Int(cardIndex/cardsPerClass)]
+        cardClass = HGViewModel.cardClasses[Int(cardIndex/cardsPerClass)]
     }
     
     // dictating the correct number of figures that should be on the card
@@ -45,7 +45,7 @@ func createCard(cardIndex: Int) -> Card{
     cardId = "\(cardFigure)_\(cardNumber)"
     
     // returning a card with the correct info
-    return Card(id: cardId,figuresNo: cardNumber, figureClass: cardName, content: cardFigure)
+    return Card(id: cardId,figuresNo: cardNumber, figureClass: cardClass, content: cardFigure)
 }
 
 // function that splits deck of cards into player and model decks
@@ -78,11 +78,10 @@ class HGViewModel: ObservableObject{
     // dictates how many replicas of a card there should be, the index of the array
     // dictates how many figures should the replica have
     static let cardReplicas: [Int] = [5, 3, 3, 2, 1]
-    // TODO: when images are done change to new variables in array
-    static let cardFigures: [String] = ["apple", "avocado", "apple", "avocado"]//, "orange", "blueberry"] // dictates figures that will be on the cards
-    static let cardNames: [String] = ["a", "b", "c", "d"] // dictates the class of the card, each element relates to one figure
+    static let cardFigures: [String] = ["apple", "avocado", "blueberry", "oriange"] // dictates figures that will be on the cards
+    static let cardClasses: [String] = ["a", "b", "c", "d"] // dictates the class of the card, each element relates to one figure
     
-    @Published var showGameView: Bool = false
+    @Published var showHGView: Bool = false
     
     // Declaring the model itself
     @Published private var model = HGModel(
@@ -94,8 +93,6 @@ class HGViewModel: ObservableObject{
             getCards: splitDeck // spliting general deck into playable decks
         )
     )
-    
-    
     
     // TODO: use objectWillChange.send() in functions to show the view that the model changes
     

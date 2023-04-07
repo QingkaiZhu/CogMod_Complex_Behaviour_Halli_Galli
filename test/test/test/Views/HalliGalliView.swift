@@ -140,7 +140,7 @@ struct ContentView: View {
                     Spacer()
                     Button {
                         print("Image tapped!")
-                        game.showGameView = false
+                        game.showHGView = false
                     } label: {
                                 Image("back")
                                     .resizable()

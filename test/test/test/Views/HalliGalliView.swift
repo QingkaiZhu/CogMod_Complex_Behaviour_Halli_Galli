@@ -159,32 +159,25 @@ struct ContentView: View {
                 }
                 Spacer()
                 ZStack{
-                    CardBack(width: width, height: height, degree: $backDegree[3])
-                    CardFront(width: width, height: height, fruitImage:"avocado_1",degree: $frontDegree[3])
-                }.onTapGesture {flipCard(card:3)}
+                    CardView(player: "model2", getInfo: game.getCardInfo)
+                }.onTapGesture {game.flip(cardOf: "model2")}
                 
                 HStack{
                     Spacer()
                     ZStack{
-                        CardBack(width: width, height: height, degree: $backDegree[2])
-                        CardFront(width: width, height: height,fruitImage:"avocado_3", degree: $frontDegree[2])
-                    }.onTapGesture {flipCard(card:2)}
+                        CardView(player: "model1", getInfo: game.getCardInfo)
+                    }.onTapGesture {game.flip(cardOf: "model1")}
                     Spacer()
                     ZStack{
-                        CardBack(width: width, height: height, degree: $backDegree[1])
-                        CardFront(width: width, height: height, fruitImage:"avocado_4",degree: $frontDegree[1])
-                    }.onTapGesture {flipCard(card:1)}
+                        CardView(player: "model3", getInfo: game.getCardInfo)
+                    }.onTapGesture {game.flip(cardOf: "model3")}
                     Spacer()
-                    
                 }
                 
                 ZStack{
                     CardView(player: "player", getInfo: game.getCardInfo)
-                    //CardBack(width: width, height: height, degree: $backDegree[0])
-                    //CardFront(width: width, height: height, fruitImage:"avocado_5",degree: $frontDegree[0])
-                }.onTapGesture {game.flip(cardOf: "player")}//flipCard(card:0)}
-                
-               
+                }.onTapGesture {game.flip(cardOf: "player")}
+                // TODO: bug: empty card
                 Button {
                             print("bell_1")
                             game.pressBell("player")

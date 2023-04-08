@@ -76,6 +76,8 @@ struct HGModel{
             m2.runFromInteruption(turnOf: playerInTurn)
             m3.runFromInteruption(turnOf: playerInTurn)
         }
+        // TODO: fixme
+        // turnSchedule(from: playerInTurn)
     }
     // Update the goal once someone just flipped a new card
     mutating func updateGoal(turnOf playerInTurn: String) {
@@ -93,18 +95,44 @@ struct HGModel{
         run()
     }
     
-    // Start the game in clock wise from the playerInTurn
-    // TODO: if a player loses the game, remove the player from the schduleList, shall we keep this list out of this function, since it might be useful for other funcs as well
-    mutating func turnSchedule() {
+    mutating func turnSchedule(from player: String) {
         let scheduleList: Array<String> = ["player", "model1", "model2", "model3"]
-        let i = scheduleList.firstIndex(of: playerInTurn)
+        guard let i = scheduleList.firstIndex(of: player) else { return }
+
+        var currentIndex = i
+        
         while pressStatus != bellPressed.rightPress && !gameOver {
-            
+            let currentPlayer = scheduleList[currentIndex]
+
+            if !isDeckEmpty(forPlayer: currentPlayer) {
+                flipFirstCard(ofPlayer: currentPlayer)
+            }
+
+            // Move on to the next player
+            currentIndex = (currentIndex + 1) % scheduleList.count
         }
     }
+
+    // Check if the deck is empty for the given player
+    func isDeckEmpty(forPlayer player: String) -> Bool {
+        switch player {
+        case "player":
+            return decks.playerCards.isEmpty
+        case "model1":
+            return decks.modelCards1.isEmpty
+        case "model2":
+            return decks.modelCards2.isEmpty
+        case "model3":
+            return decks.modelCards3.isEmpty
+        default:
+            return true
+        }
+    }
+
     
     // flip player's top card
     mutating func flipFirstCard(ofPlayer deckName: String){
+        
         if (deckName == "player"){
             print("Flipped card from player's Deck")
             // If all the cards on this player's deck is face-down, flip the top card
@@ -112,7 +140,8 @@ struct HGModel{
                 decks.playerHasFlippedCard.toggle()
             }
             // Remove the current top face-up card and append it to cardsToDeal(prize deck), then flip the next card automatically
-            else if !decks.playerCards.isEmpty{
+            // If only 1 card left, do nothing
+            else if decks.playerCards.count > 1{
                 rewardCardsPool.append(decks.playerCards.removeFirst())
             }
         }
@@ -121,7 +150,7 @@ struct HGModel{
             if !decks.modelHasFlippedCard1{
                 decks.modelHasFlippedCard1.toggle()
             }
-            else if !decks.modelCards1.isEmpty{
+            else if decks.modelCards1.count > 1{
                 rewardCardsPool.append(decks.modelCards1.removeFirst())
             }
         }
@@ -130,7 +159,7 @@ struct HGModel{
             if !decks.modelHasFlippedCard2{
                 decks.modelHasFlippedCard2.toggle()
             }
-            else if !decks.modelCards2.isEmpty{
+            else if decks.modelCards2.count > 1{
                 rewardCardsPool.append(decks.modelCards2.removeFirst())
             }
         }
@@ -139,7 +168,7 @@ struct HGModel{
             if !decks.modelHasFlippedCard3{
                 decks.modelHasFlippedCard3.toggle()
             }
-            else if !decks.modelCards3.isEmpty{
+            else if decks.modelCards3.count > 1{
                 rewardCardsPool.append(decks.modelCards3.removeFirst())
             }
         }
@@ -149,6 +178,7 @@ struct HGModel{
         let _ = isGameOver()
     }
     
+    // TODO: Update bellPressed
     mutating func pressBell(by player: String) -> Bool {
         var correctPress:Bool = false// Declaring flag for correct press
         var sumPerClass:Dictionary = ["a" : 0, "b" : 0, "c" : 0, "d" : 0]//Declaring dict for computing sums

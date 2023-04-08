@@ -8,6 +8,8 @@
 import SwiftUI
 
 // TODO: Display score for each player
+// TODO: Blank card issue
+// TODO: Flip the card automatically by turnSchedule
 // TODO: needs changing needs to accept a card directly
 /// This view displays a card with the provided information (a card object and a flipped state). It can display both the front and back of the card based on the isFlipped property.
 struct CardView: View{
@@ -23,7 +25,6 @@ struct CardView: View{
     init(player: String, getInfo: (String) -> (Card?, Bool)){
         (card, isFlipped) = getInfo(player)
     }
-    
     
     var body: some View{
         ZStack{
@@ -102,6 +103,8 @@ struct ContentView: View {
     @State var backDegree = [0.0,0.0,0.0,0.0]
     @State var frontDegree = [-90.0,-90.0,-90.0,-90.0]
     @State var isFlipped = [false, false, false, false]
+    @State private var countdown: Int? = 3
+    @State private var showCountdown = true
     
     // TODO: added width and height to card view so it might be redundant
     let width:CGFloat = 120
@@ -129,9 +132,21 @@ struct ContentView: View {
                 durationAndDelay)){
                 backDegree[card] = 0
             }
-            
         }
     }
+    
+    func startCountdown() {
+            showCountdown = true
+            countdown = 3
+            Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+                if countdown! > 1 {
+                    countdown! -= 1
+                } else {
+                    timer.invalidate()
+                    showCountdown = false
+                }
+            }
+        }
     
     var body: some View{
         ZStack{
@@ -143,26 +158,27 @@ struct ContentView: View {
                         print("Image tapped!")
                         game.showHGView = false
                     } label: {
-                                Image("back")
-                                    .resizable()
-                                    .frame(width: 80, height: 80)
-                            }
+                        Image("back")
+                            .resizable()
+                            .frame(width: 80, height: 80)
+                    }
                     Spacer(minLength: 150)
                     Button {
-                                print("Image tapped!")
-                                game.reset()
-                            } label: {
-                                Image("replay")
-                                    .resizable()
-                                    .frame(width: 70, height: 70)
-                            }
+                        print("Image tapped!")
+                        game.reset()
+                        startCountdown()
+                    } label: {
+                        Image("replay")
+                            .resizable()
+                            .frame(width: 70, height: 70)
+                    }
                     Spacer()
                 }
                 Spacer()
                 ZStack{
-                    CardView(player: "model2", getInfo: game.getCardInfo)
+                    CardView(player: "model2", getInfo:
+                                game.getCardInfo)
                 }.onTapGesture {game.flip(cardOf: "model2")}
-                
                 HStack{
                     Spacer()
                     ZStack{
@@ -174,23 +190,36 @@ struct ContentView: View {
                     }.onTapGesture {game.flip(cardOf: "model3")}
                     Spacer()
                 }
-                
                 ZStack{
                     CardView(player: "player", getInfo: game.getCardInfo)
                 }.onTapGesture {game.flip(cardOf: "player")}
                 // TODO: bug: empty card
-                Button {
-                            print("bell_1")
-                            game.pressBell("player")
-                        } label: {
-                            Image("bell_1")
-                                .resizable()
-                                .frame(width: 200, height: 200)
-                        }
+                Button{
+                    print("bell_1")
+                    game.pressBell("player")
+                } label: {
+                    Image("bell_1")
+                        .resizable()
+                        .frame(width: 200, height: 200)
+                }
                 Spacer()
             }
-            
-        }}
+            if showCountdown {
+                VStack {
+                    Text(countdown == 0 ? "Start" : "\(countdown!)")
+                        .font(.system(size: 80))
+                        .foregroundColor(.white)
+                        .bold()
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.black.opacity(0.4))
+                .edgesIgnoringSafeArea(.all)
+            }
+        }
+        .onAppear(perform: {
+            startCountdown()
+        })
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {

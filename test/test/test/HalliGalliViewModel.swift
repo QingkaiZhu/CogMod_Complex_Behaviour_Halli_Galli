@@ -12,13 +12,13 @@ class HGViewModel: ObservableObject{
     @Published var showHGView: Bool = false
     
     // Declaring the model itself
-    @Published private var model: HGModel
-    
+    @Published var model: HGModel
+
     // TODO: use objectWillChange.send() in functions to show the view that the model changes
     
     init() {
         model = HGModel()
-//        model.run()
+        model.run()
 //        model.update()
     }
     

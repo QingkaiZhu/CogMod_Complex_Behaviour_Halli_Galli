@@ -79,30 +79,22 @@ func createCard(cardIndex: Int) -> Card{
 }
 
 // function that splits deck of cards into player and model decks
-func splitDeck(deck: CardDeck, numberOfPlayers: Int) -> (Array<Card>, Array<Card>, Array<Card>, Array<Card>){
-    var playerDeck: Array<Card>
-    var modelDeck1: Array<Card>
-    var modelDeck2: Array<Card>
-    var modelDeck3: Array<Card>
-    
-    // shuffling the deck of cards
-    // TODO: Maybe we can change deck.cards non private and shuffle it directlly?
-    // TODO: Animation for dealing the cards
+func splitDeck(deck: CardDeck, numberOfPlayers: Int) -> (Array<Card>, Array<Card>, Array<Card>, Array<Card>) {
     var shuffledCards: Array<Card> = deck.cards
+    // shuffling the deck of cards
     shuffledCards.shuffle()
     
+    let cardsPerPlayer = shuffledCards.count / numberOfPlayers
     // dividing total number of cards to no. players and adding that many cards to the player deck
-    playerDeck = Array(shuffledCards[..<Int(shuffledCards.count/numberOfPlayers)])
-    
+    var playerDeck = Array(shuffledCards[0..<cardsPerPlayer])
     // storing the rest of the cards into the modelDeck
-    modelDeck1 = Array(shuffledCards[Int(shuffledCards.count / numberOfPlayers)..<(2 * Int(shuffledCards.count / numberOfPlayers))])
-    modelDeck2 = Array(shuffledCards[(2 * Int(shuffledCards.count / numberOfPlayers))..<(3 * Int(shuffledCards.count / numberOfPlayers))])
-    modelDeck3 = Array(shuffledCards[(3 * Int(shuffledCards.count / numberOfPlayers))..<(shuffledCards.count - (shuffledCards.count % numberOfPlayers))])
+    var modelDeck1 = Array(shuffledCards[cardsPerPlayer..<(2 * cardsPerPlayer)])
+    var modelDeck2 = Array(shuffledCards[(2 * cardsPerPlayer)..<(3 * cardsPerPlayer)])
+    var modelDeck3 = Array(shuffledCards[(3 * cardsPerPlayer)..<(shuffledCards.count - (shuffledCards.count % numberOfPlayers))])
     
     print("cards splited")
     return (playerDeck, modelDeck1, modelDeck2, modelDeck3)
 }
-
 
 // struct that dictates the playable decks which contains array of cards for the 4
 // players respectively

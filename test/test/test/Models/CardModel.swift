@@ -124,18 +124,5 @@ struct PlayableDecks{
     init(deckOfCards: CardDeck, numberOfPlayers: Int, getCards: (CardDeck, Int) -> (Array<Card>, Array<Card>, Array<Card>, Array<Card>)){
         (playerCards, modelCards1, modelCards2, modelCards3) = getCards(deckOfCards, numberOfPlayers)
     }
-    
-    // Function to reward the winner of a success bell pressing
-    // Give all the flipped/fact-up cards to the winner
-    // TODO: We should use a card array to track all the flipped cards
-//    mutating func cardReward() {
-//
-//    }
-    
-    // Function to punish the player/model who rings the bell by mistake
-    // Give each other player one card from his face-down pack as a penalty
-//    mutating func cardPenalty() {
-//
-//    }
 }
 

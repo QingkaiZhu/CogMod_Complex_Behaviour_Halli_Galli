@@ -9,44 +9,7 @@
 
 import Foundation
 
-/// Player action state:
-/// idle: if it is my turn idle -> flip, if not my turn stay idle or idle -> press
-/// flip: I am gonna to flip my card, notify the viewModel to update the view
-/// press: I am gonna to press the bell
-enum actionState: CustomStringConvertible{
-    case press
-    case flip
-    case idle
-    var description: String{
-        switch self{
-        case .press: return "press"
-        case .flip: return "flip"
-        case .idle: return "idle"
-        }
-    }
-    static func findAction(_ actionString: String) -> actionState {
-        switch actionString{
-        case "press": return(.press)
-        case "flip": return(.flip)
-        default: return(.idle)
-        }
-    }
-}
 
-/// Emotions for the cat face near every player's card
-// TODO: replace the emoji with cat face or other pics
-enum Emotion: CustomStringConvertible {
-    case happy
-    case sad
-    case neutral
-    var description: String {
-        switch self {
-        case.happy: return "🥳"
-        case.sad: return "😞"
-        case.neutral: return "😐"
-        }
-    }
-}
 
 
 struct modelPlayer {
@@ -60,6 +23,45 @@ struct modelPlayer {
     var actState = actionState.idle
     // The ACT-R model
     var model = Model()
+    
+    /// Player action state:
+    /// idle: if it is my turn idle -> flip, if not my turn stay idle or idle -> press
+    /// flip: I am gonna to flip my card, notify the viewModel to update the view
+    /// press: I am gonna to press the bell
+    enum actionState: CustomStringConvertible{
+        case press
+        case flip
+        case idle
+        var description: String{
+            switch self{
+            case .press: return "press"
+            case .flip: return "flip"
+            case .idle: return "idle"
+            }
+        }
+        static func findAction(_ actionString: String) -> actionState {
+            switch actionString{
+            case "press": return(.press)
+            case "flip": return(.flip)
+            default: return(.idle)
+            }
+        }
+    }
+
+    /// Emotions for the cat face near every player's card
+    // TODO: replace the emoji with cat face or other pics
+    enum Emotion: CustomStringConvertible {
+        case happy
+        case sad
+        case neutral
+        var description: String {
+            switch self {
+            case.happy: return "🥳"
+            case.sad: return "😞"
+            case.neutral: return "😐"
+            }
+        }
+    }
     
     init(_ modelName: String) {
         id = modelName
@@ -79,6 +81,11 @@ struct modelPlayer {
     
     /// Update the goal every time when a new card is flipped
     mutating func updateGoal(turnOf playerInTurn: String){
+        
+    }
+    
+    // reset the model player
+    mutating func reset() {
         
     }
 }

@@ -26,10 +26,11 @@ struct HGModel{
     var playerInTurn: String = "player"
     // Indicator of whether someone just pressed the bell
     var pressStatus: bellPressed = bellPressed.nonPress
+
     // If the game is over
     var gameOver: Bool = false
     
-    var cardsToDeal: Array<Card> = []
+    var rewardCardsPool: Array<Card> = []
     
     enum bellPressed: CustomStringConvertible {
         case rightPress
@@ -84,8 +85,11 @@ struct HGModel{
     }
     
     // Reset the model
-    mutating func reset(model: Model) {
-        model.reset()
+    mutating func reset() {
+        m1.reset()
+        m2.reset()
+        m3.reset()
+        dealCards()
         run()
     }
     
@@ -99,7 +103,7 @@ struct HGModel{
         }
     }
     
-    // TODO: ensure that this function is done properly
+    // flip player's top card
     mutating func flipFirstCard(ofPlayer deckName: String){
         if (deckName == "player"){
             print("Flipped card from player's Deck")
@@ -109,7 +113,7 @@ struct HGModel{
             }
             // Remove the current top face-up card and append it to cardsToDeal(prize deck), then flip the next card automatically
             else if !decks.playerCards.isEmpty{
-                cardsToDeal.append(decks.playerCards.removeFirst())
+                rewardCardsPool.append(decks.playerCards.removeFirst())
             }
         }
         else if (deckName == "model1"){
@@ -118,7 +122,7 @@ struct HGModel{
                 decks.modelHasFlippedCard1.toggle()
             }
             else if !decks.modelCards1.isEmpty{
-                cardsToDeal.append(decks.modelCards1.removeFirst())
+                rewardCardsPool.append(decks.modelCards1.removeFirst())
             }
         }
         else if (deckName == "model2"){
@@ -127,7 +131,7 @@ struct HGModel{
                 decks.modelHasFlippedCard2.toggle()
             }
             else if !decks.modelCards2.isEmpty{
-                cardsToDeal.append(decks.modelCards2.removeFirst())
+                rewardCardsPool.append(decks.modelCards2.removeFirst())
             }
         }
         else if (deckName == "model3"){
@@ -136,20 +140,21 @@ struct HGModel{
                 decks.modelHasFlippedCard3.toggle()
             }
             else if !decks.modelCards3.isEmpty{
-                cardsToDeal.append(decks.modelCards3.removeFirst())
+                rewardCardsPool.append(decks.modelCards3.removeFirst())
             }
         }
+        
+        // TODO: Move this out of the func to make the model logic more clear
         updateGoal(turnOf: deckName)
         let _ = isGameOver()
     }
     
-    
-    // TODO: Ensure bell press is done properly
-    mutating func pressBell(by player: String){
+    mutating func pressBell(by player: String) -> Bool {
         var correctPress:Bool = false// Declaring flag for correct press
         var sumPerClass:Dictionary = ["a" : 0, "b" : 0, "c" : 0, "d" : 0]//Declaring dict for computing sums
         
-        //Computing the sums for all the Classes/Figures present in on the table
+        // Check if it is a correct press
+        // Computing the sums for all the Classes/Figures present in on the table
         if (!decks.playerCards.isEmpty && decks.playerHasFlippedCard){
             sumPerClass[decks.playerCards[0].figureClass]! += decks.playerCards[0].figuresNo
         }
@@ -165,8 +170,6 @@ struct HGModel{
         if (!decks.modelCards3.isEmpty && decks.modelHasFlippedCard3){
             sumPerClass[decks.modelCards3[0].figureClass]! += decks.modelCards3[0].figuresNo
         }
-        
-        
         // If one of the classes has the sum 5 then it is a correct press
         for total in sumPerClass.values{
             if (total == 5){
@@ -190,27 +193,20 @@ struct HGModel{
             if decks.modelHasFlippedCard3{
                 decks.modelHasFlippedCard3.toggle()
             }
-            
-            
+                        
             if !decks.playerCards.isEmpty{
-                cardsToDeal.append(decks.playerCards.removeFirst())
+                rewardCardsPool.append(decks.playerCards.removeFirst())
             }
-            else{let _ = isGameOver()}
-            
             if !decks.modelCards1.isEmpty{
-                cardsToDeal.append(decks.modelCards1.removeFirst())
+                rewardCardsPool.append(decks.modelCards1.removeFirst())
             }
-            else{let _ = isGameOver()}
-            
             if !decks.modelCards2.isEmpty{
-                cardsToDeal.append(decks.modelCards2.removeFirst())
+                rewardCardsPool.append(decks.modelCards2.removeFirst())
             }
-            else{let _ = isGameOver()}
-            
             if !decks.modelCards3.isEmpty{
-                cardsToDeal.append(decks.modelCards3.removeFirst())
+                rewardCardsPool.append(decks.modelCards3.removeFirst())
             }
-            else{let _ = isGameOver()}
+            gameOver = isGameOver()
         }
         else{
             print("Wrong Press")
@@ -223,26 +219,18 @@ struct HGModel{
                 print("Player lost 3 cards,dealt to others")
                 
                 // Cards are dealt if there are still cards in the deck, otherwise a check for game over is performed
-                if !decks.playerCards.isEmpty{
+                if decks.playerCards.count > 3 {
                     decks.modelCards1.append(decks.playerCards.removeLast())
-                }
-                else{let _ = isGameOver()}
-                
-                if !decks.playerCards.isEmpty{
                     decks.modelCards2.append(decks.playerCards.removeLast())
-                }
-                else{let _ = isGameOver()}
-                
-                if !decks.playerCards.isEmpty{
                     decks.modelCards3.append(decks.playerCards.removeLast())
                 }
-                else{let _ = isGameOver()}
+                else {gameOver = isGameOver()}
             }
-            // Otherwise the player is correct and it gains all cards from the array with cards that need to dealt
+            // Otherwise the player is correct and it gains all cards from the reward pool
             // and resetting the cards to be dealt array back to nil
             else{
-                decks.playerCards.append(contentsOf: cardsToDeal)
-                cardsToDeal.removeAll()
+                decks.playerCards.append(contentsOf: rewardCardsPool)
+                rewardCardsPool.removeAll()
                 playerInTurn = "player"
             }
         }
@@ -251,29 +239,18 @@ struct HGModel{
             if !correctPress{
                 print("Model1 lost 3 cards,dealt to others")
                 // Cards are dealt if there are still cards in the deck otherwise, a check for game over is performed
-                if !decks.modelCards1.isEmpty{
+                if decks.modelCards1.count > 3 {
+                    decks.playerCards.append(decks.modelCards1.removeLast())
                     decks.modelCards2.append(decks.modelCards1.removeLast())
-                }
-                else{let _ = isGameOver()}
-                
-                if !decks.modelCards1.isEmpty{
                     decks.modelCards3.append(decks.modelCards1.removeLast())
                 }
-                else{let _ = isGameOver()}
-                
-                if !decks.modelCards1.isEmpty{
-                    decks.playerCards.append(decks.modelCards1.removeLast())
-                }
-                else{let _ = isGameOver()}
-                
-                
-                
+                else {gameOver = isGameOver()}
             }
             // Otherwise the player is correct and it gains all cards from the array with cards that need to dealt
             // and resetting the cards to be dealt array back to nil
             else{
-                decks.modelCards1.append(contentsOf: cardsToDeal)
-                cardsToDeal.removeAll()
+                decks.modelCards1.append(contentsOf: rewardCardsPool)
+                rewardCardsPool.removeAll()
                 playerInTurn = "model1"
             }
         }
@@ -282,26 +259,18 @@ struct HGModel{
             if !correctPress{
                 print("Model2 lost 3 cards,dealt to others")
                 // Cards are dealt if there are still cards in the deck, otherwise a check for game over is performed
-                if !decks.modelCards2.isEmpty{
+                if decks.modelCards2.count > 3 {
+                    decks.playerCards.append(decks.modelCards2.removeLast())
+                    decks.modelCards1.append(decks.modelCards2.removeLast())
                     decks.modelCards3.append(decks.modelCards2.removeLast())
                 }
-                else{let _ = isGameOver()}
-                
-                if !decks.modelCards2.isEmpty{
-                    decks.playerCards.append(decks.modelCards2.removeLast())
-                }
-                else{let _ = isGameOver()}
-                
-                if !decks.modelCards2.isEmpty{
-                    decks.modelCards1.append(decks.modelCards2.removeLast())
-                }
-                else{let _ = isGameOver()}
+                else {gameOver = isGameOver()}
             }
             // Otherwise the player is correct and it gains all cards from the array with cards that need to dealt
             // and resetting the cards to be dealt array back to nil
             else{
-                decks.modelCards2.append(contentsOf: cardsToDeal)
-                cardsToDeal.removeAll()
+                decks.modelCards2.append(contentsOf: rewardCardsPool)
+                rewardCardsPool.removeAll()
                 playerInTurn = "model2"
             }
         }
@@ -310,36 +279,26 @@ struct HGModel{
             if !correctPress{
                 print("Model3 lost 3 cards,dealt to others")
                 // Cards are dealt if there are still cards in the deck, otherwise a check for game over is performed
-                if !decks.modelCards3.isEmpty{
+                if decks.modelCards3.count > 3 {
                     decks.playerCards.append(decks.modelCards3.removeLast())
-                }
-                else{let _ = isGameOver()}
-                
-                if !decks.modelCards3.isEmpty{
                     decks.modelCards1.append(decks.modelCards3.removeLast())
-                }
-                else{let _ = isGameOver()}
-                
-                if !decks.modelCards3.isEmpty{
                     decks.modelCards2.append(decks.modelCards3.removeLast())
                 }
-                else{let _ = isGameOver()}
+                else {gameOver = isGameOver()}
             }
             // Otherwise the player is correct and it gains all cards from the array with cards that need to dealt
             // and resetting the cards to be dealt array back to nil
             else{
-                decks.modelCards3.append(contentsOf: cardsToDeal)
-                cardsToDeal.removeAll()
+                decks.modelCards3.append(contentsOf: rewardCardsPool)
+                rewardCardsPool.removeAll()
                 playerInTurn = "model3"
             }
         }
-        
+        return correctPress
     }
-    // Check if this player loses the game
-    // TODO: finish this
-    mutating func isPlayerAlive(ofPlayer deckName: String) -> Bool {return false}
     
-    // Check if this player/model is game over with 0 point
+    // Check if the game is over
+    // TODO: make gameOver published and terminate the game if it's true
     mutating func isGameOver() -> Bool {
         if decks.playerCards.isEmpty{
             gameOver = true
@@ -355,23 +314,5 @@ struct HGModel{
     // Check if it is the begining of a round(begining of the game or someone just won a round by a successfull pressing)
     func isNewRround() -> Bool {
         return !decks.modelHasFlippedCard1 && !decks.modelHasFlippedCard2 && !decks.modelHasFlippedCard3 && !decks.playerHasFlippedCard
-    }
-    
-    // Append all the top and face-up cards to this array
-    func getActiveCards() -> Array<Card> {
-        var activeCards: Array<Card> = []
-        if decks.playerHasFlippedCard{
-            activeCards.append(decks.playerCards[0])
-        }
-        if decks.modelHasFlippedCard1{
-            activeCards.append(decks.modelCards1[0])
-        }
-        if decks.modelHasFlippedCard2{
-            activeCards.append(decks.modelCards2[0])
-        }
-        if decks.modelHasFlippedCard3{
-            activeCards.append(decks.modelCards3[0])
-        }
-        return activeCards
     }
 }

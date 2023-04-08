@@ -7,20 +7,17 @@
 
 import Foundation
 
-enum bellPressed: CustomStringConvertible {
-    case rightPress
-    case wrongPress
-    case nonPress
-    var description: String {
-        switch self {
-        case .rightPress: return "rightPress"
-        case .wrongPress: return "wrongPress"
-        case .nonPress: return "nonPress"
-        }
-    }
-}
-
 struct HGModel{
+    //static variables to be used to build the game
+    let playersNo: Int = 4 // dictates number of players
+    let cardsNo: Int = 56 // dictates number of cards
+    // dictates how many replicas of a card there should be, the index of the array
+    // dictates how many figures should the replica have
+    static let cardReplicas: [Int] = [5, 3, 3, 2, 1]
+    static let cardFigures: [String] = ["apple", "avocado", "blueberry", "oriange"] // dictates figures that will be on the cards
+    static let cardClasses: [String] = ["a", "b", "c", "d"] // dictates the class of the card, each element relates to one figure
+    var decks: PlayableDecks
+    
     var m1 = modelPlayer("model1")
     var m2 = modelPlayer("model2")
     var m3 = modelPlayer("model3")
@@ -28,17 +25,43 @@ struct HGModel{
     // The game will starts with the real player
     var playerInTurn: String = "player"
     // Indicator of whether someone just pressed the bell
-    var pressStatus = bellPressed.nonPress
+    var pressStatus: bellPressed = bellPressed.nonPress
     // If the game is over
     var gameOver: Bool = false
     
-    var decks: PlayableDecks
     var cardsToDeal: Array<Card> = []
     
-    init(playableDecks: PlayableDecks){
-        decks = playableDecks // saving the playable decks into the model
-        // model.loadModel(fileName: "rps")// TODO: Change model afterwards
-        // model.run()
+    enum bellPressed: CustomStringConvertible {
+        case rightPress
+        case wrongPress
+        case nonPress
+        var description: String {
+            switch self {
+            case .rightPress: return "rightPress"
+            case .wrongPress: return "wrongPress"
+            case .nonPress: return "nonPress"
+            }
+        }
+    }
+    
+    init() {
+        decks = PlayableDecks( // genrating the playable decks
+            deckOfCards: CardDeck( // generating the general deck
+                maxNoCards: cardsNo,
+                createCard: createCard),// creating each card
+            numberOfPlayers: playersNo,
+            getCards: splitDeck // spliting general deck into playable decks
+        )
+    }
+    
+    mutating func dealCards() {
+        decks = PlayableDecks( // genrating the playable decks
+            deckOfCards: CardDeck( // generating the general deck
+                maxNoCards: cardsNo,
+                createCard: createCard),// creating each card
+            numberOfPlayers: playersNo,
+            getCards: splitDeck // spliting general deck into playable decks
+        )
     }
     
     // Run the model

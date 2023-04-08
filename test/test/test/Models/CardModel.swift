@@ -37,15 +37,15 @@ struct CardDeck{
 
 // function that creates a card
 func createCard(cardIndex: Int) -> Card{
-    let cardsPerClass: Int = HGViewModel.cardReplicas.reduce(0,+)
+    let cardsPerClass: Int = HGModel.cardReplicas.reduce(0,+)
     var cardFigure: String // content/fruit name: apple
     var cardClass: String // figureClass: a, b, b, c
     var cardNumber: Int // figureNo: 1 to 5
     var cardId: String // Id: cardFigure_cardNumber e.g. apple_1 the reference of the asset
     
     // dictating the correct class and figure (image on card) that the cards should have
-    cardFigure = HGViewModel.cardFigures[cardIndex/cardsPerClass]
-    cardClass = HGViewModel.cardClasses[cardIndex/cardsPerClass]
+    cardFigure = HGModel.cardFigures[cardIndex/cardsPerClass]
+    cardClass = HGModel.cardClasses[cardIndex/cardsPerClass]
 //    if cardIndex < cardsPerClass{
 //        cardFigure = HGViewModel.cardFigures[0]
 //        cardClass = HGViewModel.cardClasses[0]
@@ -56,16 +56,16 @@ func createCard(cardIndex: Int) -> Card{
 //    }
     
     // dictating the correct number of figures that should be on the card
-    if (cardIndex % cardsPerClass) < HGViewModel.cardReplicas[0]{
+    if (cardIndex % cardsPerClass) < HGModel.cardReplicas[0]{
         cardNumber = 1
     }
-    else if (cardIndex % cardsPerClass) < HGViewModel.cardReplicas[...1].reduce(0,+){
+    else if (cardIndex % cardsPerClass) < HGModel.cardReplicas[...1].reduce(0,+){
         cardNumber = 2
     }
-    else if (cardIndex % cardsPerClass) < HGViewModel.cardReplicas[...2].reduce(0,+){
+    else if (cardIndex % cardsPerClass) < HGModel.cardReplicas[...2].reduce(0,+){
         cardNumber = 3
     }
-    else if (cardIndex % cardsPerClass) < HGViewModel.cardReplicas[...3].reduce(0,+){
+    else if (cardIndex % cardsPerClass) < HGModel.cardReplicas[...3].reduce(0,+){
         cardNumber = 4
     }
     else{
@@ -128,14 +128,14 @@ struct PlayableDecks{
     // Function to reward the winner of a success bell pressing
     // Give all the flipped/fact-up cards to the winner
     // TODO: We should use a card array to track all the flipped cards
-    mutating func cardReward() {
-        
-    }
+//    mutating func cardReward() {
+//
+//    }
     
     // Function to punish the player/model who rings the bell by mistake
     // Give each other player one card from his face-down pack as a penalty
-    mutating func cardPenalty() {
-        
-    }
+//    mutating func cardPenalty() {
+//
+//    }
 }
 

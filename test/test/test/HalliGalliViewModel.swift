@@ -9,15 +9,6 @@ import Foundation
 
 class HGViewModel: ObservableObject{
     
-    //static variables to be used to build the game
-    let playersNo: Int = 4 // dictates number of players
-    let cardsNo: Int = 56 // dictates number of cards
-    // dictates how many replicas of a card there should be, the index of the array
-    // dictates how many figures should the replica have
-    static let cardReplicas: [Int] = [5, 3, 3, 2, 1]
-    static let cardFigures: [String] = ["apple", "avocado", "blueberry", "oriange"] // dictates figures that will be on the cards
-    static let cardClasses: [String] = ["a", "b", "c", "d"] // dictates the class of the card, each element relates to one figure
-    
     @Published var showHGView: Bool = false
     
     // Declaring the model itself
@@ -26,15 +17,9 @@ class HGViewModel: ObservableObject{
     // TODO: use objectWillChange.send() in functions to show the view that the model changes
     
     init() {
-        model = HGModel(
-            playableDecks: PlayableDecks( // genrating the playable decks
-                deckOfCards: CardDeck( // generating the general deck
-                    maxNoCards: cardsNo,
-                    createCard: createCard),// creating each card
-                numberOfPlayers: playersNo,
-                getCards: splitDeck // spliting general deck into playable decks
-            )
-        )
+        model = HGModel()
+//        model.run()
+//        model.update()
     }
     
     func getCardInfo(for player: String) -> (Card?, Bool){
@@ -70,18 +55,9 @@ class HGViewModel: ObservableObject{
         objectWillChange.send()
     }
     
-    
     // If reset is called the model is intialized again from the start
     func reset(){
-        model = HGModel(
-            playableDecks: PlayableDecks( // genrating the playable decks
-                deckOfCards: CardDeck( // generating the general deck
-                    maxNoCards: cardsNo,
-                    createCard: createCard),// creating each card
-                numberOfPlayers: playersNo,
-                getCards: splitDeck // spliting general deck into playable decks
-            )
-        )
+        model.dealCards()
         objectWillChange.send()
     }
     
@@ -99,9 +75,4 @@ class HGViewModel: ObservableObject{
             return model.decks.modelCards3.count
         }
     }
-    
-    
-//    var modelState: String{
-//        model.modelState.description
-//    }
 }

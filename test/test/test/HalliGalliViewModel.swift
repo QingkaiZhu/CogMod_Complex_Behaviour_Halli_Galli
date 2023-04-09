@@ -51,7 +51,7 @@ class HGViewModel: ObservableObject{
     
     func pressBell(_ player: String){
         print("Bell press \(player)")
-        model.pressBell(by: player)
+        let _ = model.pressBell(by: player)
         objectWillChange.send()
     }
     

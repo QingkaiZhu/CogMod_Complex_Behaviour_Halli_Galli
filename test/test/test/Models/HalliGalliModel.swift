@@ -14,7 +14,7 @@ struct HGModel{
     // dictates how many replicas of a card there should be, the index of the array
     // dictates how many figures should the replica have
     static let cardReplicas: [Int] = [5, 3, 3, 2, 1]
-    static let cardFigures: [String] = ["apple", "avocado", "blueberry", "oriange"] // dictates figures that will be on the cards
+    static let cardFigures: [String] = ["apple", "avocado", "blueberry", "orange"] // dictates figures that will be on the cards
     static let cardClasses: [String] = ["a", "b", "c", "d"] // dictates the class of the card, each element relates to one figure
     var decks: PlayableDecks
     

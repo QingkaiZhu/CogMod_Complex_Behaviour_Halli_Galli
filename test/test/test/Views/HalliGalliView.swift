@@ -8,7 +8,6 @@
 import SwiftUI
 
 // TODO: Display score for each player
-// TODO: Blank card issue
 // TODO: Flip the card automatically by turnSchedule
 // TODO: needs changing needs to accept a card directly
 /// This view displays a card with the provided information (a card object and a flipped state). It can display both the front and back of the card based on the isFlipped property.
@@ -146,7 +145,7 @@ struct ContentView: View {
                     showCountdown = false
                 }
             }
-        }
+    }
     
     var body: some View{
         ZStack{

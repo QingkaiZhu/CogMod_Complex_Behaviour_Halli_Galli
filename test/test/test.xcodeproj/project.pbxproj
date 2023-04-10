@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		9BB1F4C529DDF0810051BE2C /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB1F4C429DDF0810051BE2C /* StartView.swift */; };
+		9BB4A47029E1FCA1008B81EA /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB4A46F29E1FCA1008B81EA /* Card.swift */; };
 		9BBA72B429C086140083EFB4 /* HalliGalliModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBA72B229C086140083EFB4 /* HalliGalliModel.swift */; };
-		9BBA72B529C086140083EFB4 /* CardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBA72B329C086140083EFB4 /* CardModel.swift */; };
 		DE6E8D6A299D1DB900A388DA /* HalliGalliViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6E8D69299D1DB900A388DA /* HalliGalliViewModel.swift */; };
 		DE6E8D83299D20E500A388DA /* SlotAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6E8D74299D20E500A388DA /* SlotAction.swift */; };
 		DE6E8D84299D20E500A388DA /* BufferCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6E8D75299D20E500A388DA /* BufferCondition.swift */; };
@@ -55,8 +55,8 @@
 
 /* Begin PBXFileReference section */
 		9BB1F4C429DDF0810051BE2C /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
+		9BB4A46F29E1FCA1008B81EA /* Card.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		9BBA72B229C086140083EFB4 /* HalliGalliModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HalliGalliModel.swift; sourceTree = "<group>"; };
-		9BBA72B329C086140083EFB4 /* CardModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardModel.swift; sourceTree = "<group>"; };
 		DE6E8D69299D1DB900A388DA /* HalliGalliViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalliGalliViewModel.swift; sourceTree = "<group>"; };
 		DE6E8D74299D20E500A388DA /* SlotAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlotAction.swift; sourceTree = "<group>"; };
 		DE6E8D75299D20E500A388DA /* BufferCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BufferCondition.swift; sourceTree = "<group>"; };
@@ -123,7 +123,7 @@
 		DE6E8D68299D1CEC00A388DA /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				9BBA72B329C086140083EFB4 /* CardModel.swift */,
+				9BB4A46F29E1FCA1008B81EA /* Card.swift */,
 				9BBA72B229C086140083EFB4 /* HalliGalliModel.swift */,
 				FE27DCAA29C48F93005475EE /* Players.swift */,
 			);
@@ -352,13 +352,13 @@
 				9BB1F4C529DDF0810051BE2C /* StartView.swift in Sources */,
 				DEF8DF01299CE723003A7998 /* testApp.swift in Sources */,
 				DE6E8D83299D20E500A388DA /* SlotAction.swift in Sources */,
-				9BBA72B529C086140083EFB4 /* CardModel.swift in Sources */,
 				DE6E8D8B299D20E500A388DA /* SlotCondition.swift in Sources */,
 				DE6E8D84299D20E500A388DA /* BufferCondition.swift in Sources */,
 				DE6E8D8D299D20E500A388DA /* Support.swift in Sources */,
 				9BBA72B429C086140083EFB4 /* HalliGalliModel.swift in Sources */,
 				DE6E8D88299D20E500A388DA /* Temporal.swift in Sources */,
 				DE6E8D89299D20E500A388DA /* Vision.swift in Sources */,
+				9BB4A47029E1FCA1008B81EA /* Card.swift in Sources */,
 				DE6E8D8F299D20E500A388DA /* Declarative.swift in Sources */,
 				DE6E8D8C299D20E500A388DA /* BufferAction.swift in Sources */,
 				FE27DCAB29C48F93005475EE /* Players.swift in Sources */,

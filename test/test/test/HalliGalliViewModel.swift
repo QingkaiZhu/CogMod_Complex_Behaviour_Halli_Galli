@@ -67,6 +67,7 @@ class HGViewModel: ObservableObject{
         switch player {
         case "model1":
             let modelStartTime = model.m1.model.time
+            // TODO: customized actr forget rate, it seems we don't record the time for flipping
             model.m1.model.run()
             let modelRunTime = model.m1.model.time - modelStartTime
             model.m2.model.run(maxTime: modelRunTime)
@@ -82,6 +83,7 @@ class HGViewModel: ObservableObject{
         case "model3":
             let modelStartTime = model.m3.model.time
             model.m3.model.run()
+            // TODO: do something
             let modelRunTime = model.m3.model.time - modelStartTime
             model.m1.model.run(maxTime: modelRunTime)
             model.m2.model.run(maxTime: modelRunTime)

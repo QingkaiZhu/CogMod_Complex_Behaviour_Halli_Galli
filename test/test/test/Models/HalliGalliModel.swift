@@ -17,6 +17,8 @@ struct HGModel{
     static let cardFigures: [String] = ["apple", "avocado", "blueberry", "orange"] // dictates figures that will be on the cards
     static let cardClasses: [String] = ["a", "b", "c", "d"] // dictates the class of the card, each element relates to one figure
     var decks: PlayableDecks
+    var priorActiveCards: [Card] = []
+    var allActiveCards: [Card] = []
     
     var m1 = modelPlayer("model1")
     var m2 = modelPlayer("model2")
@@ -122,6 +124,51 @@ struct HGModel{
 //            return true
 //        }
 //    }
+    
+    // Get all the face-up cards except the card wihch is going to be flipped/covered
+    mutating func getActiveCards(except playerInTurn: String){
+        // Refresh activeCards list
+        priorActiveCards.removeAll()
+        // If this player is not playerInTrun, not 0 point, and has flipped card, add that card to the activeCards list
+        if playerInTurn != "player" && !decks.playerCards.isEmpty && decks.playerHasFlippedCard{
+            priorActiveCards.append(decks.playerCards[0])
+        }
+        if playerInTurn != "model1" && !decks.modelCards1.isEmpty && decks.modelHasFlippedCard1{
+            priorActiveCards.append(decks.modelCards1[0])
+        }
+        if playerInTurn != "model2" && !decks.modelCards2.isEmpty && decks.modelHasFlippedCard2{
+            priorActiveCards.append(decks.modelCards2[0])
+        }
+        if playerInTurn != "model3" && !decks.modelCards3.isEmpty && decks.modelHasFlippedCard3{
+            priorActiveCards.append(decks.modelCards3[0])
+        }
+    }
+    
+    // Get all the face-up cards
+    mutating func getActiveCards(){
+        // Refresh activeCards list
+        allActiveCards.removeAll()
+        // If this player is not playerInTrun, not 0 point, and has flipped card, add that card to the activeCards list
+        if !decks.playerCards.isEmpty && decks.playerHasFlippedCard{
+            allActiveCards.append(decks.playerCards[0])
+        }
+        if !decks.modelCards1.isEmpty && decks.modelHasFlippedCard1{
+            allActiveCards.append(decks.modelCards1[0])
+        }
+        if !decks.modelCards2.isEmpty && decks.modelHasFlippedCard2{
+            allActiveCards.append(decks.modelCards2[0])
+        }
+        if !decks.modelCards3.isEmpty && decks.modelHasFlippedCard3{
+            allActiveCards.append(decks.modelCards3[0])
+        }
+    }
+    
+    /// Calculate the anticipation for the next flipped card
+    /// 1. In priorActiveCards: Fruit class whose number is close to but smaller than 5, the player is expecting the next card is the same fruit and will add the sum of this fruit to 5
+    /// 2. In allActiveCards: If the number of fruit for playerInTurn's card class is greater than 5, the user is expecting this card is going to be covered by another class, and the remaining of this fruit is exactly 5
+    mutating func anticipationAnalysis(){
+        
+    }
    
     // Update the goal once someone just flipped a new card
     mutating func updateGoal(){

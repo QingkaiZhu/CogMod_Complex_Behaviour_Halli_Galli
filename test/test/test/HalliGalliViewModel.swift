@@ -13,6 +13,9 @@ class HGViewModel: ObservableObject{
     
     // Declaring the model itself
     @Published var model: HGModel
+    
+    private var startTime = Date()
+    private var timer: Timer?
 
     // TODO: use objectWillChange.send() in functions to show the view that the model changes
     
@@ -21,7 +24,7 @@ class HGViewModel: ObservableObject{
         model.run()
 //        model.update()
     }
-    
+
     func getCardInfo(for player: String) -> (Card?, Bool){
         if ((player == "player") && !model.decks.playerCards.isEmpty){
             print("Getting card from player deck")
@@ -44,8 +47,53 @@ class HGViewModel: ObservableObject{
         }
     }
     
+    // Check if the deck is empty for the given player
+    func isDeckEmpty(forPlayer player: String) -> Bool {
+        switch player {
+        case "player":
+            return model.decks.playerCards.isEmpty
+        case "model1":
+            return model.decks.modelCards1.isEmpty
+        case "model2":
+            return model.decks.modelCards2.isEmpty
+        case "model3":
+            return model.decks.modelCards3.isEmpty
+        default:
+            return true
+        }
+    }
+    
     func flip(cardOf player: String){
-        model.flipFirstCard(ofPlayer: player)
+        switch player {
+        case "model1":
+            let modelStartTime = model.m1.model.time
+            model.m1.model.run()
+            let modelRunTime = model.m1.model.time - modelStartTime
+            model.m2.model.run(maxTime: modelRunTime)
+            model.m3.model.run(maxTime: modelRunTime)
+            timer = Timer.scheduledTimer(withTimeInterval: modelRunTime, repeats: false, block: {_ in self.model.flipFirstCard(ofPlayer: "model1")})
+        case "model2":
+            let modelStartTime = model.m2.model.time
+            model.m2.model.run()
+            let modelRunTime = model.m2.model.time - modelStartTime
+            model.m1.model.run(maxTime: modelRunTime)
+            model.m3.model.run(maxTime: modelRunTime)
+            timer = Timer.scheduledTimer(withTimeInterval: modelRunTime, repeats: false, block: {_ in self.model.flipFirstCard(ofPlayer: "model2")})
+        case "model3":
+            let modelStartTime = model.m3.model.time
+            model.m3.model.run()
+            let modelRunTime = model.m3.model.time - modelStartTime
+            model.m1.model.run(maxTime: modelRunTime)
+            model.m2.model.run(maxTime: modelRunTime)
+            timer = Timer.scheduledTimer(withTimeInterval: modelRunTime, repeats: false, block: {_ in self.model.flipFirstCard(ofPlayer: "model3")})
+        default:
+            startTime = Date()
+            timer = Timer.scheduledTimer(withTimeInterval: 1.0 + Double.random(in: 0..<1), repeats: false, block: { _ in self.model.flipFirstCard(ofPlayer: "player")})
+            let elapsedTime = Double(Date().timeIntervalSince(startTime))
+            model.m1.model.run(maxTime: elapsedTime)
+            model.m2.model.run(maxTime: elapsedTime)
+            model.m3.model.run(maxTime: elapsedTime)
+        }
         objectWillChange.send()
     }
     

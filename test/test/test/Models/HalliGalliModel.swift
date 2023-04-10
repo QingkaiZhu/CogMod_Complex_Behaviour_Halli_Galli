@@ -79,12 +79,6 @@ struct HGModel{
         // TODO: fixme
         // turnSchedule(from: playerInTurn)
     }
-    // Update the goal once someone just flipped a new card
-    mutating func updateGoal(turnOf playerInTurn: String) {
-        m1.updateGoal(turnOf: playerInTurn)
-        m2.updateGoal(turnOf: playerInTurn)
-        m3.updateGoal(turnOf: playerInTurn)
-    }
     
     // Reset the model
     mutating func reset() {
@@ -95,40 +89,79 @@ struct HGModel{
         run()
     }
     
-    mutating func turnSchedule(from player: String) {
-        let scheduleList: Array<String> = ["player", "model1", "model2", "model3"]
-        guard let i = scheduleList.firstIndex(of: player) else { return }
-
-        var currentIndex = i
+//    mutating func turnSchedule(from player: String) {
+//        let scheduleList: Array<String> = ["player", "model1", "model2", "model3"]
+//        guard let i = scheduleList.firstIndex(of: player) else { return }
+//
+//        var currentIndex = i
+//
+//        while pressStatus != bellPressed.rightPress && !gameOver {
+//            let currentPlayer = scheduleList[currentIndex]
+//
+//            if !isDeckEmpty(forPlayer: currentPlayer) {
+//                flipFirstCard(ofPlayer: currentPlayer)
+//            }
+//
+//            // Move on to the next player
+//            currentIndex = (currentIndex + 1) % scheduleList.count
+//        }
+//    }
+//
+//    // Check if the deck is empty for the given player
+//    func isDeckEmpty(forPlayer player: String) -> Bool {
+//        switch player {
+//        case "player":
+//            return decks.playerCards.isEmpty
+//        case "model1":
+//            return decks.modelCards1.isEmpty
+//        case "model2":
+//            return decks.modelCards2.isEmpty
+//        case "model3":
+//            return decks.modelCards3.isEmpty
+//        default:
+//            return true
+//        }
+//    }
+   
+    // Update the goal once someone just flipped a new card
+    mutating func updateGoal(){
+        let (goalCard, _) = getCardInfo(for: playerInTurn)
+        let goalName = goalCard?.content
         
-        while pressStatus != bellPressed.rightPress && !gameOver {
-            let currentPlayer = scheduleList[currentIndex]
-
-            if !isDeckEmpty(forPlayer: currentPlayer) {
-                flipFirstCard(ofPlayer: currentPlayer)
-            }
-
-            // Move on to the next player
-            currentIndex = (currentIndex + 1) % scheduleList.count
+        let m1chunk = Chunk(s: "goal", m: m1.model)
+        m1chunk.setSlot(slot: "fruitName", value: goalName!)
+        m1.model.dm.addToDM(m1chunk)
+        
+        let m2chunk = Chunk(s: "goal", m: m2.model)
+        m2chunk.setSlot(slot: "fruitName", value: goalName!)
+        m2.model.dm.addToDM(m2chunk)
+        
+        let m3chunk = Chunk(s: "goal", m: m3.model)
+        m3chunk.setSlot(slot: "fruitName", value: goalName!)
+        m3.model.dm.addToDM(m3chunk)
+    }
+    
+    mutating func getCardInfo(for player: String) -> (Card?, Bool){
+        if ((player == "player") && !decks.playerCards.isEmpty){
+            print("Getting card from player deck")
+            return (decks.playerCards[0], decks.playerHasFlippedCard)
+        }
+        else if ((player == "model1") && !decks.modelCards1.isEmpty){
+            print("Getting card from model1's Deck")
+            return (decks.modelCards1[0], decks.modelHasFlippedCard1)
+        }
+        else if ((player == "model2") && !decks.modelCards2.isEmpty){
+            print("Getting card from model2's Deck")
+            return (decks.modelCards2[0], decks.modelHasFlippedCard2)
+        }
+        else if ((player == "model3") && !decks.modelCards3.isEmpty){
+            print("Getting card from model3's Deck")
+            return (decks.modelCards3[0], decks.modelHasFlippedCard3)
+        }
+        else {
+            return (nil, false)
         }
     }
-
-    // Check if the deck is empty for the given player
-    func isDeckEmpty(forPlayer player: String) -> Bool {
-        switch player {
-        case "player":
-            return decks.playerCards.isEmpty
-        case "model1":
-            return decks.modelCards1.isEmpty
-        case "model2":
-            return decks.modelCards2.isEmpty
-        case "model3":
-            return decks.modelCards3.isEmpty
-        default:
-            return true
-        }
-    }
-
     
     // flip player's top card
     mutating func flipFirstCard(ofPlayer deckName: String){
@@ -174,7 +207,7 @@ struct HGModel{
         }
         
         // TODO: Move this out of the func to make the model logic more clear
-        updateGoal(turnOf: deckName)
+        updateGoal()
         let _ = isGameOver()
     }
     

@@ -9,9 +9,6 @@
 
 import Foundation
 
-
-
-
 struct modelPlayer {
     var id: String
     /// Initiall, every player get 14 cards in total, the simplest way is to convert 1 card to 1 point.
@@ -75,11 +72,6 @@ struct modelPlayer {
     /// If some one just press the bell wrongly, there are already four face-up cards on the deck,
     /// but none of the four fruit class has five fruits,
     mutating func runFromInteruption(turnOf playerInTurn: String) {
-        
-    }
-    
-    /// Update the goal every time when a new card is flipped
-    mutating func updateGoal(turnOf playerInTurn: String){
         
     }
     

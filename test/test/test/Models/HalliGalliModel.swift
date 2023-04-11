@@ -19,6 +19,10 @@ struct HGModel{
     var decks: PlayableDecks
     var priorActiveCards: [Card] = []
     var allActiveCards: [Card] = []
+    var hardStrategyValid: Bool = false
+//    var goalCard: Card
+//    var goalCurrentSum: Int
+
     
     var m1 = modelPlayer("model1")
     var m2 = modelPlayer("model2")
@@ -164,50 +168,89 @@ struct HGModel{
     }
     
     /// Calculate the anticipation for the next flipped card
-    /// 1. In priorActiveCards: Fruit class whose number is close to but smaller than 5, the player is expecting the next card is the same fruit and will add the sum of this fruit to 5
-    /// 2. In allActiveCards: If the number of fruit for playerInTurn's card class is greater than 5, the user is expecting this card is going to be covered by another class, and the remaining of this fruit is exactly 5
-    mutating func anticipationAnalysis(){
+    /// Anticipation strategy for the easy mode
+    /// 1. In priorActiveCards: Fruit class whose number is close to but smaller than 5, the player is expecting the next card is the same fruit and will add the sum of this kind of fruit to 5
+    mutating func anticipationAnalysisEasy(){
+        getActiveCards()
+        var sumPerClass:Dictionary = ["a" : 0, "b" : 0, "c" : 0, "d" : 0]//Declaring dict for computing sums
         
+        // Computing the sums for all the Classes/Figures present in the priorActiveCards
+        for card in priorActiveCards{
+            sumPerClass[card.figureClass]! += card.figuresNo
+        }
+        // Sorted by the values in descending order
+        let _ = sumPerClass.sorted(by: { $0.value > $1.value })
+        // Filter the fruit number which is smaller than 5
+        sumPerClass = sumPerClass.filter({ $0.value < 5 })
+        // Get the card whose fruit number is close to 5
+        for card in priorActiveCards{
+            if card.figureClass == sumPerClass.first?.key{
+                // Update the goal
+                updateGoal(fromCard: card, withNum: sumPerClass.first!.value)
+            }
+        }
+    }
+    
+    /// Anticipation strategy for the hard mode
+    /// 2. In allActiveCards: If the number of fruit for playerInTurn's card class is greater than 5, the user is expecting this card is going to be covered by another class, and the remaining of this fruit is exactly 5
+    mutating func anticipationAnalysisHard(){
+        getActiveCards(except: playerInTurn)
+        var sumPerClass:Dictionary = ["a" : 0, "b" : 0, "c" : 0, "d" : 0]//Declaring dict for computing sums
+        
+        // Computing the sums for all the Classes/Figures present in the priorActiveCards
+        for card in priorActiveCards{
+            sumPerClass[card.figureClass]! += card.figuresNo
+        }
+
+        // Filter the fruit number which is equal to 5
+        sumPerClass = sumPerClass.filter({ $0.value == 5 })
+        // Get the card whose fruit number is equal to 5
+        for card in priorActiveCards{
+            if card.figureClass == sumPerClass.first?.key{
+                // And this card is the same with the card that's going to be covered
+                if getTopCard(for: playerInTurn)?.figureClass == card.figureClass{
+                    // Update the goal
+                    updateGoal(fromCard: card, withNum: (5 + getTopCard(for: playerInTurn)!.figuresNo))
+                    hardStrategyValid = true
+                }
+            }
+        }
     }
    
     // Update the goal once someone just flipped a new card
-    mutating func updateGoal(){
-        let (goalCard, _) = getCardInfo(for: playerInTurn)
-        let goalName = goalCard?.content
-        let goalCurrentSum = goalCard?.figuresNo
+    mutating func updateGoal(fromCard goalCard: Card, withNum goalCurrentSum: Int){
+        let goalName = goalCard.content
         
         let m1chunk = Chunk(s: "goal", m: m1.model)
-        m1chunk.setSlot(slot: "fruitName", value: goalName!)
-        m1chunk.setSlot(slot: "currentSum", value: String(goalCurrentSum!))
+        m1chunk.setSlot(slot: "fruitName", value: goalName)
+        m1chunk.setSlot(slot: "currentSum", value: String(goalCurrentSum))
         m1.model.dm.addToDM(m1chunk)
         
         let m2chunk = Chunk(s: "goal", m: m2.model)
-        m2chunk.setSlot(slot: "fruitName", value: goalName!)
-        m2chunk.setSlot(slot: "currentSum", value: String(goalCurrentSum!))
+        m2chunk.setSlot(slot: "fruitName", value: goalName)
+        m2chunk.setSlot(slot: "currentSum", value: String(goalCurrentSum))
         m2.model.dm.addToDM(m2chunk)
         
         let m3chunk = Chunk(s: "goal", m: m3.model)
-        m3chunk.setSlot(slot: "fruitName", value: goalName!)
-        m3chunk.setSlot(slot: "currentSum", value: String(goalCurrentSum!))
+        m3chunk.setSlot(slot: "fruitName", value: goalName)
+        m3chunk.setSlot(slot: "currentSum", value: String(goalCurrentSum))
         m3.model.dm.addToDM(m3chunk)
     }
     
-    mutating func getCardInfo(for player: String) -> (Card?, Bool){
-        if ((player == "player") && !decks.playerCards.isEmpty){
-            return (decks.playerCards[0], decks.playerHasFlippedCard)
+    mutating func getTopCard(for player: String) -> (Card?){
+        if (player == "player" && !decks.playerCards.isEmpty && decks.playerHasFlippedCard){
+            return (decks.playerCards[0])
         }
-        else if ((player == "model1") && !decks.modelCards1.isEmpty){
-            return (decks.modelCards1[0], decks.modelHasFlippedCard1)
+        else if (player == "model1" && !decks.modelCards1.isEmpty && decks.modelHasFlippedCard1){
+            return (decks.modelCards1[0])
         }
-        else if ((player == "model2") && !decks.modelCards2.isEmpty){
-            return (decks.modelCards2[0], decks.modelHasFlippedCard2)
+        else if (player == "model2" && !decks.modelCards2.isEmpty && decks.modelHasFlippedCard2){
+            return (decks.modelCards2[0])
         }
-        else if ((player == "model3") && !decks.modelCards3.isEmpty){
-                return (decks.modelCards3[0], decks.modelHasFlippedCard3)
+        else if (player == "model3" && !decks.modelCards3.isEmpty && decks.modelHasFlippedCard3){
+                return (decks.modelCards3[0])
         }
-        else {
-            return (nil, false)
-        }
+        return nil
     }
     
     // flip player's top card
@@ -258,6 +301,7 @@ struct HGModel{
         // let _ = isGameOver()
     }
     
+    //
     mutating func pressDecision (){
         
     }

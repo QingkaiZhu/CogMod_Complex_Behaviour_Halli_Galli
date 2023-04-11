@@ -177,21 +177,27 @@ struct ContentView: View {
                 ZStack{
                     CardView(player: "model2", getInfo:
                                 game.getCardInfo)
-                }.onTapGesture {game.flip(cardOf: "model2")}
+                }
                 HStack{
                     Spacer()
                     ZStack{
                         CardView(player: "model1", getInfo: game.getCardInfo)
-                    }.onTapGesture {game.flip(cardOf: "model1")}
+                    }
                     Spacer()
                     ZStack{
                         CardView(player: "model3", getInfo: game.getCardInfo)
-                    }.onTapGesture {game.flip(cardOf: "model3")}
+                    }
                     Spacer()
                 }
                 ZStack{
                     CardView(player: "player", getInfo: game.getCardInfo)
-                }.onTapGesture {game.flip(cardOf: "player")}
+                }.onTapGesture {
+                    game.flip(cardOf: "player")
+                    let ms = 1000
+                    usleep(useconds_t(2 * ms))
+                    game.runModelsCycle(from: "model1")
+                    
+                }.disabled(!game.playerAllowFlip)
                 // TODO: bug: empty card
                 Button{
                     print("bell_1")

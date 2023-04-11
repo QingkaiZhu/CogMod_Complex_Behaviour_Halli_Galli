@@ -13,6 +13,7 @@ class HGViewModel: ObservableObject{
     
     // Declaring the model itself
     @Published var model: HGModel
+    @Published var playerAllowFlip: Bool = true
     
     private var startTime = Date()
     private var timer: Timer?
@@ -95,6 +96,32 @@ class HGViewModel: ObservableObject{
             model.m1.model.run(maxTime: elapsedTime)
             model.m2.model.run(maxTime: elapsedTime)
             model.m3.model.run(maxTime: elapsedTime)
+        }
+        objectWillChange.send()
+    }
+    
+    func runModelsCycle(from player: String){
+        
+        if playerAllowFlip{
+            playerAllowFlip.toggle()
+        }
+        
+        let scheduleList: Array<String> = ["model1", "model2", "model3"]
+        let second: Double = 1000000
+        guard let fromIndex = scheduleList.firstIndex(of: player) else { return }
+        let activeList = scheduleList.dropFirst(fromIndex)
+        
+        for currentPlayer in activeList where (model.pressStatus != HGModel.bellPressed.rightPress && !model.gameOver){
+            if !isDeckEmpty(forPlayer: currentPlayer) {
+                model.flipFirstCard(ofPlayer: currentPlayer)
+        
+                usleep(useconds_t(second * ( 2.0 + Double.random(in: 0..<1))))
+                objectWillChange.send()
+            }
+        }
+        
+        if !playerAllowFlip{
+            playerAllowFlip.toggle()
         }
         objectWillChange.send()
     }

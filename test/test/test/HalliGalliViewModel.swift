@@ -14,6 +14,8 @@ class HGViewModel: ObservableObject{
     // Declaring the model itself
     @Published var model: HGModel
     
+    @Published var isPlayerCardTappable: Bool = true
+    
     private var startTime = Date()
     private var timer: Timer?
 
@@ -21,7 +23,7 @@ class HGViewModel: ObservableObject{
     
     init() {
         model = HGModel()
-        model.run()
+//        model.run()
 //        model.update()
     }
 
@@ -66,37 +68,55 @@ class HGViewModel: ObservableObject{
     func flip(cardOf player: String){
         switch player {
         case "model1":
-            let modelStartTime = model.m1.model.time
-            // TODO: customized actr forget rate, it seems we don't record the time for flipping
-            model.m1.model.run()
-            let modelRunTime = model.m1.model.time - modelStartTime
-            model.m2.model.run(maxTime: modelRunTime)
-            model.m3.model.run(maxTime: modelRunTime)
-            timer = Timer.scheduledTimer(withTimeInterval: modelRunTime, repeats: false, block: {_ in self.model.flipFirstCard(ofPlayer: "model1")})
+//            let modelStartTime = model.m1.model.time
+//            // TODO: customized actr forget rate, it seems we don't record the time for flipping
+//            model.m1.model.run()
+//            let modelRunTime = model.m1.model.time - modelStartTime
+//            model.m2.model.run(maxTime: modelRunTime)
+//            model.m3.model.run(maxTime: modelRunTime)
+//            timer = Timer.scheduledTimer(withTimeInterval: modelRunTime, repeats: false, block: {_ in self.model.flipFirstCard(ofPlayer: "model1")})
+            model.flipFirstCard(ofPlayer: "model1")
         case "model2":
-            let modelStartTime = model.m2.model.time
-            model.m2.model.run()
-            let modelRunTime = model.m2.model.time - modelStartTime
-            model.m1.model.run(maxTime: modelRunTime)
-            model.m3.model.run(maxTime: modelRunTime)
-            timer = Timer.scheduledTimer(withTimeInterval: modelRunTime, repeats: false, block: {_ in self.model.flipFirstCard(ofPlayer: "model2")})
+//            let modelStartTime = model.m2.model.time
+//            model.m2.model.run()
+//            let modelRunTime = model.m2.model.time - modelStartTime
+//            model.m1.model.run(maxTime: modelRunTime)
+//            model.m3.model.run(maxTime: modelRunTime)
+//            timer = Timer.scheduledTimer(withTimeInterval: modelRunTime, repeats: false, block: {_ in self.model.flipFirstCard(ofPlayer: "model2")})
+            model.flipFirstCard(ofPlayer: "model2")
         case "model3":
-            let modelStartTime = model.m3.model.time
-            model.m3.model.run()
-            // TODO: do something
-            let modelRunTime = model.m3.model.time - modelStartTime
-            model.m1.model.run(maxTime: modelRunTime)
-            model.m2.model.run(maxTime: modelRunTime)
-            timer = Timer.scheduledTimer(withTimeInterval: modelRunTime, repeats: false, block: {_ in self.model.flipFirstCard(ofPlayer: "model3")})
+//            let modelStartTime = model.m3.model.time
+//            model.m3.model.run()
+//            // TODO: do something
+//            let modelRunTime = model.m3.model.time - modelStartTime
+//            model.m1.model.run(maxTime: modelRunTime)
+//            model.m2.model.run(maxTime: modelRunTime)
+//            timer = Timer.scheduledTimer(withTimeInterval: modelRunTime, repeats: false, block: {_ in self.model.flipFirstCard(ofPlayer: "model3")})
+            model.flipFirstCard(ofPlayer: "model3")
         default:
-            startTime = Date()
-            timer = Timer.scheduledTimer(withTimeInterval: 1.0 + Double.random(in: 0..<1), repeats: false, block: { _ in self.model.flipFirstCard(ofPlayer: "player")})
-            let elapsedTime = Double(Date().timeIntervalSince(startTime))
-            model.m1.model.run(maxTime: elapsedTime)
-            model.m2.model.run(maxTime: elapsedTime)
-            model.m3.model.run(maxTime: elapsedTime)
+//            startTime = Date()
+//            timer = Timer.scheduledTimer(withTimeInterval: 1.0 + Double.random(in: 0..<1), repeats: false, block: { _ in self.model.flipFirstCard(ofPlayer: "player")})
+//            let elapsedTime = Double(Date().timeIntervalSince(startTime))
+//            model.m1.model.run(maxTime: elapsedTime)
+//            model.m2.model.run(maxTime: elapsedTime)
+//            model.m3.model.run(maxTime: elapsedTime)
+            model.flipFirstCard(ofPlayer: "player")
         }
         objectWillChange.send()
+    }
+    
+    func flipCardsAutomatically() {
+        isPlayerCardTappable = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0 + Double.random(in: 0..<1)) {
+            self.flip(cardOf: "model1")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0 + Double.random(in: 0..<1)) {
+                self.flip(cardOf: "model2")
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0 + Double.random(in: 0..<1)) {
+                    self.flip(cardOf: "model3")
+                    self.isPlayerCardTappable = true
+                }
+            }
+        }
     }
     
     func pressBell(_ player: String){

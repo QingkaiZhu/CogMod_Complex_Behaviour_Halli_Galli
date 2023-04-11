@@ -73,17 +73,7 @@ struct HGModel{
     
     // Run the model
     mutating func run() {
-//        if isNewRround(){
-//            m1.runFromBegining(turnOf: playerInTurn)
-//            m2.runFromBegining(turnOf: playerInTurn)
-//            m3.runFromBegining(turnOf: playerInTurn)
-//        } else {
-//            m1.runFromInteruption(turnOf: playerInTurn)
-//            m2.runFromInteruption(turnOf: playerInTurn)
-//            m3.runFromInteruption(turnOf: playerInTurn)
-//        }
-        // TODO: fixme
-        // turnSchedule(from: playerInTurn)
+
     }
     
     // Reset the model
@@ -94,40 +84,6 @@ struct HGModel{
         dealCards()
         run()
     }
-    
-//    mutating func turnSchedule(from player: String) {
-//        let scheduleList: Array<String> = ["player", "model1", "model2", "model3"]
-//        guard let i = scheduleList.firstIndex(of: player) else { return }
-//
-//        var currentIndex = i
-//
-//        while pressStatus != bellPressed.rightPress && !gameOver {
-//            let currentPlayer = scheduleList[currentIndex]
-//
-//            if !isDeckEmpty(forPlayer: currentPlayer) {
-//                flipFirstCard(ofPlayer: currentPlayer)
-//            }
-//
-//            // Move on to the next player
-//            currentIndex = (currentIndex + 1) % scheduleList.count
-//        }
-//    }
-//
-//    // Check if the deck is empty for the given player
-//    func isDeckEmpty(forPlayer player: String) -> Bool {
-//        switch player {
-//        case "player":
-//            return decks.playerCards.isEmpty
-//        case "model1":
-//            return decks.modelCards1.isEmpty
-//        case "model2":
-//            return decks.modelCards2.isEmpty
-//        case "model3":
-//            return decks.modelCards3.isEmpty
-//        default:
-//            return true
-//        }
-//    }
     
     // Get all the face-up cards except the card wihch is going to be flipped/covered
     mutating func getActiveCards(except playerInTurn: String){
@@ -221,20 +177,20 @@ struct HGModel{
     mutating func updateGoal(fromCard goalCard: Card, withNum goalCurrentSum: Int){
         let goalName = goalCard.content
         
-        let m1chunk = Chunk(s: "goal", m: m1.model)
-        m1chunk.setSlot(slot: "fruitName", value: goalName)
-        m1chunk.setSlot(slot: "currentSum", value: String(goalCurrentSum))
-        m1.model.dm.addToDM(m1chunk)
-        
-        let m2chunk = Chunk(s: "goal", m: m2.model)
-        m2chunk.setSlot(slot: "fruitName", value: goalName)
-        m2chunk.setSlot(slot: "currentSum", value: String(goalCurrentSum))
-        m2.model.dm.addToDM(m2chunk)
-        
-        let m3chunk = Chunk(s: "goal", m: m3.model)
-        m3chunk.setSlot(slot: "fruitName", value: goalName)
-        m3chunk.setSlot(slot: "currentSum", value: String(goalCurrentSum))
-        m3.model.dm.addToDM(m3chunk)
+//        let m1chunk = Chunk(s: "goal", m: m1.model)
+//        m1chunk.setSlot(slot: "fruitName", value: goalName)
+//        m1chunk.setSlot(slot: "currentSum", value: String(goalCurrentSum))
+//        m1.model.dm.addToDM(m1chunk)
+//
+//        let m2chunk = Chunk(s: "goal", m: m2.model)
+//        m2chunk.setSlot(slot: "fruitName", value: goalName)
+//        m2chunk.setSlot(slot: "currentSum", value: String(goalCurrentSum))
+//        m2.model.dm.addToDM(m2chunk)
+//
+//        let m3chunk = Chunk(s: "goal", m: m3.model)
+//        m3chunk.setSlot(slot: "fruitName", value: goalName)
+//        m3chunk.setSlot(slot: "currentSum", value: String(goalCurrentSum))
+//        m3.model.dm.addToDM(m3chunk)
     }
     
     mutating func getTopCard(for player: String) -> (Card?){
@@ -488,9 +444,5 @@ struct HGModel{
             
         }
     }
-    
-    // Check if it is the begining of a round(begining of the game or someone just won a round by a successfull pressing)
-//    func isNewRround() -> Bool {
-//        return !decks.modelHasFlippedCard1 && !decks.modelHasFlippedCard2 && !decks.modelHasFlippedCard3 && !decks.playerHasFlippedCard
-//    }
+
 }

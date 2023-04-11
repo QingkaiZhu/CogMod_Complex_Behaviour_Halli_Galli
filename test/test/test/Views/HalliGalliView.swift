@@ -7,95 +7,71 @@
 
 import SwiftUI
 
-// TODO: Display score for each player
-// TODO: Flip the card automatically by turnSchedule
-// TODO: needs changing needs to accept a card directly
+// TODO: bugs in the socre
 /// This view displays a card with the provided information (a card object and a flipped state). It can display both the front and back of the card based on the isFlipped property.
-struct CardView: View{
+struct CardView: View {
     let card: Card?
     let isFlipped: Bool
-    let width:CGFloat = 120
-    let height:CGFloat = 150
-    //let fruitNumber:Int
-    //let fruitName:String
-    //let fruitImage:String
-    //@Binding var degree: Double
-    
-    init(player: String, getInfo: (String) -> (Card?, Bool)){
+    let width: CGFloat = 120
+    let height: CGFloat = 150
+
+    init(player: String, getInfo: (String) -> (Card?, Bool)) {
         (card, isFlipped) = getInfo(player)
     }
-    
-    var body: some View{
-        ZStack{
-            switch card{
-            case .some(let card):
-                if isFlipped{
-                    RoundedRectangle(cornerRadius: 15)
-                        .fill(.white)
-                        .frame(width:width,height:height)
-                        .shadow(color:.gray,radius:2,x:0,y:0)
-                    Image(String(card.id))
-                }
-                else{
-                    RoundedRectangle(cornerRadius: 15)
-                        .stroke(Color("blue3").opacity(0.7),lineWidth: 3)
-                        .frame(width:width,height:height)
-                    RoundedRectangle(cornerRadius: 15)
-                        .fill(Color("blue2").opacity(0.2))
-                        .frame(width:width,height:height)
-                        .shadow(color:.gray,radius:2,x:0,y:0)
-                }
-            case .none:
-                    RoundedRectangle(cornerRadius: 15)
-                        .stroke(Color("blue3")  .opacity(0),lineWidth: 3)
-                        .frame(width:width,height:height)
-                
-            }
-            
-        }//.rotation3DEffect(Angle(degrees: degree), axis: (x: 0, y:1, z: 0))
+
+    var body: some View {
+        ZStack {
+            CardBack(width: width, height: height)
+                .opacity(isFlipped ? 0 : 1)
+            CardFront(card: card, width: width, height: height)
+                .opacity(isFlipped ? 1 : 0)
+        }
+        .rotation3DEffect(
+            .degrees(isFlipped ? 180 : 0),
+            axis: (x: 0.0, y: 1.0, z: 0.0),
+            anchor: .center,
+            anchorZ: 0.0,
+            perspective: 0.5
+        )
     }
 }
 
-/// These views represent the front and back of the cards, respectively. They use 3D rotation effects for the flip animation.
 struct CardFront: View {
-    let width:CGFloat
-    let height:CGFloat
-    //let fruitNumber:Int
-    //let fruitName:String
-    let fruitImage:String
-    @Binding var degree: Double
-    
-    var body: some View{
-        ZStack{
-            RoundedRectangle(cornerRadius: 15)
-                .fill(.white)
-                .frame(width:width,height:height)
-                .shadow(color:.gray,radius:2,x:0,y:0)
-            Image(fruitImage)
-            
-                
-        }.rotation3DEffect(Angle(degrees: degree), axis: (x: 0, y:1, z: 0))
+    let card: Card?
+    let width: CGFloat
+    let height: CGFloat
+
+    var body: some View {
+        ZStack {
+            if let card = card {
+                RoundedRectangle(cornerRadius: 15)
+                    .fill(.white)
+                    .frame(width: width, height: height)
+                    .shadow(color: .gray, radius: 2, x: 0, y: 0)
+                Image(String(card.id))
+            }
+        }
     }
 }
+
 struct CardBack: View {
-    let width:CGFloat
-    let height:CGFloat
-    @Binding var degree: Double
-    var body: some View{
-        ZStack{
+    let width: CGFloat
+    let height: CGFloat
+
+    var body: some View {
+        ZStack {
             RoundedRectangle(cornerRadius: 15)
-                .stroke(Color("blue3").opacity(0.7),lineWidth: 3)
-                .frame(width:width,height:height)
+                .stroke(Color("blue3").opacity(0.7), lineWidth: 3)
+                .frame(width: width, height: height)
             RoundedRectangle(cornerRadius: 15)
                 .fill(Color("blue2").opacity(0.2))
-                .frame(width:width,height:height)
-                .shadow(color:.gray,radius:2,x:0,y:0)
-
-        }.rotation3DEffect(Angle(degrees: degree), axis: (x: 0, y:1, z: 0))
+                .frame(width: width, height: height)
+                .shadow(color: .gray, radius: 2, x: 0, y: 0)
+        }
     }
-    
-    
 }
+
+
 
 struct ContentView: View {
     @ObservedObject var game: HGViewModel
@@ -147,6 +123,18 @@ struct ContentView: View {
             }
     }
     
+    func scoreDisplay(player: String) -> some View {
+        let score = game.getScore(for: player)
+        return VStack {
+            Text("\(player.capitalized)")
+                //.font(.headline)
+                .foregroundColor(.red)
+            Text("\(score)")
+                //.font(.largeTitle)
+                .foregroundColor(.red)
+        }
+    }
+    
     var body: some View{
         ZStack{
             Color("blue0").ignoresSafeArea()
@@ -174,24 +162,33 @@ struct ContentView: View {
                     Spacer()
                 }
                 Spacer()
+                scoreDisplay(player: "model2")
                 ZStack{
                     CardView(player: "model2", getInfo:
                                 game.getCardInfo)
-                }.onTapGesture {game.flip(cardOf: "model2")}
+                }
                 HStack{
                     Spacer()
+                    scoreDisplay(player: "model1")
                     ZStack{
                         CardView(player: "model1", getInfo: game.getCardInfo)
-                    }.onTapGesture {game.flip(cardOf: "model1")}
+                    }
                     Spacer()
                     ZStack{
                         CardView(player: "model3", getInfo: game.getCardInfo)
-                    }.onTapGesture {game.flip(cardOf: "model3")}
+                    }
+                    scoreDisplay(player: "model3")
                     Spacer()
                 }
                 ZStack{
                     CardView(player: "player", getInfo: game.getCardInfo)
-                }.onTapGesture {game.flip(cardOf: "player")}
+                }.onTapGesture {
+                    if game.isPlayerCardTappable {
+                        game.flip(cardOf: "player")
+                        game.flipCardsAutomatically()
+                                        }
+                }
+                scoreDisplay(player: "player")
                 // TODO: bug: empty card
                 Button{
                     print("bell_1")

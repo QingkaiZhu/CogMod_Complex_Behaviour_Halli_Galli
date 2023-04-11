@@ -18,7 +18,7 @@ struct modelPlayer {
     var mood = Emotion.neutral
     var actState = actionState.idle
     // The ACT-R model
-    var model = Model()
+    // var model = Model()
     
     /// Player action state:
     /// idle: if it is my turn idle -> flip, if not my turn stay idle or idle -> press

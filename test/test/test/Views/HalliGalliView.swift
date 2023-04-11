@@ -80,6 +80,9 @@ struct ContentView: View {
     @State var isFlipped = [false, false, false, false]
     @State private var countdown: Int? = 3
     @State private var showCountdown = true
+    // Add state variables for displaying images
+    @State private var showPartyHorn = false
+    @State private var showWrongPress = false
     
     // TODO: added width and height to card view so it might be redundant
     let width:CGFloat = 120
@@ -189,16 +192,36 @@ struct ContentView: View {
                                         }
                 }
                 scoreDisplay(player: "player")
-                // TODO: bug: empty card
                 Button{
-                    print("bell_1")
-                    game.pressBell("player")
+                    let isCorrect = game.pressBell("player")
+                    if isCorrect {
+                        showPartyHorn = true
+                    } else {
+                        showWrongPress = true
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        showPartyHorn = false
+                        showWrongPress = false
+                    }
                 } label: {
-                    Image("bell_1")
+                    Image("bell_2")
                         .resizable()
-                        .frame(width: 200, height: 200)
+                        .frame(width: 180, height: 170)
                 }
-                Spacer()
+                // TODO: Adjustment needed
+                if showPartyHorn {
+                    Image("party_horn")
+                        .resizable()
+                        .frame(width: 180, height: 170)
+                        .offset(x: 0, y: -50)
+                }
+                
+                if showWrongPress {
+                    Image("wrongpress")
+                        .resizable()
+                        .frame(width: 180, height: 170)
+                        .offset(x: 0, y: -50)
+                }
             }
             if showCountdown {
                 VStack {
@@ -214,6 +237,12 @@ struct ContentView: View {
         }
         .onAppear(perform: {
             startCountdown()
+        })
+        .onReceive(game.$gameOver, perform: { isGameOver in
+            if isGameOver {
+                game.model.endGame(isGameOver: isGameOver)
+                game.winner = game.model.winner
+            }
         })
     }
 }

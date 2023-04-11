@@ -15,6 +15,8 @@ class HGViewModel: ObservableObject{
     @Published var model: HGModel
     
     @Published var isPlayerCardTappable: Bool = true
+    @Published var gameOver: Bool = false
+    @Published var winner: String = ""
     
     private var startTime = Date()
     private var timer: Timer?
@@ -119,10 +121,11 @@ class HGViewModel: ObservableObject{
         }
     }
     
-    func pressBell(_ player: String){
+    func pressBell(_ player: String) -> Bool{
         print("Bell press \(player)")
-        let _ = model.pressBell(by: player)
+        let isCorrect = model.pressBell(by: player)
         objectWillChange.send()
+        return isCorrect
     }
     
     // If reset is called the model is intialized again from the start

@@ -7,6 +7,19 @@
 
 import Foundation
 
+enum bellPressed: CustomStringConvertible {
+    case rightPress
+    case wrongPress
+    case nonPress
+    var description: String {
+        switch self {
+        case .rightPress: return "rightPress"
+        case .wrongPress: return "wrongPress"
+        case .nonPress: return "nonPress"
+        }
+    }
+}
+
 struct HGModel{
     //static variables to be used to build the game
     let playersNo: Int = 4 // dictates number of players
@@ -20,6 +33,8 @@ struct HGModel{
     var priorActiveCards: [Card] = []
     var allActiveCards: [Card] = []
     var hardStrategyValid: Bool = false
+    var winner: String = ""
+
 //    var goalCard: Card
 //    var goalCurrentSum: Int
 
@@ -38,18 +53,7 @@ struct HGModel{
     
     var rewardCardsPool: Array<Card> = []
     
-    enum bellPressed: CustomStringConvertible {
-        case rightPress
-        case wrongPress
-        case nonPress
-        var description: String {
-            switch self {
-            case .rightPress: return "rightPress"
-            case .wrongPress: return "wrongPress"
-            case .nonPress: return "nonPress"
-            }
-        }
-    }
+
     
     init() {
         decks = PlayableDecks( // genrating the playable decks
@@ -431,8 +435,8 @@ struct HGModel{
             print("Player has lost")
         }
         else if decks.modelCards1.isEmpty && decks.modelCards2.isEmpty && decks.modelCards3.isEmpty{
-            print("Player won")
             gameOver = true
+            print("Player won")
         }
         return gameOver
     }
@@ -441,7 +445,11 @@ struct HGModel{
     // End the game
     mutating func endGame(isGameOver: Bool) {
         if isGameOver{
-            
+            if decks.playerCards.isEmpty {
+                winner = "Model"
+            } else {
+                winner = "Player"
+            }
         }
     }
 

@@ -15,6 +15,10 @@ struct modelPlayer {
     /// A player loses the game when the player has no card on the deck, that is to say the player's
     /// point decreases to 0
     var score = 14
+    // goal for the easy strategy
+    var goalEasy: Dictionary = [String:Int]()
+    // goal for the hard strategy
+    var goalHard: Dictionary = [String:Int]()
     var mood = Emotion.neutral
     var actState = actionState.idle
     // The ACT-R model

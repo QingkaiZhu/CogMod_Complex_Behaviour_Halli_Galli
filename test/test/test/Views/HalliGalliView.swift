@@ -158,10 +158,12 @@ struct ContentView: View {
             // Set the rt_advantages and flip_interval values for the hard level
             game.model.rt_advantages = 0.5 // The values for the hard level
             game.model.flip_interval = 2 // The values for the hard level
+            game.model.mistake_rate = 30
         } else {
             // Set the rt_advantages and flip_interval values for the easy level
             game.model.rt_advantages = 0.3 // The values for the easy level
             game.model.flip_interval = 3 // The values for the easy level
+            game.model.mistake_rate = 50
         }
     }
 
@@ -256,6 +258,7 @@ struct ContentView: View {
         }
         .onAppear(perform: {
             startCountdown()
+            setDifficulty(isHardLevel: game.isHardLevel)
         })
         .onReceive(game.$gameOver, perform: { isGameOver in
             if isGameOver {
@@ -269,7 +272,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let game = HGViewModel()
-        // Use a dummy binding
         ContentView(game: game)
     }
 }

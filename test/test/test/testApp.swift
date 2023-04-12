@@ -13,7 +13,7 @@ struct testApp: App {
 
     var body: some Scene {
         WindowGroup {
-            StartView(isHardLevel: $isHardLevel)
+            StartView()
         }
     }
 }

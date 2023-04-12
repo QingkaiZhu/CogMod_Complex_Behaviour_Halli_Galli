@@ -34,8 +34,9 @@ struct HGModel{
     var allActiveCards: [Card] = []
     var hardStrategyValid: Bool = false
     var winner: String = ""
-    var rt_advantages: Double = 0.5 // Default value
-    var flip_interval: Double = 2.0 // Default value
+    var rt_advantages: Double = 0.5
+    var flip_interval: Double = 2.0
+    var mistake_rate: Int = 50 // A probability of 50% the model will press the bell even there are not five fruits
 
 
 //    var goalCard: Card
@@ -149,7 +150,7 @@ struct HGModel{
         for card in priorActiveCards{
             if card.figureClass == sumPerClass.first?.key{
                 // Update the goal
-                updateGoal(fromCard: card, withNum: sumPerClass.first!.value)
+                updateGoalEasy(fromCard: card, withNum: sumPerClass.first!.value)
             }
         }
     }
@@ -173,7 +174,7 @@ struct HGModel{
                 // And this card is the same with the card that's going to be covered
                 if getTopCard(for: playerInTurn)?.figureClass == card.figureClass{
                     // Update the goal
-                    updateGoal(fromCard: card, withNum: (5 + getTopCard(for: playerInTurn)!.figuresNo))
+                    updateGoalHard(fromCard: card, withNum: (5 + getTopCard(for: playerInTurn)!.figuresNo))
                     hardStrategyValid = true
                 }
             }
@@ -181,9 +182,18 @@ struct HGModel{
     }
    
     // Update the goal once someone just flipped a new card
-    mutating func updateGoal(fromCard goalCard: Card, withNum goalCurrentSum: Int){
+    mutating func updateGoalEasy(fromCard goalCard: Card, withNum goalCurrentSum: Int){
         let goalName = goalCard.content
         
+        // Clear the old goals
+        m1.goalEasy.removeAll()
+        m2.goalEasy.removeAll()
+        m3.goalEasy.removeAll()
+        
+        // Update the goal
+        m1.goalEasy[goalName] = goalCurrentSum
+        m2.goalEasy[goalName] = goalCurrentSum
+        m3.goalEasy[goalName] = goalCurrentSum
 //        let m1chunk = Chunk(s: "goal", m: m1.model)
 //        m1chunk.setSlot(slot: "fruitName", value: goalName)
 //        m1chunk.setSlot(slot: "currentSum", value: String(goalCurrentSum))
@@ -198,6 +208,21 @@ struct HGModel{
 //        m3chunk.setSlot(slot: "fruitName", value: goalName)
 //        m3chunk.setSlot(slot: "currentSum", value: String(goalCurrentSum))
 //        m3.model.dm.addToDM(m3chunk)
+    }
+    
+    // Update the goal once someone just flipped a new card
+    mutating func updateGoalHard(fromCard goalCard: Card, withNum goalCurrentSum: Int){
+        let goalName = goalCard.content
+        
+        // Clear the old goals
+        m1.goalHard.removeAll()
+        m2.goalHard.removeAll()
+        m3.goalHard.removeAll()
+        
+        // Update the goal
+        m1.goalHard[goalName] = goalCurrentSum
+        m2.goalHard[goalName] = goalCurrentSum
+        m3.goalHard[goalName] = goalCurrentSum
     }
     
     mutating func getTopCard(for player: String) -> (Card?){
@@ -265,9 +290,57 @@ struct HGModel{
     }
     
     //
-    mutating func pressDecision (){
+    mutating func pressDecision(for player: String, isHardLevel: Bool) -> Bool {
+        guard let topCard = getTopCard(for: playerInTurn) else {
+            return false
+        }
         
+        if isHardLevel {
+            var goalHard: [String: Int] = [:]
+
+            switch player {
+            case "model1":
+                goalHard = m1.goalHard
+            case "model2":
+                goalHard = m2.goalHard
+            case "model3":
+                goalHard = m3.goalHard
+            default:
+                break
+            }
+
+            if goalHard.keys.first != topCard.content {
+                return true
+            }
+        }
+
+        var goalEasy: [String: Int] = [:]
+
+        switch player {
+        case "model1":
+            goalEasy = m1.goalEasy
+        case "model2":
+            goalEasy = m2.goalEasy
+        case "model3":
+            goalEasy = m3.goalEasy
+        default:
+            break
+        }
+
+        if goalEasy.keys.first == topCard.content && (5 - goalEasy.values.first!) == topCard.figuresNo {
+            return true
+        }
+        if goalEasy.keys.first == topCard.content {
+            // Add a mistake_rate probability of returning true when the flipped card has the same kind of fruit with the expectation but there are not five fruits for this kind of fruit
+            if Int.random(in: 0..<100) < mistake_rate {
+                return true
+            }
+        }
+
+        return false
     }
+
+
     
     // TODO: Update bellPressed
     mutating func pressBell(by player: String) -> Bool {

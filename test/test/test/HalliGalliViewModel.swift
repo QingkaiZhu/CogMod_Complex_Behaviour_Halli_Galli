@@ -17,6 +17,7 @@ class HGViewModel: ObservableObject{
     @Published var isPlayerCardTappable: Bool = true
     @Published var gameOver: Bool = false
     @Published var winner: String = ""
+    @Published var isHardLevel: Bool = false
     
     private var startTime = Date()
     private var timer: Timer?

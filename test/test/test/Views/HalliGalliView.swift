@@ -61,15 +61,28 @@ struct CardBack: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 15)
-                .stroke(Color("blue3").opacity(0.7), lineWidth: 3)
+                .stroke(Color("blue3").opacity(0.7), lineWidth: 5)
                 .frame(width: width, height: height)
             RoundedRectangle(cornerRadius: 15)
                 .fill(Color("blue2").opacity(0.2))
                 .frame(width: width, height: height)
                 .shadow(color: .gray, radius: 2, x: 0, y: 0)
+            Image(systemName: "seal.fill")
+                .resizable()
+                .frame(width:20, height:20)
+                .foregroundColor(Color("blue3").opacity(0.7))
+            Image(systemName: "seal")
+                .resizable()
+                .frame(width:40, height:40)
+                .foregroundColor(.white)
+            Image(systemName: "seal")
+                .resizable()
+                .frame(width:80, height:80)
+                .foregroundColor(Color("blue3").opacity(0.7))
         }
     }
 }
+
 
 
 
@@ -131,10 +144,12 @@ struct ContentView: View {
         return VStack {
             Text("\(player.capitalized)")
                 //.font(.headline)
-                .foregroundColor(.red)
+                .fontWeight(.bold)
+                .foregroundColor(Color("blue3"))
             Text("\(score)")
                 //.font(.largeTitle)
-                .foregroundColor(.red)
+                .fontWeight(.bold)
+                .foregroundColor(Color("blue3"))
         }
     }
     
@@ -177,64 +192,55 @@ struct ContentView: View {
                     }
                     Spacer()
                 }
-                Spacer()
                 scoreDisplay(player: "model2")
-                ZStack{
-                    CardView(player: "model2", getInfo:
-                                game.getCardInfo)
-                }
+                CardView(player: "model2", getInfo:game.getCardInfo)
                 HStack{
                     Spacer()
                     scoreDisplay(player: "model1")
-                    ZStack{
-                        CardView(player: "model1", getInfo: game.getCardInfo)
-                    }
-                    Spacer()
-                    ZStack{
-                        CardView(player: "model3", getInfo: game.getCardInfo)
-                    }
+                    CardView(player: "model1", getInfo: game.getCardInfo)
+                    CardView(player: "model3", getInfo: game.getCardInfo)
                     scoreDisplay(player: "model3")
                     Spacer()
                 }
-                ZStack{
-                    CardView(player: "player", getInfo: game.getCardInfo)
-                }.onTapGesture {
+                CardView(player: "player", getInfo: game.getCardInfo)
+                .onTapGesture {
                     if game.isPlayerCardTappable {
                         game.flip(cardOf: "player")
                         game.flipCardsAutomatically()
                                         }
                 }
                 scoreDisplay(player: "player")
-                Button{
-                    let isCorrect = game.pressBell("player")
-                    if isCorrect {
-                        showPartyHorn = true
-                    } else {
-                        showWrongPress = true
-                    }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                        showPartyHorn = false
-                        showWrongPress = false
-                    }
-                } label: {
-                    Image("bell_2")
-                        .resizable()
-                        .frame(width: 180, height: 170)
-                }
-                // TODO: Adjustment needed
-                if showPartyHorn {
-                    Image("party_horn")
-                        .resizable()
-                        .frame(width: 180, height: 170)
-                        .offset(x: 0, y: -50)
-                }
-                
-                if showWrongPress {
-                    Image("wrongpress")
-                        .resizable()
-                        .frame(width: 180, height: 170)
-                        .offset(x: 0, y: -50)
-                }
+                ZStack{
+                                    if showPartyHorn {
+                                        Image("party_horn")
+                                            .resizable()
+                                            .frame(width: 180, height: 170)
+                                            .offset(x: 0, y: -200)
+                                    }
+                                    
+                                    if showWrongPress {
+                                        Image("wrongpress")
+                                            .resizable()
+                                            .frame(width: 180, height: 170)
+                                            .offset(x: 0, y: -200)
+                                    }
+                                    Button{
+                                        let isCorrect = game.pressBell("player")
+                                        if isCorrect {
+                                            showPartyHorn = true
+                                        } else {
+                                            showWrongPress = true
+                                        }
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                                            showPartyHorn = false
+                                            showWrongPress = false
+                                        }
+                                    } label: {
+                                        Image("bell_2")
+                                            .resizable()
+                                            .frame(width: 180, height: 170)
+                                    }
+                                }
             }
             if showCountdown {
                 VStack {

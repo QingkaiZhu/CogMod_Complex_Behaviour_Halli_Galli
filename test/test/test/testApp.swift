@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct testApp: App {
+    @State private var isHardLevel: Bool = false
+
     var body: some Scene {
         WindowGroup {
-            StartView()
+            StartView(isHardLevel: $isHardLevel)
         }
     }
 }
+

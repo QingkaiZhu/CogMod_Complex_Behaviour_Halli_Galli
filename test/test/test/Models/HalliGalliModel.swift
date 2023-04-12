@@ -34,6 +34,9 @@ struct HGModel{
     var allActiveCards: [Card] = []
     var hardStrategyValid: Bool = false
     var winner: String = ""
+    var rt_advantages: Double = 0.5 // Default value
+    var flip_interval: Double = 2.0 // Default value
+
 
 //    var goalCard: Card
 //    var goalCurrentSum: Int

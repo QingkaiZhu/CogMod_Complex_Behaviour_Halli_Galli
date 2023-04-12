@@ -138,6 +138,19 @@ struct ContentView: View {
         }
     }
     
+    func setDifficulty(isHardLevel: Bool) {
+        if isHardLevel {
+            // Set the rt_advantages and flip_interval values for the hard level
+            game.model.rt_advantages = 0.5 // The values for the hard level
+            game.model.flip_interval = 2 // The values for the hard level
+        } else {
+            // Set the rt_advantages and flip_interval values for the easy level
+            game.model.rt_advantages = 0.3 // The values for the easy level
+            game.model.flip_interval = 3 // The values for the easy level
+        }
+    }
+
+    
     var body: some View{
         ZStack{
             Color("blue0").ignoresSafeArea()

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct StartView: View {
     @StateObject var viewModel = HGViewModel()
+    @Binding var isHardLevel: Bool
     
     var body: some View {
         ZStack {
@@ -22,8 +23,13 @@ struct StartView: View {
                     Text("Halli Galli")
                         .font(.largeTitle)
                         .fontWeight(.bold)
-                        .foregroundColor(.white)
+                        .foregroundColor(.yellow)
                     Spacer()
+                    // Add a toggle for the user to change the isHardLevel setting
+                    Toggle(isOn: $isHardLevel) {
+                        Text("Hard Level")
+                            .font(.headline)
+                    }
                     Button(action: {
                         viewModel.showHGView = true
                     }) {
@@ -35,6 +41,7 @@ struct StartView: View {
                             .background(Color.green)
                             .cornerRadius(10)
                     }
+                    .padding()
                     Spacer()
                 }
             }
@@ -43,8 +50,11 @@ struct StartView: View {
 }
 
 struct StartView_Previews: PreviewProvider {
+    @State private static var isHardLevel = false
+    
     static var previews: some View {
-        StartView()
+        StartView(isHardLevel: $isHardLevel)
     }
 }
+
 

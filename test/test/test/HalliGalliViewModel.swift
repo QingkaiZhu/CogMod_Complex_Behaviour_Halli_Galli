@@ -137,16 +137,16 @@ class HGViewModel: ObservableObject{
     
     func getScore(for player:String) -> Int{
         if (player == "player"){
-            return model.decks.playerCards.count
+            return model.realplayer.score
         }
         else if (player == "model1"){
-            return model.decks.modelCards1.count
+            return model.m1.score
         }
         else if (player == "model2"){
-            return model.decks.modelCards2.count
+            return model.m2.score
         }
         else{
-            return model.decks.modelCards3.count
+            return model.m3.score
         }
     }
 }

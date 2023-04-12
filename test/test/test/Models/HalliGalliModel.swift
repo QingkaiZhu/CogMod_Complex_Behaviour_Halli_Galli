@@ -46,6 +46,7 @@ struct HGModel{
     var m1 = modelPlayer("model1")
     var m2 = modelPlayer("model2")
     var m3 = modelPlayer("model3")
+    var realplayer = humanPlayer("player")
     
     // The game will starts with the real player
     var playerInTurn: String = "player"
@@ -342,7 +343,6 @@ struct HGModel{
 
 
     
-    // TODO: Update bellPressed
     mutating func pressBell(by player: String) -> Bool {
         var correctPress:Bool = false// Declaring flag for correct press
         var sumPerClass:Dictionary = ["a" : 0, "b" : 0, "c" : 0, "d" : 0]//Declaring dict for computing sums
@@ -500,6 +500,11 @@ struct HGModel{
                 playerInTurn = "model3"
             }
         }
+        // Update the score
+        realplayer.score = decks.playerCards.count
+        m1.score = decks.modelCards1.count
+        m2.score = decks.modelCards2.count
+        m3.score = decks.modelCards3.count
         return correctPress
     }
     

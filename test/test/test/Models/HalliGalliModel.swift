@@ -291,6 +291,7 @@ struct HGModel{
     
     //
     mutating func pressDecision(for player: String, isHardLevel: Bool) -> Bool {
+        var decision: Bool = false
         guard let topCard = getTopCard(for: playerInTurn) else {
             return false
         }
@@ -310,7 +311,7 @@ struct HGModel{
             }
 
             if !goalHard.isEmpty && goalHard.keys.first != topCard.content {
-                return true
+                decision = true
             }
         }
 
@@ -329,13 +330,13 @@ struct HGModel{
         
         // Check the easy/simple strategy
         if goalEasy.keys.first == topCard.content && (5 - goalEasy.values.first!) == topCard.figuresNo {
-            return true
+            decision = true
         }
         // Probability to make a mistak when the simple strategy is partly right
         if goalEasy.keys.first == topCard.content {
             // Add a mistake_rate probability of returning true when the flipped card has the same kind of fruit with the expectation but there are not five fruits for this kind of fruit
             if Int.random(in: 0..<100) < mistake_rate {
-                return true
+                decision = true
             }
         }
         
@@ -343,17 +344,17 @@ struct HGModel{
         getActiveCards()
         var sumPerClass:Dictionary = ["a" : 0, "b" : 0, "c" : 0, "d" : 0]//Declaring dict for computing sums
         // Computing the sums for all the Classes/Figures present in the priorActiveCards
-        for card in priorActiveCards{
+        for card in allActiveCards{
             sumPerClass[card.figureClass]! += card.figuresNo
         }
         // Get the card whose fruit number equals to 5
-        for card in priorActiveCards{
+        for card in allActiveCards{
             if card.figuresNo == 5{
-                return true
+                decision = true
             }
         }
         
-        return false
+        return decision
     }
 
 

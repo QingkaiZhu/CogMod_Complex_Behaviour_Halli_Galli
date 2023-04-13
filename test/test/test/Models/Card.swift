@@ -86,11 +86,11 @@ func splitDeck(deck: CardDeck, numberOfPlayers: Int) -> (Array<Card>, Array<Card
     
     let cardsPerPlayer = shuffledCards.count / numberOfPlayers
     // dividing total number of cards to no. players and adding that many cards to the player deck
-    var playerDeck = Array(shuffledCards[0..<cardsPerPlayer])
+    let playerDeck = Array(shuffledCards[0..<cardsPerPlayer])
     // storing the rest of the cards into the modelDeck
-    var modelDeck1 = Array(shuffledCards[cardsPerPlayer..<(2 * cardsPerPlayer)])
-    var modelDeck2 = Array(shuffledCards[(2 * cardsPerPlayer)..<(3 * cardsPerPlayer)])
-    var modelDeck3 = Array(shuffledCards[(3 * cardsPerPlayer)..<(shuffledCards.count - (shuffledCards.count % numberOfPlayers))])
+    let modelDeck1 = Array(shuffledCards[cardsPerPlayer..<(2 * cardsPerPlayer)])
+    let modelDeck2 = Array(shuffledCards[(2 * cardsPerPlayer)..<(3 * cardsPerPlayer)])
+    let modelDeck3 = Array(shuffledCards[(3 * cardsPerPlayer)..<(shuffledCards.count - (shuffledCards.count % numberOfPlayers))])
     
     print("cards splited")
     return (playerDeck, modelDeck1, modelDeck2, modelDeck3)

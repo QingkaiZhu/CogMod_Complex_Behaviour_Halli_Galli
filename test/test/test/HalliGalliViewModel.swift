@@ -142,7 +142,7 @@ class HGViewModel: ObservableObject{
                     self.model.computeRt(for: "model1", isHardLevel: self.isHardLevel)
                     self.model.computeRt(for: "model2", isHardLevel: self.isHardLevel)
                     self.model.computeRt(for: "model3", isHardLevel: self.isHardLevel)
-                    let isModelPressed = self.modelPress()
+                    _ = self.modelPress()
                     // TODO: if isModelPressed stop the flipping
                     //            self.isBellTappable = false
                 }
@@ -157,7 +157,7 @@ class HGViewModel: ObservableObject{
                             self.model.computeRt(for: "model1", isHardLevel: self.isHardLevel)
                             self.model.computeRt(for: "model2", isHardLevel: self.isHardLevel)
                             self.model.computeRt(for: "model3", isHardLevel: self.isHardLevel)
-                            let isModelPressed = self.modelPress()
+                            _ = self.modelPress()
                             //                self.isBellTappable = false
                         }
                         if !self.gameOver{
@@ -171,7 +171,7 @@ class HGViewModel: ObservableObject{
                                     self.model.computeRt(for: "model1", isHardLevel: self.isHardLevel)
                                     self.model.computeRt(for: "model2", isHardLevel: self.isHardLevel)
                                     self.model.computeRt(for: "model3", isHardLevel: self.isHardLevel)
-                                    let isModelPressed = self.modelPress()
+                                    _ = self.modelPress()
                                     //                    self.isBellTappable = false
                                 }
                                 self.isPlayerCardTappable = true

@@ -235,7 +235,7 @@ struct ContentView: View {
                                 game.model.computeRt(for: "model1", isHardLevel: game.isHardLevel)
                                 game.model.computeRt(for: "model2", isHardLevel: game.isHardLevel)
                                 game.model.computeRt(for: "model3", isHardLevel: game.isHardLevel)
-                                let isModelPressed = game.modelPress()
+                                _ = game.modelPress()
                                 game.flipCardsAutomatically()
                             }
                         }

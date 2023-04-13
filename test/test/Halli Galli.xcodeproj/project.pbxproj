@@ -75,14 +75,14 @@
 		DE6E8D80299D20E500A388DA /* Declarative.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Declarative.swift; sourceTree = "<group>"; };
 		DE6E8D81299D20E500A388DA /* Chunk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Chunk.swift; sourceTree = "<group>"; };
 		DE6E8D82299D20E500A388DA /* Production.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Production.swift; sourceTree = "<group>"; };
-		DEF8DEFD299CE723003A7998 /* test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = test.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DEF8DEFD299CE723003A7998 /* Halli Galli.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Halli Galli.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEF8DF00299CE723003A7998 /* testApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testApp.swift; sourceTree = "<group>"; };
 		DEF8DF02299CE723003A7998 /* HalliGalliView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalliGalliView.swift; sourceTree = "<group>"; };
 		DEF8DF04299CE726003A7998 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DEF8DF07299CE726003A7998 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		DEF8DF0D299CE726003A7998 /* testTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = testTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DEF8DF0D299CE726003A7998 /* Halli GalliTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Halli GalliTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEF8DF11299CE726003A7998 /* testTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testTests.swift; sourceTree = "<group>"; };
-		DEF8DF17299CE726003A7998 /* testUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = testUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DEF8DF17299CE726003A7998 /* Halli GalliUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Halli GalliUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEF8DF1B299CE726003A7998 /* testUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testUITests.swift; sourceTree = "<group>"; };
 		DEF8DF1D299CE726003A7998 /* testUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		FE27DCAA29C48F93005475EE /* Players.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Players.swift; sourceTree = "<group>"; };
@@ -168,9 +168,9 @@
 		DEF8DEFE299CE723003A7998 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DEF8DEFD299CE723003A7998 /* test.app */,
-				DEF8DF0D299CE726003A7998 /* testTests.xctest */,
-				DEF8DF17299CE726003A7998 /* testUITests.xctest */,
+				DEF8DEFD299CE723003A7998 /* Halli Galli.app */,
+				DEF8DF0D299CE726003A7998 /* Halli GalliTests.xctest */,
+				DEF8DF17299CE726003A7998 /* Halli GalliUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -217,9 +217,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		DEF8DEFC299CE723003A7998 /* test */ = {
+		DEF8DEFC299CE723003A7998 /* Halli Galli */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DEF8DF21299CE726003A7998 /* Build configuration list for PBXNativeTarget "test" */;
+			buildConfigurationList = DEF8DF21299CE726003A7998 /* Build configuration list for PBXNativeTarget "Halli Galli" */;
 			buildPhases = (
 				DEF8DEF9299CE723003A7998 /* Sources */,
 				DEF8DEFA299CE723003A7998 /* Frameworks */,
@@ -229,14 +229,14 @@
 			);
 			dependencies = (
 			);
-			name = test;
+			name = "Halli Galli";
 			productName = test;
-			productReference = DEF8DEFD299CE723003A7998 /* test.app */;
+			productReference = DEF8DEFD299CE723003A7998 /* Halli Galli.app */;
 			productType = "com.apple.product-type.application";
 		};
-		DEF8DF0C299CE726003A7998 /* testTests */ = {
+		DEF8DF0C299CE726003A7998 /* Halli GalliTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DEF8DF24299CE726003A7998 /* Build configuration list for PBXNativeTarget "testTests" */;
+			buildConfigurationList = DEF8DF24299CE726003A7998 /* Build configuration list for PBXNativeTarget "Halli GalliTests" */;
 			buildPhases = (
 				DEF8DF09299CE726003A7998 /* Sources */,
 				DEF8DF0A299CE726003A7998 /* Frameworks */,
@@ -247,14 +247,14 @@
 			dependencies = (
 				DEF8DF0F299CE726003A7998 /* PBXTargetDependency */,
 			);
-			name = testTests;
+			name = "Halli GalliTests";
 			productName = testTests;
-			productReference = DEF8DF0D299CE726003A7998 /* testTests.xctest */;
+			productReference = DEF8DF0D299CE726003A7998 /* Halli GalliTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		DEF8DF16299CE726003A7998 /* testUITests */ = {
+		DEF8DF16299CE726003A7998 /* Halli GalliUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DEF8DF27299CE726003A7998 /* Build configuration list for PBXNativeTarget "testUITests" */;
+			buildConfigurationList = DEF8DF27299CE726003A7998 /* Build configuration list for PBXNativeTarget "Halli GalliUITests" */;
 			buildPhases = (
 				DEF8DF13299CE726003A7998 /* Sources */,
 				DEF8DF14299CE726003A7998 /* Frameworks */,
@@ -265,9 +265,9 @@
 			dependencies = (
 				DEF8DF19299CE726003A7998 /* PBXTargetDependency */,
 			);
-			name = testUITests;
+			name = "Halli GalliUITests";
 			productName = testUITests;
-			productReference = DEF8DF17299CE726003A7998 /* testUITests.xctest */;
+			productReference = DEF8DF17299CE726003A7998 /* Halli GalliUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -293,7 +293,7 @@
 					};
 				};
 			};
-			buildConfigurationList = DEF8DEF8299CE723003A7998 /* Build configuration list for PBXProject "test" */;
+			buildConfigurationList = DEF8DEF8299CE723003A7998 /* Build configuration list for PBXProject "Halli Galli" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -306,9 +306,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				DEF8DEFC299CE723003A7998 /* test */,
-				DEF8DF0C299CE726003A7998 /* testTests */,
-				DEF8DF16299CE726003A7998 /* testUITests */,
+				DEF8DEFC299CE723003A7998 /* Halli Galli */,
+				DEF8DF0C299CE726003A7998 /* Halli GalliTests */,
+				DEF8DF16299CE726003A7998 /* Halli GalliUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -392,12 +392,12 @@
 /* Begin PBXTargetDependency section */
 		DEF8DF0F299CE726003A7998 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DEF8DEFC299CE723003A7998 /* test */;
+			target = DEF8DEFC299CE723003A7998 /* Halli Galli */;
 			targetProxy = DEF8DF0E299CE726003A7998 /* PBXContainerItemProxy */;
 		};
 		DEF8DF19299CE726003A7998 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DEF8DEFC299CE723003A7998 /* test */;
+			target = DEF8DEFC299CE723003A7998 /* Halli Galli */;
 			targetProxy = DEF8DF18299CE726003A7998 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -592,7 +592,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/test.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/test";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Halli Galli.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Halli Galli";
 			};
 			name = Debug;
 		};
@@ -611,7 +611,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/test.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/test";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Halli Galli.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Halli Galli";
 			};
 			name = Release;
 		};
@@ -652,7 +652,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		DEF8DEF8299CE723003A7998 /* Build configuration list for PBXProject "test" */ = {
+		DEF8DEF8299CE723003A7998 /* Build configuration list for PBXProject "Halli Galli" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DEF8DF1F299CE726003A7998 /* Debug */,
@@ -661,7 +661,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DEF8DF21299CE726003A7998 /* Build configuration list for PBXNativeTarget "test" */ = {
+		DEF8DF21299CE726003A7998 /* Build configuration list for PBXNativeTarget "Halli Galli" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DEF8DF22299CE726003A7998 /* Debug */,
@@ -670,7 +670,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DEF8DF24299CE726003A7998 /* Build configuration list for PBXNativeTarget "testTests" */ = {
+		DEF8DF24299CE726003A7998 /* Build configuration list for PBXNativeTarget "Halli GalliTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DEF8DF25299CE726003A7998 /* Debug */,
@@ -679,7 +679,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DEF8DF27299CE726003A7998 /* Build configuration list for PBXNativeTarget "testUITests" */ = {
+		DEF8DF27299CE726003A7998 /* Build configuration list for PBXNativeTarget "Halli GalliUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DEF8DF28299CE726003A7998 /* Debug */,

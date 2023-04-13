@@ -191,6 +191,7 @@ class HGViewModel: ObservableObject{
     
     // If reset is called the model is intialized again from the start
     func reset(){
+        model = HGModel()
         model.dealCards()
         objectWillChange.send()
     }

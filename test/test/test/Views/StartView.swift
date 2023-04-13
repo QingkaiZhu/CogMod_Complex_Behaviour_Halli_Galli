@@ -46,6 +46,7 @@ struct StartView: View {
                     }
                     .padding([.leading,.trailing], 75)
                     Button(action: {
+                        viewModel.reset()
                         viewModel.showHGView = true
                     }){
                         Text("Start Game")

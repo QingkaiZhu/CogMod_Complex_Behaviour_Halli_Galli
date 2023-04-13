@@ -96,6 +96,7 @@ struct ContentView: View {
     // Add state variables for displaying images
     @State private var showPartyHorn = false
     @State private var showWrongPress = false
+    @State var animaDegree = 0.0
     
     // TODO: added width and height to card view so it might be redundant
     let width:CGFloat = 120
@@ -207,8 +208,11 @@ struct ContentView: View {
                     Spacer()
                 }
                 CardView(player: "player", getInfo: game.getCardInfo)
+                .rotation3DEffect(.degrees(animaDegree), axis: (x: 0, y: 1, z: 0.2))
                 .onTapGesture {
                     if game.isPlayerCardTappable {
+                        withAnimation(.interpolatingSpring(stiffness: 20, damping: 5)) {
+                            self.animaDegree += 360}
                         game.isBellTappable = true
                         game.model.anticipationAnalysisHard()
                         game.model.anticipationAnalysisEasy()

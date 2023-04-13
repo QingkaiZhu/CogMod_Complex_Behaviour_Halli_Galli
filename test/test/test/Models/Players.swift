@@ -19,6 +19,8 @@ struct modelPlayer {
     var goalEasy: Dictionary = [String:Int]()
     // goal for the hard strategy
     var goalHard: Dictionary = [String:Int]()
+    // reaction time to press the bell
+    var rt: Double = 3.5
     var mood = Emotion.neutral
     var actState = actionState.idle
     // The ACT-R model
@@ -65,18 +67,6 @@ struct modelPlayer {
     
     init(_ modelName: String) {
         id = modelName
-    }
-    
-    /// run the model until someone press the bell
-    /// If it's the begining of the game or someone just won the last round
-    mutating func runFromBegining(turnOf playerInTurn: String) {
-        // Basic strategy: set the fruit class of the newly flipped card as goal and check if there are five of this kind of fruit
-        
-    }
-    /// If some one just press the bell wrongly, there are already four face-up cards on the deck,
-    /// but none of the four fruit class has five fruits,
-    mutating func runFromInteruption(turnOf playerInTurn: String) {
-        
     }
     
     // reset the model player

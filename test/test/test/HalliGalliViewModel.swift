@@ -15,6 +15,7 @@ class HGViewModel: ObservableObject{
     @Published var model: HGModel
     
     @Published var isPlayerCardTappable: Bool = true
+    @Published var isBellTappable: Bool = true
     @Published var gameOver: Bool = false
     @Published var winner: String = ""
     @Published var isHardLevel: Bool = false
@@ -32,19 +33,19 @@ class HGViewModel: ObservableObject{
 
     func getCardInfo(for player: String) -> (Card?, Bool){
         if ((player == "player") && !model.decks.playerCards.isEmpty){
-            print("Getting card from player deck")
+//            print("Getting card from player deck")
             return (model.decks.playerCards[0], model.decks.playerHasFlippedCard)
         }
         else if ((player == "model1") && !model.decks.modelCards1.isEmpty){
-            print("Getting card from model1's Deck")
+//            print("Getting card from model1's Deck")
             return (model.decks.modelCards1[0], model.decks.modelHasFlippedCard1)
         }
         else if ((player == "model2") && !model.decks.modelCards2.isEmpty){
-            print("Getting card from model2's Deck")
+//            print("Getting card from model2's Deck")
             return (model.decks.modelCards2[0], model.decks.modelHasFlippedCard2)
         }
         else if ((player == "model3") && !model.decks.modelCards3.isEmpty){
-            print("Getting card from model3's Deck")
+//            print("Getting card from model3's Deck")
             return (model.decks.modelCards3[0], model.decks.modelHasFlippedCard3)
         }
         else {
@@ -110,12 +111,40 @@ class HGViewModel: ObservableObject{
     
     func flipCardsAutomatically() {
         isPlayerCardTappable = false
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0 + Double.random(in: 0..<1)) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0 + Double.random(in: 0..<1)) {
+            self.model.playerInTurn = "model1"
+            self.isBellTappable = true
+            self.model.anticipationAnalysisHard()
+            self.model.anticipationAnalysisEasy()
             self.flip(cardOf: "model1")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0 + Double.random(in: 0..<1)) {
+            self.model.computeRt(for: "model1", isHardLevel: self.isHardLevel)
+            self.model.computeRt(for: "model2", isHardLevel: self.isHardLevel)
+            self.model.computeRt(for: "model3", isHardLevel: self.isHardLevel)
+            let isModelPressed = self.modelPress()
+            // TODO: if isModelPressed stop the flipping
+//            self.isBellTappable = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0 + Double.random(in: 0..<1)) {
+                self.model.playerInTurn = "model2"
+                self.isBellTappable = true
+                self.model.anticipationAnalysisHard()
+                self.model.anticipationAnalysisEasy()
                 self.flip(cardOf: "model2")
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0 + Double.random(in: 0..<1)) {
+                self.model.computeRt(for: "model1", isHardLevel: self.isHardLevel)
+                self.model.computeRt(for: "model2", isHardLevel: self.isHardLevel)
+                self.model.computeRt(for: "model3", isHardLevel: self.isHardLevel)
+                let isModelPressed = self.modelPress()
+//                self.isBellTappable = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3.0 + Double.random(in: 0..<1)) {
+                    self.model.playerInTurn = "model3"
+                    self.isBellTappable = true
+                    self.model.anticipationAnalysisHard()
+                    self.model.anticipationAnalysisEasy()
                     self.flip(cardOf: "model3")
+                    self.model.computeRt(for: "model1", isHardLevel: self.isHardLevel)
+                    self.model.computeRt(for: "model2", isHardLevel: self.isHardLevel)
+                    self.model.computeRt(for: "model3", isHardLevel: self.isHardLevel)
+                    let isModelPressed = self.modelPress()
+//                    self.isBellTappable = false
                     self.isPlayerCardTappable = true
                 }
             }
@@ -128,6 +157,37 @@ class HGViewModel: ObservableObject{
         objectWillChange.send()
         return isCorrect
     }
+    
+    func modelPress() -> Bool {
+        let rtValues = [
+            ("model1", model.m1.rt),
+            ("model2", model.m2.rt),
+            ("model3", model.m3.rt)
+        ]
+        var isCorrect: Bool = false
+
+        if let minRtModel = rtValues.min(by: { $0.1 < $1.1 }) {
+            let modelName = minRtModel.0
+            let actionState = model.getActionState(for: modelName)
+            
+            if actionState == .press {
+                DispatchQueue.main.asyncAfter(deadline: .now() + minRtModel.1) {
+                    if self.isBellTappable{
+                        self.isBellTappable = false
+                        isCorrect = self.pressBell(modelName)
+                        print("\(modelName) pressed the bell by a \(isCorrect) decision")
+                    }
+                }
+            }
+        }
+        
+        model.m1.actState = .idle
+        model.m2.actState = .idle
+        model.m3.actState = .idle
+        return isCorrect
+    }
+
+
     
     // If reset is called the model is intialized again from the start
     func reset(){

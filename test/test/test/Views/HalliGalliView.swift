@@ -156,13 +156,15 @@ struct ContentView: View {
     func setDifficulty(isHardLevel: Bool) {
         if isHardLevel {
             // Set the rt_advantages and flip_interval values for the hard level
-            game.model.rt_advantages = 0.5 // The values for the hard level
-            game.model.flip_interval = 2 // The values for the hard level
+            game.model.rt_easystrategy = 1.7 // The values for the hard level
+            game.model.rt_generalstrategy = 2.2
+            game.model.flip_interval = 3 // The values for the hard level
             game.model.mistake_rate = 30
         } else {
             // Set the rt_advantages and flip_interval values for the easy level
-            game.model.rt_advantages = 0.3 // The values for the easy level
-            game.model.flip_interval = 3 // The values for the easy level
+            game.model.rt_easystrategy = 2 // The values for the easy level
+            game.model.rt_generalstrategy = 3
+            game.model.flip_interval = 4 // The values for the easy level
             game.model.mistake_rate = 50
         }
     }
@@ -207,42 +209,53 @@ struct ContentView: View {
                 CardView(player: "player", getInfo: game.getCardInfo)
                 .onTapGesture {
                     if game.isPlayerCardTappable {
+                        game.isBellTappable = true
+                        game.model.anticipationAnalysisHard()
+                        game.model.anticipationAnalysisEasy()
                         game.flip(cardOf: "player")
+                        game.model.computeRt(for: "model1", isHardLevel: game.isHardLevel)
+                        game.model.computeRt(for: "model2", isHardLevel: game.isHardLevel)
+                        game.model.computeRt(for: "model3", isHardLevel: game.isHardLevel)
+                        let isModelPressed = game.modelPress()
                         game.flipCardsAutomatically()
                                         }
                 }
                 scoreDisplay(player: "player")
                 ZStack{
-                                    if showPartyHorn {
-                                        Image("party_horn")
-                                            .resizable()
-                                            .frame(width: 180, height: 170)
-                                            .offset(x: 0, y: -200)
-                                    }
-                                    
-                                    if showWrongPress {
-                                        Image("wrongpress")
-                                            .resizable()
-                                            .frame(width: 180, height: 170)
-                                            .offset(x: 0, y: -200)
-                                    }
-                                    Button{
-                                        let isCorrect = game.pressBell("player")
-                                        if isCorrect {
-                                            showPartyHorn = true
-                                        } else {
-                                            showWrongPress = true
-                                        }
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                                            showPartyHorn = false
-                                            showWrongPress = false
-                                        }
-                                    } label: {
-                                        Image("bell_2")
-                                            .resizable()
-                                            .frame(width: 180, height: 170)
-                                    }
-                                }
+                    if showPartyHorn {
+                        Image("party_horn")
+                            .resizable()
+                            .frame(width: 180, height: 170)
+                            .offset(x: 0, y: -200)
+                    }
+                    
+                    if showWrongPress {
+                        Image("wrongpress")
+                            .resizable()
+                            .frame(width: 180, height: 170)
+                            .offset(x: 0, y: -200)
+                    }
+                    Button{
+                        if game.isBellTappable{
+                            game.isBellTappable = false
+                            let isCorrect = game.pressBell("player")
+                            print("player pressed the bell by a \(isCorrect) decision")
+                            if isCorrect {
+                                showPartyHorn = true
+                            } else {
+                                showWrongPress = true
+                            }
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                                showPartyHorn = false
+                                showWrongPress = false
+                            }
+                        }
+                    } label: {
+                        Image("bell_2")
+                            .resizable()
+                            .frame(width: 180, height: 170)
+                    }
+                }
             }
             if showCountdown {
                 VStack {

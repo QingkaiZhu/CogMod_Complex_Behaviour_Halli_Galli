@@ -33,9 +33,11 @@ struct HGModel{
     var priorActiveCards: [Card] = []
     var allActiveCards: [Card] = []
     var hardStrategyValid: Bool = false
+    var easyStrategyValid: Bool = false
     var winner: String = ""
-    var rt_advantages: Double = 0.5
-    var flip_interval: Double = 2.0
+    var rt_easystrategy: Double = 1.7
+    var rt_generalstrategy: Double = 2.2
+    var flip_interval: Double = 3.5
     var mistake_rate: Int = 50 // A probability of 50% the model will press the bell even there are not five fruits
 
 
@@ -152,6 +154,7 @@ struct HGModel{
             if card.figureClass == sumPerClass.first?.key{
                 // Update the goal
                 updateGoalEasy(fromCard: card, withNum: sumPerClass.first!.value)
+                easyStrategyValid = true
             }
         }
     }
@@ -284,10 +287,6 @@ struct HGModel{
                 rewardCardsPool.append(decks.modelCards3.removeFirst())
             }
         }
-        
-        // TODO: Move this out of the func to make the model logic more clear
-        // updateGoal()
-        // let _ = isGameOver()
     }
     
     //
@@ -295,7 +294,7 @@ struct HGModel{
         guard let topCard = getTopCard(for: playerInTurn) else {
             return false
         }
-        
+        // Check the hard/complex strategy
         if isHardLevel {
             var goalHard: [String: Int] = [:]
 
@@ -327,17 +326,33 @@ struct HGModel{
         default:
             break
         }
-
+        
+        // Check the easy/simple strategy
         if goalEasy.keys.first == topCard.content && (5 - goalEasy.values.first!) == topCard.figuresNo {
             return true
         }
+        // Probability to make a mistak when the simple strategy is partly right
         if goalEasy.keys.first == topCard.content {
             // Add a mistake_rate probability of returning true when the flipped card has the same kind of fruit with the expectation but there are not five fruits for this kind of fruit
             if Int.random(in: 0..<100) < mistake_rate {
                 return true
             }
         }
-
+        
+        // Check the general strategy/without expectation
+        getActiveCards()
+        var sumPerClass:Dictionary = ["a" : 0, "b" : 0, "c" : 0, "d" : 0]//Declaring dict for computing sums
+        // Computing the sums for all the Classes/Figures present in the priorActiveCards
+        for card in priorActiveCards{
+            sumPerClass[card.figureClass]! += card.figuresNo
+        }
+        // Get the card whose fruit number equals to 5
+        for card in priorActiveCards{
+            if card.figuresNo == 5{
+                return true
+            }
+        }
+        
         return false
     }
 
@@ -507,6 +522,53 @@ struct HGModel{
         m3.score = decks.modelCards3.count
         return correctPress
     }
+    
+    // Compute the reaction time for a model player
+    mutating func computeRt(for player: String, isHardLevel: Bool) {
+        let shouldPress = pressDecision(for: player, isHardLevel: isHardLevel)
+        
+        if !shouldPress {
+            return
+        }
+        
+        var rt: Double
+        
+        if hardStrategyValid && isHardLevel {
+            rt = 1.0 + Double.random(in: 0..<1)
+        } else if easyStrategyValid && !isHardLevel {
+            rt = rt_easystrategy + Double.random(in: 0..<1)
+        } else {
+            rt = rt_generalstrategy + Double.random(in: 0..<1)
+        }
+        
+        switch player {
+        case "model1":
+            m1.rt = rt
+            m1.actState = .press
+        case "model2":
+            m2.rt = rt
+            m2.actState = .press
+        case "model3":
+            m3.rt = rt
+            m3.actState = .press
+        default:
+            break
+        }
+    }
+    
+    func getActionState(for player: String) -> modelPlayer.actionState {
+        switch player {
+        case "model1":
+            return m1.actState
+        case "model2":
+            return m2.actState
+        case "model3":
+            return m3.actState
+        default:
+            return .idle
+        }
+    }
+
     
     // Check if the game is over
     // TODO: make gameOver published and terminate the game if it's true

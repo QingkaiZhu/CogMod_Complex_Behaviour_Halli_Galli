@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		9BB1F4C529DDF0810051BE2C /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB1F4C429DDF0810051BE2C /* StartView.swift */; };
 		9BB4A47029E1FCA1008B81EA /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB4A46F29E1FCA1008B81EA /* Card.swift */; };
+		9BB567D129E5F34C0096A354 /* GameOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB567D029E5F34C0096A354 /* GameOverView.swift */; };
 		9BBA72B429C086140083EFB4 /* HalliGalliModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBA72B229C086140083EFB4 /* HalliGalliModel.swift */; };
 		DE6E8D6A299D1DB900A388DA /* HalliGalliViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6E8D69299D1DB900A388DA /* HalliGalliViewModel.swift */; };
 		DE6E8D83299D20E500A388DA /* SlotAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6E8D74299D20E500A388DA /* SlotAction.swift */; };
@@ -56,6 +57,7 @@
 /* Begin PBXFileReference section */
 		9BB1F4C429DDF0810051BE2C /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
 		9BB4A46F29E1FCA1008B81EA /* Card.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		9BB567D029E5F34C0096A354 /* GameOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverView.swift; sourceTree = "<group>"; };
 		9BBA72B229C086140083EFB4 /* HalliGalliModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HalliGalliModel.swift; sourceTree = "<group>"; };
 		DE6E8D69299D1DB900A388DA /* HalliGalliViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalliGalliViewModel.swift; sourceTree = "<group>"; };
 		DE6E8D74299D20E500A388DA /* SlotAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlotAction.swift; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 			children = (
 				9BB1F4C429DDF0810051BE2C /* StartView.swift */,
 				DEF8DF02299CE723003A7998 /* HalliGalliView.swift */,
+				9BB567D029E5F34C0096A354 /* GameOverView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -343,6 +346,7 @@
 			files = (
 				DE6E8D85299D20E500A388DA /* Model.swift in Sources */,
 				DE6E8D8A299D20E500A388DA /* Tokenizer.swift in Sources */,
+				9BB567D129E5F34C0096A354 /* GameOverView.swift in Sources */,
 				DE6E8D91299D20E500A388DA /* Production.swift in Sources */,
 				DE6E8D87299D20E500A388DA /* Instantiation.swift in Sources */,
 				DE6E8D8E299D20E500A388DA /* Parser.swift in Sources */,

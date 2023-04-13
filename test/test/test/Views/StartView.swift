@@ -9,6 +9,7 @@ import SwiftUI
 
 struct StartView: View {
     @StateObject var viewModel = HGViewModel()
+//    @Binding var isHardLevel: Bool
     
     var body: some View {
         ZStack {
@@ -17,34 +18,105 @@ struct StartView: View {
             if viewModel.showHGView {
                 ContentView(game: viewModel)
             } else {
+                ZStack {
+                    VStack{
+                        FruitAnime()
+                        FruitAnime()
+                        FruitAnime()
+                        FruitAnime()
+                        FruitAnime()
+                        FruitAnime()
+                        FruitAnime()
+                    }
                 VStack {
                     Spacer()
                     Text("Halli Galli")
-                        .font(.largeTitle)
+                        .font(.system(size: 48))
                         .fontWeight(.bold)
-                        .foregroundColor(.white)
+                        .foregroundColor(Color("blue3"))
                     Spacer()
+                    // Add a toggle for the user to change the isHardLevel setting
+                    Toggle(isOn: $viewModel.isHardLevel) {
+                        Text("Hard Level")
+                            .fontWeight(.bold)
+                            .font(.largeTitle)
+                            .foregroundColor(Color("red1"))
+                    }.onChange(of: viewModel.isHardLevel) { newValue in
+                        print("isHardLevel: \(newValue)")
+                    }
+                    .padding([.leading,.trailing], 75)
                     Button(action: {
                         viewModel.showHGView = true
-                    }) {
+                    }){
                         Text("Start Game")
                             .font(.title)
                             .fontWeight(.bold)
                             .foregroundColor(.white)
                             .padding()
-                            .background(Color.green)
+                            .background(Color("blue3"))
                             .cornerRadius(10)
                     }
+                    .padding()
                     Spacer()
-                }
+                }}
             }
         }
     }
 }
-
-struct StartView_Previews: PreviewProvider {
-    static var previews: some View {
-        StartView()
+struct FruitAnime: View {
+    @State var scale = 1.5
+    var body:some View {
+        HStack{
+            Spacer()
+            Image("orange_1")
+                .scaleEffect(scale)
+                .onAppear{
+                    let baseAnimation = Animation.easeInOut(duration: 1)
+                    let repeated = baseAnimation.repeatForever(autoreverses: true)
+                    withAnimation(repeated){
+                        scale=1
+                    }
+                }
+            Spacer()
+            Image("blueberry_1")
+                .scaleEffect(scale)
+                .onAppear{
+                    let baseAnimation = Animation.easeInOut(duration: 1)
+                    let repeated = baseAnimation.repeatForever(autoreverses: true)
+                    withAnimation(repeated){
+                        scale=1
+                        
+                    }
+                }
+            Spacer()
+            Image("apple_1")
+                .scaleEffect(scale)
+                .onAppear{
+                    let baseAnimation = Animation.easeInOut(duration: 1)
+                    let repeated = baseAnimation.repeatForever(autoreverses: true)
+                    withAnimation(repeated){
+                        scale=1
+                    }
+                }
+            Spacer()
+            Image("avocado_1")
+                .scaleEffect(scale)
+                .onAppear{
+                    let baseAnimation = Animation.easeInOut(duration: 1)
+                    let repeated = baseAnimation.repeatForever(autoreverses: true)
+                    withAnimation(repeated){
+                        scale=1
+                    }
+                }
+            
+        }
     }
 }
+struct StartView_Previews: PreviewProvider {
+    
+    static var previews: some View {
+        StartView(viewModel: HGViewModel())
+    }
+}
+
 

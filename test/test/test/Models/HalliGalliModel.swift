@@ -309,7 +309,7 @@ struct HGModel{
                 break
             }
 
-            if goalHard.keys.first != topCard.content {
+            if !goalHard.isEmpty && goalHard.keys.first != topCard.content {
                 return true
             }
         }
@@ -445,7 +445,7 @@ struct HGModel{
                 realplayer.mood = .happy
                 decks.playerCards.append(contentsOf: rewardCardsPool)
                 rewardCardsPool.removeAll()
-                playerInTurn = "player"
+//                playerInTurn = "player"
             }
         }
         else if (player == "model1"){
@@ -470,7 +470,7 @@ struct HGModel{
                 m1.mood = .happy
                 decks.modelCards1.append(contentsOf: rewardCardsPool)
                 rewardCardsPool.removeAll()
-                playerInTurn = "model1"
+//                playerInTurn = "model1"
             }
         }
         else if (player == "model2"){
@@ -495,7 +495,7 @@ struct HGModel{
                 m2.mood = .happy
                 decks.modelCards2.append(contentsOf: rewardCardsPool)
                 rewardCardsPool.removeAll()
-                playerInTurn = "model2"
+//                playerInTurn = "model2"
             }
         }
         else if (player == "model3"){
@@ -520,7 +520,7 @@ struct HGModel{
                 m3.mood = .happy
                 decks.modelCards3.append(contentsOf: rewardCardsPool)
                 rewardCardsPool.removeAll()
-                playerInTurn = "model3"
+//                playerInTurn = "model3"
             }
         }
         // Update the score
@@ -543,8 +543,10 @@ struct HGModel{
         
         if hardStrategyValid && isHardLevel {
             rt = 1.0 + Double.random(in: 0..<1)
+            hardStrategyValid = false
         } else if easyStrategyValid && !isHardLevel {
             rt = rt_easystrategy + Double.random(in: 0..<1)
+            hardStrategyValid = false
         } else {
             rt = rt_generalstrategy + Double.random(in: 0..<1)
         }

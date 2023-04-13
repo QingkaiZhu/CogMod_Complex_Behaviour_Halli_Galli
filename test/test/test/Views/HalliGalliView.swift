@@ -227,6 +227,7 @@ struct ContentView: View {
                             if game.isPlayerCardTappable {
                                 withAnimation(.interpolatingSpring(stiffness: 20, damping: 5)) {
                                     self.animaDegree += 360}
+                                game.model.playerInTurn = "player"
                                 game.isBellTappable = true
                                 game.model.anticipationAnalysisHard()
                                 game.model.anticipationAnalysisEasy()

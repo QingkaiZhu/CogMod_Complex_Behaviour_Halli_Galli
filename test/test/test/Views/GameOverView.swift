@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct GameOverView: View {
-    @EnvironmentObject var game: HGViewModel
+    
+    @StateObject var game: HGViewModel
 
     var body: some View {
         VStack {
@@ -17,6 +18,7 @@ struct GameOverView: View {
             Button(action: {
                 game.gameOver = false
                 game.model = HGModel()
+                ContentView(game: game)
             }, label: {
                 Text("Restart")
             })
@@ -26,6 +28,6 @@ struct GameOverView: View {
 
 struct GameOverView_Previews: PreviewProvider {
     static var previews: some View {
-        GameOverView()
+        GameOverView(game: HGViewModel())
     }
 }

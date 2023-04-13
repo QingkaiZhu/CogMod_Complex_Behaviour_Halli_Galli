@@ -22,30 +22,30 @@ class HGViewModel: ObservableObject{
     
     private var startTime = Date()
     private var timer: Timer?
-
+    
     // TODO: use objectWillChange.send() in functions to show the view that the model changes
     
     init() {
         model = HGModel()
-//        model.run()
-//        model.update()
+        //        model.run()
+        //        model.update()
     }
-
+    
     func getCardInfo(for player: String) -> (Card?, Bool){
         if ((player == "player") && !model.decks.playerCards.isEmpty){
-//            print("Getting card from player deck")
+            //            print("Getting card from player deck")
             return (model.decks.playerCards[0], model.decks.playerHasFlippedCard)
         }
         else if ((player == "model1") && !model.decks.modelCards1.isEmpty){
-//            print("Getting card from model1's Deck")
+            //            print("Getting card from model1's Deck")
             return (model.decks.modelCards1[0], model.decks.modelHasFlippedCard1)
         }
         else if ((player == "model2") && !model.decks.modelCards2.isEmpty){
-//            print("Getting card from model2's Deck")
+            //            print("Getting card from model2's Deck")
             return (model.decks.modelCards2[0], model.decks.modelHasFlippedCard2)
         }
         else if ((player == "model3") && !model.decks.modelCards3.isEmpty){
-//            print("Getting card from model3's Deck")
+            //            print("Getting card from model3's Deck")
             return (model.decks.modelCards3[0], model.decks.modelHasFlippedCard3)
         }
         else {
@@ -72,38 +72,38 @@ class HGViewModel: ObservableObject{
     func flip(cardOf player: String){
         switch player {
         case "model1":
-//            let modelStartTime = model.m1.model.time
-//            // TODO: customized actr forget rate, it seems we don't record the time for flipping
-//            model.m1.model.run()
-//            let modelRunTime = model.m1.model.time - modelStartTime
-//            model.m2.model.run(maxTime: modelRunTime)
-//            model.m3.model.run(maxTime: modelRunTime)
-//            timer = Timer.scheduledTimer(withTimeInterval: modelRunTime, repeats: false, block: {_ in self.model.flipFirstCard(ofPlayer: "model1")})
+            //            let modelStartTime = model.m1.model.time
+            //            // TODO: customized actr forget rate, it seems we don't record the time for flipping
+            //            model.m1.model.run()
+            //            let modelRunTime = model.m1.model.time - modelStartTime
+            //            model.m2.model.run(maxTime: modelRunTime)
+            //            model.m3.model.run(maxTime: modelRunTime)
+            //            timer = Timer.scheduledTimer(withTimeInterval: modelRunTime, repeats: false, block: {_ in self.model.flipFirstCard(ofPlayer: "model1")})
             model.flipFirstCard(ofPlayer: "model1")
         case "model2":
-//            let modelStartTime = model.m2.model.time
-//            model.m2.model.run()
-//            let modelRunTime = model.m2.model.time - modelStartTime
-//            model.m1.model.run(maxTime: modelRunTime)
-//            model.m3.model.run(maxTime: modelRunTime)
-//            timer = Timer.scheduledTimer(withTimeInterval: modelRunTime, repeats: false, block: {_ in self.model.flipFirstCard(ofPlayer: "model2")})
+            //            let modelStartTime = model.m2.model.time
+            //            model.m2.model.run()
+            //            let modelRunTime = model.m2.model.time - modelStartTime
+            //            model.m1.model.run(maxTime: modelRunTime)
+            //            model.m3.model.run(maxTime: modelRunTime)
+            //            timer = Timer.scheduledTimer(withTimeInterval: modelRunTime, repeats: false, block: {_ in self.model.flipFirstCard(ofPlayer: "model2")})
             model.flipFirstCard(ofPlayer: "model2")
         case "model3":
-//            let modelStartTime = model.m3.model.time
-//            model.m3.model.run()
-//            // TODO: do something
-//            let modelRunTime = model.m3.model.time - modelStartTime
-//            model.m1.model.run(maxTime: modelRunTime)
-//            model.m2.model.run(maxTime: modelRunTime)
-//            timer = Timer.scheduledTimer(withTimeInterval: modelRunTime, repeats: false, block: {_ in self.model.flipFirstCard(ofPlayer: "model3")})
+            //            let modelStartTime = model.m3.model.time
+            //            model.m3.model.run()
+            //            // TODO: do something
+            //            let modelRunTime = model.m3.model.time - modelStartTime
+            //            model.m1.model.run(maxTime: modelRunTime)
+            //            model.m2.model.run(maxTime: modelRunTime)
+            //            timer = Timer.scheduledTimer(withTimeInterval: modelRunTime, repeats: false, block: {_ in self.model.flipFirstCard(ofPlayer: "model3")})
             model.flipFirstCard(ofPlayer: "model3")
         default:
-//            startTime = Date()
-//            timer = Timer.scheduledTimer(withTimeInterval: 1.0 + Double.random(in: 0..<1), repeats: false, block: { _ in self.model.flipFirstCard(ofPlayer: "player")})
-//            let elapsedTime = Double(Date().timeIntervalSince(startTime))
-//            model.m1.model.run(maxTime: elapsedTime)
-//            model.m2.model.run(maxTime: elapsedTime)
-//            model.m3.model.run(maxTime: elapsedTime)
+            //            startTime = Date()
+            //            timer = Timer.scheduledTimer(withTimeInterval: 1.0 + Double.random(in: 0..<1), repeats: false, block: { _ in self.model.flipFirstCard(ofPlayer: "player")})
+            //            let elapsedTime = Double(Date().timeIntervalSince(startTime))
+            //            model.m1.model.run(maxTime: elapsedTime)
+            //            model.m2.model.run(maxTime: elapsedTime)
+            //            model.m3.model.run(maxTime: elapsedTime)
             model.flipFirstCard(ofPlayer: "player")
         }
         objectWillChange.send()
@@ -122,7 +122,7 @@ class HGViewModel: ObservableObject{
             self.model.computeRt(for: "model3", isHardLevel: self.isHardLevel)
             let isModelPressed = self.modelPress()
             // TODO: if isModelPressed stop the flipping
-//            self.isBellTappable = false
+            //            self.isBellTappable = false
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0 + Double.random(in: 0..<1)) {
                 self.model.playerInTurn = "model2"
                 self.isBellTappable = true
@@ -133,7 +133,7 @@ class HGViewModel: ObservableObject{
                 self.model.computeRt(for: "model2", isHardLevel: self.isHardLevel)
                 self.model.computeRt(for: "model3", isHardLevel: self.isHardLevel)
                 let isModelPressed = self.modelPress()
-//                self.isBellTappable = false
+                //                self.isBellTappable = false
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3.0 + Double.random(in: 0..<1)) {
                     self.model.playerInTurn = "model3"
                     self.isBellTappable = true
@@ -144,7 +144,7 @@ class HGViewModel: ObservableObject{
                     self.model.computeRt(for: "model2", isHardLevel: self.isHardLevel)
                     self.model.computeRt(for: "model3", isHardLevel: self.isHardLevel)
                     let isModelPressed = self.modelPress()
-//                    self.isBellTappable = false
+                    //                    self.isBellTappable = false
                     self.isPlayerCardTappable = true
                 }
             }
@@ -165,7 +165,7 @@ class HGViewModel: ObservableObject{
             ("model3", model.m3.rt)
         ]
         var isCorrect: Bool = false
-
+        
         if let minRtModel = rtValues.min(by: { $0.1 < $1.1 }) {
             let modelName = minRtModel.0
             let actionState = model.getActionState(for: modelName)
@@ -186,8 +186,8 @@ class HGViewModel: ObservableObject{
         model.m3.actState = .idle
         return isCorrect
     }
-
-
+    
+    
     
     // If reset is called the model is intialized again from the start
     func reset(){
@@ -208,6 +208,21 @@ class HGViewModel: ObservableObject{
         }
         else{
             return model.m3.score
+        }
+    }
+    
+    func getEmotion(for player:String) -> String{
+        if (player == "player"){
+            return model.realplayer.mood.description
+        }
+        else if (player == "model1"){
+            return model.m1.mood.description
+        }
+        else if (player == "model2"){
+            return model.m2.mood.description
+        }
+        else{
+            return model.m3.mood.description
         }
     }
 }

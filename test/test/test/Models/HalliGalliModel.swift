@@ -425,6 +425,7 @@ struct HGModel{
         if (player == "player"){
             // If the player/model is wrong it losses between 1 and 3 cards from the back and deals them to the others
             if !correctPress{
+                realplayer.mood = .sad
                 print("Player lost cards,dealt to active players")
                 
                 // Cards are dealt if there are still cards in the deck, otherwise a check for game over is performed
@@ -441,6 +442,7 @@ struct HGModel{
             // Otherwise the player is correct and it gains all cards from the reward pool
             // and resetting the cards to be dealt array back to nil
             else{
+                realplayer.mood = .happy
                 decks.playerCards.append(contentsOf: rewardCardsPool)
                 rewardCardsPool.removeAll()
                 playerInTurn = "player"
@@ -449,6 +451,7 @@ struct HGModel{
         else if (player == "model1"){
             // If the player/model is wrong it losses 3 cards from the back and deals them to the others
             if !correctPress{
+                m1.mood = .sad
                 print("Model1 lost cards,dealt to active players")
                 // Cards are dealt if there are still cards in the deck otherwise, a check for game over is performed
                 if !decks.modelCards1.isEmpty && !decks.playerCards.isEmpty{
@@ -464,6 +467,7 @@ struct HGModel{
             // Otherwise the player is correct and it gains all cards from the array with cards that need to dealt
             // and resetting the cards to be dealt array back to nil
             else{
+                m1.mood = .happy
                 decks.modelCards1.append(contentsOf: rewardCardsPool)
                 rewardCardsPool.removeAll()
                 playerInTurn = "model1"
@@ -472,6 +476,7 @@ struct HGModel{
         else if (player == "model2"){
             // If the player/model is wrong it losses 3 cards from the back and deals them to the others
             if !correctPress{
+                m2.mood = .sad
                 print("Model2 lost cards,dealt to active players")
                 // Cards are dealt if there are still cards in the deck, otherwise a check for game over is performed
                 if !decks.modelCards2.isEmpty && !decks.playerCards.isEmpty{
@@ -487,6 +492,7 @@ struct HGModel{
             // Otherwise the player is correct and it gains all cards from the array with cards that need to dealt
             // and resetting the cards to be dealt array back to nil
             else{
+                m2.mood = .happy
                 decks.modelCards2.append(contentsOf: rewardCardsPool)
                 rewardCardsPool.removeAll()
                 playerInTurn = "model2"
@@ -495,6 +501,7 @@ struct HGModel{
         else if (player == "model3"){
             // If the player/model is wrong it losses 3 cards from the back and deals them to the others
             if !correctPress{
+                m3.mood = .sad
                 print("Model3 lost cards,dealt to active players")
                 // Cards are dealt if there are still cards in the deck, otherwise a check for game over is performed
                 if !decks.modelCards3.isEmpty && !decks.playerCards.isEmpty{
@@ -510,6 +517,7 @@ struct HGModel{
             // Otherwise the player is correct and it gains all cards from the array with cards that need to dealt
             // and resetting the cards to be dealt array back to nil
             else{
+                m3.mood = .happy
                 decks.modelCards3.append(contentsOf: rewardCardsPool)
                 rewardCardsPool.removeAll()
                 playerInTurn = "model3"

@@ -142,15 +142,25 @@ struct ContentView: View {
     
     func scoreDisplay(player: String) -> some View {
         let score = game.getScore(for: player)
-        return VStack {
-            Text("\(player.capitalized)")
+        return  HStack{
+            VStack {
+                Text("\(player.capitalized)")
                 //.font(.headline)
-                .fontWeight(.bold)
-                .foregroundColor(Color("blue3"))
-            Text("\(score)")
+                    .fontWeight(.bold)
+                    .foregroundColor(Color("blue3"))
+                    .font(.system(size: 15))
+                Text("\(score)")
                 //.font(.largeTitle)
-                .fontWeight(.bold)
-                .foregroundColor(Color("blue3"))
+                    .fontWeight(.bold)
+                    .foregroundColor(Color("blue3"))
+                if player == "model1" || player == "model3"{      Text(game.getEmotion(for: player))
+                        .font(.system(size: 24))
+                }
+            }
+            if player == "player" || player == "model2"{
+                Text(game.getEmotion(for: player))
+                    .font(.system(size: 24))
+            }
         }
     }
     
@@ -183,9 +193,9 @@ struct ContentView: View {
                     } label: {
                         Image("back")
                             .resizable()
-                            .frame(width: 80, height: 80)
+                            .frame(width: 60, height: 60)
                     }
-                    Spacer(minLength: 150)
+                    Spacer(minLength: 200)
                     Button {
                         print("Image tapped!")
                         game.reset()
@@ -193,7 +203,7 @@ struct ContentView: View {
                     } label: {
                         Image("replay")
                             .resizable()
-                            .frame(width: 70, height: 70)
+                            .frame(width: 50, height: 50)
                     }
                     Spacer()
                 }
@@ -226,19 +236,19 @@ struct ContentView: View {
                 }
                 scoreDisplay(player: "player")
                 ZStack{
-                    if showPartyHorn {
-                        Image("party_horn")
-                            .resizable()
-                            .frame(width: 180, height: 170)
-                            .offset(x: 0, y: -200)
-                    }
-                    
-                    if showWrongPress {
-                        Image("wrongpress")
-                            .resizable()
-                            .frame(width: 180, height: 170)
-                            .offset(x: 0, y: -200)
-                    }
+//                    if showPartyHorn {
+//                        Image("party_horn")
+//                            .resizable()
+//                            .frame(width: 180, height: 170)
+//                            .offset(x: 0, y: -200)
+//                    }
+//
+//                    if showWrongPress {
+//                        Image("wrongpress")
+//                            .resizable()
+//                            .frame(width: 180, height: 170)
+//                            .offset(x: 0, y: -200)
+//                    }
                     Button{
                         if game.isBellTappable{
                             game.isBellTappable = false
@@ -257,7 +267,7 @@ struct ContentView: View {
                     } label: {
                         Image("bell_2")
                             .resizable()
-                            .frame(width: 180, height: 170)
+                            .frame(width: 180, height: 160)
                     }
                 }
             }

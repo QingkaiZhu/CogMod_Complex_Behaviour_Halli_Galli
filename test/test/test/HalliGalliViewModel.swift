@@ -111,7 +111,19 @@ class HGViewModel: ObservableObject{
     
     func flipCardsAutomatically() {
         isPlayerCardTappable = false
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0 + Double.random(in: 0..<1)) {
+        var timeIntervalM1 = model.flip_interval + Double.random(in: 0..<1)
+        var timeIntervalM2 = model.flip_interval + Double.random(in: 0..<1)
+        var timeIntervalM3 = model.flip_interval + Double.random(in: 0..<1)
+        if model.decks.modelCards1.isEmpty{
+            timeIntervalM1 = 0.0
+        }
+        if model.decks.modelCards2.isEmpty{
+            timeIntervalM2 = 0.0
+        }
+        if model.decks.modelCards3.isEmpty{
+            timeIntervalM3 = 0.0
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + timeIntervalM1) {
             self.model.playerInTurn = "model1"
             self.isBellTappable = true
             self.model.anticipationAnalysisHard()
@@ -123,7 +135,7 @@ class HGViewModel: ObservableObject{
             let isModelPressed = self.modelPress()
             // TODO: if isModelPressed stop the flipping
 //            self.isBellTappable = false
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0 + Double.random(in: 0..<1)) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + timeIntervalM2) {
                 self.model.playerInTurn = "model2"
                 self.isBellTappable = true
                 self.model.anticipationAnalysisHard()
@@ -134,7 +146,7 @@ class HGViewModel: ObservableObject{
                 self.model.computeRt(for: "model3", isHardLevel: self.isHardLevel)
                 let isModelPressed = self.modelPress()
 //                self.isBellTappable = false
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3.0 + Double.random(in: 0..<1)) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + timeIntervalM3) {
                     self.model.playerInTurn = "model3"
                     self.isBellTappable = true
                     self.model.anticipationAnalysisHard()

@@ -182,117 +182,122 @@ struct ContentView: View {
 
     
     var body: some View{
-        ZStack{
-            Color("blue0").ignoresSafeArea()
-            VStack{
-                HStack{
-                    Spacer()
-                    Button {
-                        print("Image tapped!")
-                        game.showHGView = false
-                    } label: {
-                        Image("back")
-                            .resizable()
-                            .frame(width: 60, height: 60)
+        if game.gameOver{
+            GameOverView(game: game)
+        }
+        else {
+            ZStack{
+                Color("blue0").ignoresSafeArea()
+                VStack{
+                    HStack{
+                        Spacer()
+                        Button {
+                            print("Image tapped!")
+                            game.showHGView = false
+                        } label: {
+                            Image("back")
+                                .resizable()
+                                .frame(width: 60, height: 60)
+                        }
+                        Spacer(minLength: 200)
+                        Button {
+                            print("Image tapped!")
+                            game.reset()
+                            startCountdown()
+                        } label: {
+                            Image("replay")
+                                .resizable()
+                                .frame(width: 50, height: 50)
+                        }
+                        Spacer()
                     }
-                    Spacer(minLength: 200)
-                    Button {
-                        print("Image tapped!")
-                        game.reset()
-                        startCountdown()
-                    } label: {
-                        Image("replay")
-                            .resizable()
-                            .frame(width: 50, height: 50)
+                    scoreDisplay(player: "model2")
+                    CardView(player: "model2", getInfo:game.getCardInfo)
+                    HStack{
+                        Spacer()
+                        scoreDisplay(player: "model1")
+                        CardView(player: "model1", getInfo: game.getCardInfo)
+                        CardView(player: "model3", getInfo: game.getCardInfo)
+                        scoreDisplay(player: "model3")
+                        Spacer()
                     }
-                    Spacer()
-                }
-                scoreDisplay(player: "model2")
-                CardView(player: "model2", getInfo:game.getCardInfo)
-                HStack{
-                    Spacer()
-                    scoreDisplay(player: "model1")
-                    CardView(player: "model1", getInfo: game.getCardInfo)
-                    CardView(player: "model3", getInfo: game.getCardInfo)
-                    scoreDisplay(player: "model3")
-                    Spacer()
-                }
-                CardView(player: "player", getInfo: game.getCardInfo)
-                .rotation3DEffect(.degrees(animaDegree), axis: (x: 0, y: 1, z: 0.2))
-                .onTapGesture {
-                    if game.isPlayerCardTappable {
-                        withAnimation(.interpolatingSpring(stiffness: 20, damping: 5)) {
-                            self.animaDegree += 360}
-                        game.isBellTappable = true
-                        game.model.anticipationAnalysisHard()
-                        game.model.anticipationAnalysisEasy()
-                        game.flip(cardOf: "player")
-                        game.model.computeRt(for: "model1", isHardLevel: game.isHardLevel)
-                        game.model.computeRt(for: "model2", isHardLevel: game.isHardLevel)
-                        game.model.computeRt(for: "model3", isHardLevel: game.isHardLevel)
-                        let isModelPressed = game.modelPress()
-                        game.flipCardsAutomatically()
-                                        }
-                }
-                scoreDisplay(player: "player")
-                ZStack{
-//                    if showPartyHorn {
-//                        Image("party_horn")
-//                            .resizable()
-//                            .frame(width: 180, height: 170)
-//                            .offset(x: 0, y: -200)
-//                    }
-//
-//                    if showWrongPress {
-//                        Image("wrongpress")
-//                            .resizable()
-//                            .frame(width: 180, height: 170)
-//                            .offset(x: 0, y: -200)
-//                    }
-                    Button{
-                        if game.isBellTappable{
-                            game.isBellTappable = false
-                            let isCorrect = game.pressBell("player")
-                            print("player pressed the bell by a \(isCorrect) decision")
-                            if isCorrect {
-                                showPartyHorn = true
-                            } else {
-                                showWrongPress = true
-                            }
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                                showPartyHorn = false
-                                showWrongPress = false
+                    CardView(player: "player", getInfo: game.getCardInfo)
+                        .rotation3DEffect(.degrees(animaDegree), axis: (x: 0, y: 1, z: 0.2))
+                        .onTapGesture {
+                            if game.isPlayerCardTappable {
+                                withAnimation(.interpolatingSpring(stiffness: 20, damping: 5)) {
+                                    self.animaDegree += 360}
+                                game.isBellTappable = true
+                                game.model.anticipationAnalysisHard()
+                                game.model.anticipationAnalysisEasy()
+                                game.flip(cardOf: "player")
+                                game.model.computeRt(for: "model1", isHardLevel: game.isHardLevel)
+                                game.model.computeRt(for: "model2", isHardLevel: game.isHardLevel)
+                                game.model.computeRt(for: "model3", isHardLevel: game.isHardLevel)
+                                let isModelPressed = game.modelPress()
+                                game.flipCardsAutomatically()
                             }
                         }
-                    } label: {
-                        Image("bell_2")
-                            .resizable()
-                            .frame(width: 180, height: 160)
+                    scoreDisplay(player: "player")
+                    ZStack{
+                        //                    if showPartyHorn {
+                        //                        Image("party_horn")
+                        //                            .resizable()
+                        //                            .frame(width: 180, height: 170)
+                        //                            .offset(x: 0, y: -200)
+                        //                    }
+                        //
+                        //                    if showWrongPress {
+                        //                        Image("wrongpress")
+                        //                            .resizable()
+                        //                            .frame(width: 180, height: 170)
+                        //                            .offset(x: 0, y: -200)
+                        //                    }
+                        Button{
+                            if game.isBellTappable{
+                                game.isBellTappable = false
+                                let isCorrect = game.pressBell("player")
+                                print("player pressed the bell by a \(isCorrect) decision")
+                                if isCorrect {
+                                    showPartyHorn = true
+                                } else {
+                                    showWrongPress = true
+                                }
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                                    showPartyHorn = false
+                                    showWrongPress = false
+                                }
+                            }
+                        } label: {
+                            Image("bell_2")
+                                .resizable()
+                                .frame(width: 180, height: 160)
+                        }
                     }
                 }
-            }
-            if showCountdown {
-                VStack {
-                    Text(countdown == 0 ? "Start" : "\(countdown!)")
-                        .font(.system(size: 80))
-                        .foregroundColor(.white)
-                        .bold()
+                if showCountdown {
+                    VStack {
+                        Text(countdown == 0 ? "Start" : "\(countdown!)")
+                            .font(.system(size: 80))
+                            .foregroundColor(.white)
+                            .bold()
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color.black.opacity(0.4))
+                    .edgesIgnoringSafeArea(.all)
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color.black.opacity(0.4))
-                .edgesIgnoringSafeArea(.all)
             }
+            .onAppear(perform: {
+                startCountdown()
+                setDifficulty(isHardLevel: game.isHardLevel)
+            })
+            .onReceive(game.$gameOver, perform: { isGameOver in
+                if isGameOver {
+                    game.model.endGame(isGameOver: isGameOver)
+                    game.winner = game.model.winner
+                }
+            })
         }
-        .onAppear(perform: {
-            startCountdown()
-            setDifficulty(isHardLevel: game.isHardLevel)
-        })
-        .onReceive(game.$gameOver, perform: { isGameOver in
-            if isGameOver {
-                game.model.endGame(isGameOver: isGameOver)
-                game.winner = game.model.winner
-            }
-        })
     }
 }
 

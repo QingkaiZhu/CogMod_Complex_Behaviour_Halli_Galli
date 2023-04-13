@@ -17,8 +17,9 @@ struct GameOverView: View {
             Text("Winner: \(game.winner)")
             Button(action: {
                 game.gameOver = false
+                game.showHGView = false
                 game.model = HGModel()
-                ContentView(game: game)
+                StartView(viewModel: game)
             }, label: {
                 Text("Restart")
             })

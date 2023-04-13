@@ -58,8 +58,8 @@ struct modelPlayer {
         case neutral
         var description: String {
             switch self {
-            case.happy: return "🥳"
-            case.sad: return "😞"
+            case.happy: return "🤡"
+            case.sad: return "👽"
             case.neutral: return "😐"
             }
         }
@@ -119,8 +119,8 @@ struct humanPlayer {
         case neutral
         var description: String {
             switch self {
-            case.happy: return "🥳"
-            case.sad: return "😞"
+            case.happy: return "🤡"
+            case.sad: return "👽"
             case.neutral: return "😐"
             }
         }

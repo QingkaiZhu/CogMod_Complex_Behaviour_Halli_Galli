@@ -70,6 +70,14 @@ class HGViewModel: ObservableObject{
     }
     
     func flip(cardOf player: String){
+        if model.isGameOver(){
+            model.endGame(isGameOver: true)
+            gameOver = true
+        }
+        model.m1.mood = .neutral
+        model.m2.mood = .neutral
+        model.m3.mood = .neutral
+        model.realplayer.mood = .neutral
         switch player {
         case "model1":
             //            let modelStartTime = model.m1.model.time
@@ -123,41 +131,53 @@ class HGViewModel: ObservableObject{
         if model.decks.modelCards3.isEmpty{
             timeIntervalM3 = 0.0
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + timeIntervalM1) {
-            self.model.playerInTurn = "model1"
-            self.isBellTappable = true
-            self.model.anticipationAnalysisHard()
-            self.model.anticipationAnalysisEasy()
-            self.flip(cardOf: "model1")
-            self.model.computeRt(for: "model1", isHardLevel: self.isHardLevel)
-            self.model.computeRt(for: "model2", isHardLevel: self.isHardLevel)
-            self.model.computeRt(for: "model3", isHardLevel: self.isHardLevel)
-            let isModelPressed = self.modelPress()
-            // TODO: if isModelPressed stop the flipping
-            //            self.isBellTappable = false
-            DispatchQueue.main.asyncAfter(deadline: .now() + timeIntervalM2) {
-                self.model.playerInTurn = "model2"
-                self.isBellTappable = true
-                self.model.anticipationAnalysisHard()
-                self.model.anticipationAnalysisEasy()
-                self.flip(cardOf: "model2")
-                self.model.computeRt(for: "model1", isHardLevel: self.isHardLevel)
-                self.model.computeRt(for: "model2", isHardLevel: self.isHardLevel)
-                self.model.computeRt(for: "model3", isHardLevel: self.isHardLevel)
-                let isModelPressed = self.modelPress()
-//                self.isBellTappable = false
-                DispatchQueue.main.asyncAfter(deadline: .now() + timeIntervalM3) {
-                    self.model.playerInTurn = "model3"
+        if !self.gameOver{
+            DispatchQueue.main.asyncAfter(deadline: .now() + timeIntervalM1) {
+                if timeIntervalM1 != 0.0{
+                    self.model.playerInTurn = "model1"
                     self.isBellTappable = true
                     self.model.anticipationAnalysisHard()
                     self.model.anticipationAnalysisEasy()
-                    self.flip(cardOf: "model3")
+                    self.flip(cardOf: "model1")
                     self.model.computeRt(for: "model1", isHardLevel: self.isHardLevel)
                     self.model.computeRt(for: "model2", isHardLevel: self.isHardLevel)
                     self.model.computeRt(for: "model3", isHardLevel: self.isHardLevel)
                     let isModelPressed = self.modelPress()
-                    //                    self.isBellTappable = false
-                    self.isPlayerCardTappable = true
+                    // TODO: if isModelPressed stop the flipping
+                    //            self.isBellTappable = false
+                }
+                if !self.gameOver{
+                    DispatchQueue.main.asyncAfter(deadline: .now() + timeIntervalM2) {
+                        if timeIntervalM2 != 0.0{
+                            self.model.playerInTurn = "model2"
+                            self.isBellTappable = true
+                            self.model.anticipationAnalysisHard()
+                            self.model.anticipationAnalysisEasy()
+                            self.flip(cardOf: "model2")
+                            self.model.computeRt(for: "model1", isHardLevel: self.isHardLevel)
+                            self.model.computeRt(for: "model2", isHardLevel: self.isHardLevel)
+                            self.model.computeRt(for: "model3", isHardLevel: self.isHardLevel)
+                            let isModelPressed = self.modelPress()
+                            //                self.isBellTappable = false
+                        }
+                        if !self.gameOver{
+                            DispatchQueue.main.asyncAfter(deadline: .now() + timeIntervalM3) {
+                                if timeIntervalM1 != 0.0{
+                                    self.model.playerInTurn = "model3"
+                                    self.isBellTappable = true
+                                    self.model.anticipationAnalysisHard()
+                                    self.model.anticipationAnalysisEasy()
+                                    self.flip(cardOf: "model3")
+                                    self.model.computeRt(for: "model1", isHardLevel: self.isHardLevel)
+                                    self.model.computeRt(for: "model2", isHardLevel: self.isHardLevel)
+                                    self.model.computeRt(for: "model3", isHardLevel: self.isHardLevel)
+                                    let isModelPressed = self.modelPress()
+                                    //                    self.isBellTappable = false
+                                }
+                                self.isPlayerCardTappable = true
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -167,6 +187,10 @@ class HGViewModel: ObservableObject{
         print("Bell press \(player)")
         let isCorrect = model.pressBell(by: player)
         objectWillChange.send()
+        if model.isGameOver(){
+            model.endGame(isGameOver: true)
+            gameOver = true
+        }
         return isCorrect
     }
     
@@ -203,6 +227,7 @@ class HGViewModel: ObservableObject{
     
     // If reset is called the model is intialized again from the start
     func reset(){
+        isPlayerCardTappable = true
         model = HGModel()
         model.dealCards()
         objectWillChange.send()

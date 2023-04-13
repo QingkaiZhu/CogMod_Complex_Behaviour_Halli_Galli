@@ -348,8 +348,8 @@ struct HGModel{
             sumPerClass[card.figureClass]! += card.figuresNo
         }
         // Get the card whose fruit number equals to 5
-        for card in allActiveCards{
-            if card.figuresNo == 5{
+        for result in sumPerClass.values{
+            if result == 5{
                 decision = true
             }
         }
